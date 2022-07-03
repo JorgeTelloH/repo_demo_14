@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="hr_employee_inherit_form_view">
+            <field name="name">hr.employee.form.view.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="print_work_certificates" string="Certificado de trabajo" type="object" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <button name="print_withdrawal_letter_cts" string="Carta de retiro de CTS" type="object" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="contract_id" invisible="1"/>
+                </xpath>
+                <field name="job_id" position="attributes">
+                     <attribute name="attrs">{'readonly':[('contract_id','!=', False)]}</attribute>
+                </field>
+
+                <field name="department_id" position="attributes">
+                     <attribute name="attrs">{'readonly':[('contract_id','!=', False)]}</attribute>
+                </field>
+
+                 <field name="contract_type_id" position="attributes">
+                     <attribute name="attrs">{'readonly':[('contract_id','!=', False)]}</attribute>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

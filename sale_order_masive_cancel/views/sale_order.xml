@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="model_sale_cancel" model="ir.actions.server">
+            <field name="name">Pasar a Cancelado</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                records.action_send_masive_cancel()
+            </field>
+    </record>
+
+    <record id="model_sale_draft" model="ir.actions.server">
+            <field name="name">Pasar a Borrador</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                records.action_send_masive_draft()
+            </field>
+    </record>
+
+
+
+</odoo>
