@@ -347,8 +347,7 @@ class Letras(models.Model):
         else:
             # exchange_rate = self.currency_id.with_context(date=self.date).compute(
             #     1, self.company_id.currency_id, round=False)
-            exchange_rate = self.currency_id.convert(1, self.company_id.currency_id,
-                                                            self.company_id, fields.Date.today())
+            exchange_rate = self.currency_id._convert(1, self.company_id.currency_id, self.company_id, fields.Date.today())
 
             self.exchange = exchange_rate
 
