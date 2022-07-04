@@ -545,8 +545,8 @@ class LetrasLineas(models.Model):
     @api.onchange('days')
     def _onchange_days(self):
         fecha = self.letra_id.date or fields.Date.today()
-        self.date = datetime.strptime(fecha, '%Y-%m-%d').date() + timedelta(days=self.days)
-        return {}
+        self.date = datetime.strptime(fecha, '%Y-%m-%d') + timedelta(days=self.days)
+        #return {}
 
     def action_invoice_paid(self):
         # Llamadas duplicadas a action_invoice_paid, por lo que eliminamos las que ya se pagaron
