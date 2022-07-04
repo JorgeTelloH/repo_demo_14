@@ -545,7 +545,7 @@ class LetrasLineas(models.Model):
     @api.onchange('days')
     def _onchange_days(self):
         fecha = self.letra_id.date or fields.Date.today()
-        self.date = datetime.strptime(fecha, '%Y-%m-%d') + timedelta(days=self.days)
+        self.date = datetime.strptime(str(fecha), '%Y-%m-%d').date() + timedelta(days=self.days)
         #return {}
 
     def action_invoice_paid(self):
