@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="letra_register_payment_view_form" model="ir.ui.view">
+            <field name="name">letra.register.payment.wizard.form</field>
+            <field name="model">letra.register.payment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Register Payment">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="date"/>
+                                <field name="journal_id" widget="selection"/>
+                                <field name="bank_account_id"/>
+                                <label for="amount_total"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount_total"/>
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                                </div>
+                                <field name="exchange"/>
+                                <field name="number_payment"/>
+                            </group>
+                            <group>
+                                <field name="income_account_id"/>
+                                <field name="income_total"/>
+                            </group>
+                            <group>
+                                <field name="cost_account_id"/>
+                                <field name="cost_total"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Pagar' name="post_payment" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="letra_register_payment_wizard_action" model="ir.actions.act_window">
+            <field name="name">Register Payment</field>
+            <field name="res_model">letra.register.payment.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="letra_register_payment_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="letra_register_view_form" model="ir.ui.view">
+            <field name="name">letra.register.wizard.form</field>
+            <field name="model">letra.register.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Register Payment">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="journal_id" widget="selection"/>
+                                <field name="date"/>
+                                <label for="amount_total"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount_total"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Generar' name="post_collect" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="letra_register_collect_wizard_action" model="ir.actions.act_window">
+            <field name="name">Register Collection</field>
+            <field name="res_model">letra.register.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_type': 'collection'}</field>
+            <field name="view_id" ref="letra_register_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="letra_discount_view_form" model="ir.ui.view">
+            <field name="name">letra.discount.wizard.form</field>
+            <field name="model">letra.discount.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Register Payment">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="account_id" widget="accountl_id"/>
+                                <!-- <field name="journal_id" widget="selection"/>
+                                <field name="journal_bank_id" widget="selection"/> -->
+                                <field name="date"/>
+                                <label for="amount_total"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount_total"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Generar' name="post_collect" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="letra_register_disco_wizard_action" model="ir.actions.act_window">
+            <field name="name">Register Discount</field>
+            <field name="res_model">letra.discount.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_type': 'discount'}</field>
+            <field name="view_id" ref="letra_discount_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="letra_disbursed_view_form" model="ir.ui.view">
+            <field name="name">letra.disbursed.wizard.form</field>
+            <field name="model">letra.disbursed.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Register Payment">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="date"/>
+                                <field name="journal_id" widget="selection"/>
+                                <field name="bank_account_id"/>
+                                <label for="amount_total"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount_total"/>
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                                </div>
+                                <field name="exchange"/>
+                                <field name="number_payment"/>
+                            </group>
+                            <group>
+                                <field name="income_account_id"/>
+                            </group>
+                            <group>
+                                <field name="cost_account_id"/>
+                                <field name="cost_total"/>
+                            </group>
+                            <group>
+                                <field name="interest_account_id"/>
+                                <field name="interest_total"/>
+                            </group>
+                            <group>
+                                <field name="account_analytic_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Generar' name="post_payment" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="letra_register_disbursed_wizard_action" model="ir.actions.act_window">
+            <field name="name">Register Disbursed</field>
+            <field name="res_model">letra.disbursed.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_type': 'disbursed'}</field>
+            <field name="view_id" ref="letra_disbursed_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_disbursed_letter" model="ir.actions.act_window">
+            <field name="name">03 Desembolso de letras</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letra.disbursed.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="letra_disbursed_view_form"/>
+            <field name="context">{'default_type': 'disbursed'}</field>
+            <field name="target">new</field>
+            <field name="help">En esta ventana usted podra enviar a desembolso un grupo de letras</field>
+<!--            <field name="binding_model_id" ref="canje_letras.model_canje_letras_lineas" />-->
+        </record>
+
+        <record id="action_discount_letter" model="ir.actions.act_window">
+            <field name="name">02 Letra a descuentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letra.discount.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="letra_discount_view_form"/>
+            <field name="context">{'default_type': 'discount'}</field>
+            <field name="target">new</field>
+            <field name="help">En esta ventana usted podra enviar a descuento un grupo de letras</field>
+<!--            <field name="binding_model_id" ref="canje_letras.model_canje_letras_lineas" />-->
+        </record>
+
+        <record id="validate_letter_send_bank_view" model="ir.ui.view">
+            <field name="name">Envio de letras al banco</field>
+            <field name="model">letra.send.bank.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Letras a banco">
+                    <span class="o_form_label">Las letras selecionadas se enviaran al banco</span>
+                    <group>
+                        <field name="bank_id" required="1"/>
+                        <field name="date_send_bank" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Enviar al banco" name="send_bank" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_send_bank_letter" model="ir.actions.act_window">
+            <field name="name">01 Envio de letras a banco</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letra.send.bank.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="validate_letter_send_bank_view"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="help">En esta ventana usted podra enviar a banco un grupo de letras</field>
+<!--            <field name="binding_model_id" ref="canje_letras.model_canje_letras_lineas" />-->
+        </record>
+
+        <record id="validate_letter_pay_partner_view" model="ir.ui.view">
+            <field name="name">Envio de letras al banco</field>
+            <field name="model">letra.pay.masive.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Letras a banco">
+                    <span class="o_form_label">Las letras seleccionadas seran pagadas</span>
+                    <group string="Payment Details" name="pur_advance_pay">
+                        <group>
+                            <label for="advance_amount"/>
+                            <div name="adv_amount_div" class="o_row">
+                                <field name="advance_amount"/>
+                                <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                            </div>
+                            <field name="multi_currency_id" invisible="1"/>
+                            <field name="company_curr_id" invisible="1"/>
+                            <field name="total_amount" string="Total Amount"/>
+                            <!-- <field name="paid_payment" string="Paid Amount"/>
+                            <field name="payment_difference" /> -->
+                        </group>
+                        <group>
+                          <field name="payment_method_id" invisible="1"/>
+                          <field name="journal_id" invisible="1"/>
+                        </group>
+                        <group>
+                          <field name="payment_date"/>
+                          <field name="number_payment" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Pagar" name="pay_masive" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_letter_pay_letter" model="ir.actions.act_window">
+            <field name="name">04 Cancelacion letras en descuento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letra.pay.masive.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="validate_letter_pay_partner_view"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="help">En esta ventana usted podra pagar grupo de letras</field>
+<!--            <field name="binding_model_id" ref="canje_letras.model_canje_letras_lineas" />-->
+        </record>
+
+        <record id="letra_collection_view_form" model="ir.ui.view">
+            <field name="name">letra.collection.wizard.form</field>
+            <field name="model">letra.collection.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Register Payment">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="date"/>
+                                <field name="journal_id" widget="selection"/>
+                                <field name="bank_account_id"/>
+                                <label for="amount_total"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount_total"/>
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                                </div>
+                                <field name="exchange"/>
+                                <field name="number_payment"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Generar' name="post_payment" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_letter_pay_collection_letter" model="ir.actions.act_window">
+            <field name="name">00 Cancelacion letras en cobranza</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letra.collection.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="letra_collection_view_form"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="help">En esta ventana usted podra pagar grupo de letras</field>
+<!--            <field name="binding_model_id" ref="canje_letras.model_canje_letras_lineas" />-->
+        </record>
+
+</odoo>

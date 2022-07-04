@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_canje_letra,account.canje.letras,model_canje_letras,account.group_account_invoice,1,1,1,1
+access_account_canje_letra_lineas,account.canje.letras.lineas,model_canje_letras_lineas,account.group_account_invoice,1,1,1,1
+access_account_canje_factura_lineas,account.canje.factura.lineas,model_canje_detalle_factura,account.group_account_invoice,1,1,1,1
+
+
