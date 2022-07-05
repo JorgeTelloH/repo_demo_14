@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -7,8 +6,7 @@ from odoo.exceptions import ValidationError
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    discount_total = fields.Monetary(compute="_compute_discount_total", string="Dscto Total", currency_field="currency_id", store=True)
-    price_total_no_discount = fields.Monetary(compute="_compute_discount_total", string="Total sin Dscto", currency_field="currency_id", store=True)
+    discount_line_total = fields.Monetary(compute="_compute_discount_total", string="Dscto Total Linea", currency_field="currency_id", store=True)
 
 
     def _recompute_tax_lines(self, recompute_tax_base_amount=False):
@@ -23,26 +21,23 @@ class AccountMove(models.Model):
         return res
 
     #============= INI CALCULAR DSCTO TOTAL =============
-    @api.depends("invoice_line_ids.discount_total", "invoice_line_ids.price_total_no_discount")
+    @api.depends("invoice_line_ids.discount_line_total")
     def _compute_discount_total(self):
         invoices_discount = self.filtered(lambda a: a.is_invoice())
 
         # Factura con descuento
         for invoice in invoices_discount:
-            discount_total = sum(invoice.invoice_line_ids.mapped("discount_total"))
-            price_total_no_discount = sum( invoice.invoice_line_ids.mapped("price_total_no_discount"))
+            total_line_discount = sum(invoice.invoice_line_ids.mapped("discount_line_total"))
             invoice.update(
                 {
-                    "discount_total": discount_total,
-                    "price_total_no_discount": price_total_no_discount,
+                    "discount_line_total": total_line_discount,
                 }
             )
 
         #Se excluyen los movimientos de cuenta que no sean facturas
         (self - invoices_discount).update(
             {
-                "discount_total": 0.0,
-                "price_total_no_discount": 0.0,
+                "discount_line_total": 0.0,
             }
         )
     #============= FIN CALCULAR DSCTO TOTAL =============
@@ -50,9 +45,8 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    discount_fixed = fields.Float( string="Monto Dscto", digits="Product Price", default=0.00, help="Aplicar monto de Dscto")
-    discount_total = fields.Monetary(compute="_compute_discount_amount", string="Dscto Total", store=True)
-    price_total_no_discount = fields.Monetary(compute="_compute_discount_amount", string="Total sin Dscto", store=True)
+    discount_fixed = fields.Float( string="Monto Dscto", digits="Product Price", default=0.00, help="Aplicar monto de Dscto sobre el Precio")
+    discount_line_total = fields.Monetary(compute="_compute_discount_amount", string="Dscto Total Linea", store=True)
 
     @api.onchange("discount")
     def _onchange_discount(self):
@@ -143,13 +137,14 @@ class AccountMoveLine(models.Model):
                 i += 1
         return res
 
-    #============= INI CALCULAR DSCTO TOTAL =============
+    #============= INI CALCULAR DSCTO TOTAL LINEA =============
     @api.depends("discount", "discount_fixed", "price_total")
     def _compute_discount_amount(self):
         invoice_lines_discount = self.filtered( lambda a: (a.discount or a.discount_fixed) and not a.exclude_from_invoice_tab)
 
         # Lineas de Factura con descuento
         for line in invoice_lines_discount:
+
             taxes = line.tax_ids.compute_all(
                 line.price_unit,
                 line.move_id.currency_id,
@@ -157,21 +152,19 @@ class AccountMoveLine(models.Model):
                 product=line.product_id,
                 partner=line.partner_id,
             )
-            price_total_no_discount = taxes['total_excluded']  #taxes["total_included"]
-            discount_total = price_total_no_discount - line.price_total
+            total_line_discount = taxes['total_excluded'] - line.price_subtotal #taxes["total_included"]
+
             line.update(
                 {
-                    "discount_total": discount_total,
-                    "price_total_no_discount": price_total_no_discount,
+                    "discount_line_total": total_line_discount,
                 }
             )
 
         #Líneas sin descuento y las que no son líneas de factura están excluidos
         (self - invoice_lines_discount).update(
             {
-                "discount_total": 0.0,
-                "price_total_no_discount": 0.0,
+                "discount_line_total": 0.0,
             }
         )
 
-    #============= FIN CALCULAR DSCTO TOTAL =============
+    #============= FIN CALCULAR DSCTO TOTAL LINEA =============
