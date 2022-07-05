@@ -15,7 +15,7 @@ from odoo.exceptions import UserError
 import time
 from datetime import datetime, timedelta
 
-#_logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 CURRENCY = {
     'PEN': 1,        # Soles
@@ -92,7 +92,7 @@ def nubefact_jsonrpc(url, method='call', params=None, credentials=None, timeout=
 
 def nubefact_convert_data(invoice,data_process):
     data = get_header_invoice_nubefact(invoice,data_process)
-    #_logger.info("Data: %s", data)
+    _logger.info("Data: %s", data)
     return data
 
 def get_header_invoice_nubefact(invoice,data_process):
