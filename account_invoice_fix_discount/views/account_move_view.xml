@@ -14,9 +14,9 @@
             <xpath expr="//field[@name='line_ids']/tree/field[@name='discount']" position="before">
                 <field name="discount_fixed" invisible="1"/>
             </xpath>
-            <xpath expr="//field[@name='amount_by_group']" position="after">
+            <!--<xpath expr="//field[@name='amount_by_group']" position="after">
                 <field name="discount_line_total"/>
-            </xpath>
+            </xpath>-->
         </field>
     </record>
 </odoo>
