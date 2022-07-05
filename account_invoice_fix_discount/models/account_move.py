@@ -154,7 +154,7 @@ class AccountMoveLine(models.Model):
                 product=line.product_id,
                 partner=line.partner_id,
             )
-            price_total_no_discount = taxes["total_included"]
+            price_total_no_discount = taxes['total_excluded']  #taxes["total_included"]
             discount_total = price_total_no_discount - line.price_total
             line.update(
                 {
