@@ -14,9 +14,12 @@
             <xpath expr="//field[@name='line_ids']/tree/field[@name='discount']" position="before">
                 <field name="discount_fixed" invisible="1"/>
             </xpath>
-            <!--<xpath expr="//field[@name='amount_by_group']" position="after">
-                <field name="discount_line_total"/>
-            </xpath>-->
+            <xpath expr="//field[@name='narration']" position="after">
+                <div>
+                    <label for="discount_line_total" string="Dscto Total Linea :"/>
+                    <field name="discount_line_total" class="oe_inline"/>
+                </div>
+            </xpath>
         </field>
     </record>
 </odoo>
