@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-
 {
-    "name": "Factura con Monto de Descuento",
-    "summary": "Permitir aplicar Monto de Dscto en Facturas",
+    "name": "Factura con Descuento por Linea",
+    "summary": "Permitir aplicar Dscto en Lineas de Facturas",
     'description': """
-        Permitir aplicar Monto de Dscto en Lineas de Facturas
+        Se aplica mejoras al Descuento por Linea de Factura, agregando:\n
+        - Monto de Descuento en Lineas de Facturas.
+        - Monto total de Descuento en Lineas de Facturas.
     """,
 
     'author': "TH",

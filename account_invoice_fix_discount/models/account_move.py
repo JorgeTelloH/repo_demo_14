@@ -13,7 +13,10 @@ class AccountMove(models.Model):
         vals = {}
         for line in self.invoice_line_ids.filtered("discount_fixed"):
             vals[line] = {"price_unit": line.price_unit}
-            price_unit = line.price_unit - (line.discount_fixed / line.quantity)
+            if line.quantity !=0:
+                price_unit = line.price_unit - (line.discount_fixed / line.quantity)
+            else:
+                price_unit = 0
             line.update({"price_unit": price_unit})
         res = super(AccountMove, self)._recompute_tax_lines(recompute_tax_base_amount=recompute_tax_base_amount)
         for line in vals.keys():
