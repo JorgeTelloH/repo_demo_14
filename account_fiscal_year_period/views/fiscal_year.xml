@@ -51,10 +51,12 @@
             </p>
         </field>
     </record>
+
     <menuitem id="account_fiscal_year" 
         name="Años Fiscal y Periodos" 
         parent="account.menu_finance_configuration" 
         sequence="1" />
+
 
     <menuitem id="menu_fiscal_year"
               name="Año Fiscal"

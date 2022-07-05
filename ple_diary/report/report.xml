@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <report id="report_custom_a4" 
+            string="Libro Diario A4" 
+            model="ple.diary" 
+            report_type="qweb-pdf" 
+            name="ple_diary.report_custom_template_a4"
+            />
+
+        <record id="report_custom_a4" model="ir.actions.report">
+            <field name="paperformat_id" ref="ple_diary.paperformat_a4"/>
+        </record>
+
+         <report id="report_custom_a4_simplificado" 
+            string="Libro Diario Simplificado A4" 
+            model="ple.diary" 
+            report_type="qweb-pdf" 
+            name="ple_diary.report_custom_template_a4_simplificado"
+            />
+
+        <record id="report_custom_a4_simplificado" model="ir.actions.report">
+            <field name="paperformat_id" ref="ple_diary.paperformat_a4_simplificado"/>
+        </record>
+
+        <report 
+            id="report_custom_ledger" 
+            string="Reporte Personalizado Libro Mayor" 
+            model="ple.diary" 
+            report_type="qweb-pdf" 
+            name="ple_diary.report_custom_template_ledger"
+            paperformat="ple_diary.paperformat_ledger"
+        />
+
+</data>
+
+</odoo>

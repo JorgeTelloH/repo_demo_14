@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+<!-- ############## EL BOTON DE IMPRIMIR UNICAMENTE ESTARA DISPONIBLE CUANDO EL LIBRO SE SENCUANTRE EN ESTADO ABIERTO "!!!!!!" -->
+        <record id="account_asset_asset_form" model="ir.ui.view">
+            <field name="name">account.asset.asset.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="om_account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                   
+                    <xpath expr="//form/sheet/group/group/field[@name='category_id']" position="before">
+                        <field name="brand_id"/>
+                        <field name="model_id"/>
+                        <field name="serial_number_plate"/>
+                        <field name="asset_encoding_type_sunat"/>
+                        <field name="asset_code"/>
+
+                        <field name="codigo_catalogo_utilizado_UNSPSC_GTIN"/>
+                        <field name="codigo_existencia_UNSPSC_GTIN"/>
+                        
+                        <field name="fixed_asset_type_code_sunat"/>
+                        <field name="document_number_for_depreciation_method_change"/>
+                    </xpath>                            
+            </field>
+        </record>
+    </data>
+</odoo>
