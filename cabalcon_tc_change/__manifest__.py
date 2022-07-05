@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 {
-    'name': 'Tipo de Cambio Especial',
+    'name': 'Tipo de Cambio Especial/Fecha Emisión',
     'summary': """
     	Tipo de Cambio Especial
     """,
@@ -12,12 +12,12 @@
        - Comprobantes de Cliente\n
        - Comprobantes de Proveedor
     """,
-    'author': 'Cabalcon',
+    'author': 'Franco Najarro-Cabalcon',
     'website': 'www.cabalcon.com',
-    'depends': ['sale', 'purchase', 'account'],
+    'depends': ['sale', 'account'],
     'data': [
         'views/account_move_view.xml',
-        'views/account_payment_view.xml',
-        'views/account_payment_register_view.xml'
+        #'views/account_payment_view.xml',
+        #'views/account_payment_register_view.xml'
     ],
 }

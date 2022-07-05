@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_balance_category_column,modelo balance_category_column,model_balance_category_column,account.group_account_invoice,1,1,1,1
+access_report_amount_balances_optimized,modelo report_amount_balances_optimized,model_report_amount_balances_optimized,account.group_account_invoice,1,1,1,1
+access_report_amount_balances_optimized_line,modelo report_amount_balances_optimized_line,model_report_amount_balances_optimized_line,account.group_account_invoice,1,1,1,1

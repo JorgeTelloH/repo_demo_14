@@ -12,10 +12,14 @@ class AccountFiscalyear(models.Model):
 
     fiscal_year_id = fields.Many2one('account.fiscal.year', string='Año Fiscal', required=True, tracking=True)
     code = fields.Char(string='Código', required=True, tracking=True, readonly=True)
+    #############################################################################################################################
     company_id = fields.Many2one('res.company', related='fiscal_year_id.company_id', string='Empresa', store=True, tracking=True)
+    #############################################################################################################################
     date_start = fields.Date(string='Fecha inicial', related='fiscal_year_id.date_from', store=True, tracking=True)
     date_stop = fields.Date(string='Fecha final', related='fiscal_year_id.date_to', store=True, tracking=True)
+    #############################################################################################################################
     period_ids = fields.One2many('account.month.period', 'fiscalyear_id', string='Periodos', tracking=True)
+
     state = fields.Selection(
         [('draft', 'Borrador'),
          ('open', 'Abierto'),
@@ -80,6 +84,9 @@ class AccountFiscalyear(models.Model):
             if self.search_count(domain) > 0:
                 raise ValidationError(_('No puede haber una superposición entre dos Años Fiscales. '
                                         'Ingrese correctamente la Fecha inicial y / o final de sus Años Fiscales.'))
+
+
+
     def create_periods(self):
         period_obj = self.env['account.month.period']
         for rec in self:
@@ -149,11 +156,11 @@ class AccountMove(models.Model):
             for rec in self:
                 fiscal_year_obj = self.env['account.fiscalyear.periods']
                 period_obj = self.env['account.month.period']
-                fiscal_rec = fiscal_year_obj.sudo().search([('date_start','<=',rec.date),('date_stop','>=',rec.date)])
+                fiscal_rec = fiscal_year_obj.sudo().search([('date_start','<=',rec.date),('date_stop','>=',rec.date),('company_id','=',rec.company_id.id)])
                 if not fiscal_rec:
                     raise ValidationError(_('La fecha debe estar dentro del Periodo del Año Fiscal'))
                 elif fiscal_rec.state == 'open':
-                    period_rec = period_obj.sudo().search([('date_start', '<=', rec.date), ('date_stop', '>=', rec.date)])
+                    period_rec = period_obj.sudo().search([('date_start', '<=', rec.date), ('date_stop', '>=', rec.date),('company_id','=',rec.company_id.id)])
                     if not period_rec:
                         raise ValidationError(_('La fecha debe estar dentro del Periodo de duración.'))
                     elif not period_rec.special:

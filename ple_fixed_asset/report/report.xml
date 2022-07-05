@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <data>
+        <report id="report_custom_a4" 
+            string="Reporte Personalizado A4" 
+            model="ple.fixed.asset" 
+            report_type="qweb-pdf" 
+            name="ple_fixed_asset.report_custom_template_a4"
+            />
+
+
+        <record id="report_custom_a4" model="ir.actions.report">
+            <field name="paperformat_id" ref="ple_fixed_asset.paperformat_a4"/>
+        </record>
+    
+
+
+</data>
+
+</odoo>

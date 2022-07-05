@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="external_layout_account_move_simplificado">
+        <div class="header">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+                    <t t-if="o.fiscal_month!='01'"> 
+                        <t t-set="diario_anterior" t-value="env['ple.diary'].search([('fiscal_month','=','{:02}'.format(int(o.fiscal_month)-1)),('fiscal_year','=',o.fiscal_year)])"/>
+                        <t t-set="debe_anterior" t-value="sum([i.movimientos_debe for i in diario_anterior.ple_diary_line_ids])"/>
+                        <t t-set="haber_anterior" t-value="sum([i.movimientos_haber for i in diario_anterior.ple_diary_line_ids])"/>
+                    </t>
+
+                    <div class="text-right">
+                        <p style="font-family: sans-serif; font-size: 8px;"><strong>Folio <span class="page"/></strong></p>
+                    </div>
+
+                    
+                    <div class="text-left">
+                        <p style="font-family: sans-serif; font-size: 12px;"><strong>FORMATO 5.2 LIBRO DIARIO DE FORMATO SIMPLIFICADO</strong></p>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-1"><strong>Periodo:</strong> <span t-esc="o.fiscal_month"/></p>
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-2"><span t-esc="o.company_id.name"/></p>
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-1"><span t-esc="o.company_id.vat"/></p>
+
+                        </div>
+                    </div>
+        </div>
+
+      
+        <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!--<t t-call="web.address_layout"/>-->
+            <t t-raw="0"/>
+        </div>
+
+
+    </template>
+
+    <template id="report_ple_diary_document_simplificado">
+        <t t-call="ple_diary.external_layout_account_move_simplificado">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+            <html>
+                <div class="page">
+                    <style>
+                        table thead th, table tbody td {
+                            border: 1px solid #000;
+                            padding: 2px;
+                        }
+
+                        table tbody td {
+                            padding: 0 1px;
+                            border-top: 1;
+                            border-bottom: 1;
+                        }
+
+                        p, th, td, span {
+                            font-family: sans-serif !important;
+                            font-size: 7px;
+                        }
+
+
+                    </style>
+                     <!--table { page-break-inside:auto }
+                        tr    { page-break-inside:avoid; page-break-after:auto }-->
+
+                    <body>
+
+                        <!-- # ACTIVOS -->
+                        <!-- # PASIVOS -->
+                        <!-- # GASTOS -->
+                        <!-- # INGRESOS -->
+                        <!-- # CUENTAS DE FUNCION DEL GASTO -->
+
+                        <t t-set="asientos_cuentas" t-value="o.account_move_account_account_totales()"/>
+
+                        <t t-set="asientos" t-value="asientos_cuentas[0]"/>
+
+                        <t t-set="activos" t-value="asientos_cuentas[1]"/>
+                        <t t-set="pasivos" t-value="asientos_cuentas[2]"/>
+                        <t t-set="gastos" t-value="asientos_cuentas[3]"/>
+                        <t t-set="ingresos" t-value="asientos_cuentas[4]"/>
+                        <t t-set="funcion_gasto" t-value="asientos_cuentas[5]"/>
+
+                        <t t-set="titulos_grupos_cuentas" t-value="['ACTIVOS','PASIVOS','GASTOS','INGRESOS','CUENTAS DE FUNCION DEL GASTO']"/>
+
+                        <t t-set="grupo_cuentas" t-value="asientos_cuentas[1:]"/>
+
+                        <t t-set="contador" t-value="0"/>
+
+
+
+                        <t t-foreach="grupo_cuentas" t-as="activos">
+
+                            <t t-if="len(activos) or ''">
+
+                            <t t-set="size_bloques" t-value="12"/>
+                            <t t-set="numero_bloques" t-value="int(len(activos)/size_bloques)"/>
+                            <t t-set="size_residual" t-value="len(activos)%size_bloques"/>
+
+
+                            <div class="text-left">
+                                <p style="font-family: sans-serif; font-size: 12px;"><strong>GRUPO: <p style="font-family: sans-serif; font-size: 10px;"><t t-esc="titulos_grupos_cuentas[contador]"/></p></strong></p>
+                            </div>
+
+                            <t t-set="contador_linea" t-value="0"/>
+
+                            
+
+
+                            <t t-foreach="range(numero_bloques)" t-as="contador_bloque">
+                                
+                                <t t-set="totales_por_grupo" t-value="[0.00 for i in range(size_bloques)]"/>
+
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th width="100" style="text-align: center; vertical-align: middle;">Numero correlativo o Código único de la Operación</th>
+                                            <th width="200" style="text-align: center; vertical-align: middle;">Glosa o descripción de la operación</th>
+                                            <th width="90" style="text-align: center; vertical-align: middle;">Fecha o periodo de la operación</th>
+                                            <t t-foreach="range(size_bloques)" t-as="i">
+                                                <th style="text-align: center; vertical-align: middle;"><span t-esc="activos[size_bloques*contador_bloque + i]"/></th>
+
+                                                <!-- <t t-set="totales_por_grupo[i]" t-value="0.00"/> -->
+                                            </t>
+                                                
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <t t-foreach="asientos" t-as="fila">
+
+                                            <!-- <t t-set="contador_linea" t-value="contador_linea + 1"/> -->
+
+                                            <tr>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "fila.name" /> </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "(fila.ref or '')[:37]"/> </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "fila.date" /> </td>
+
+                                                <t t-foreach="range(size_bloques)" t-as="j">
+                                                    <td><span t-esc="'{:,.2f}'.format(o.saldo_account_move_in_account_account(fila,activos[size_bloques*contador_bloque + j]))"/></td>
+                                                    <t t-set="totales_por_grupo[j]" t-value="totales_por_grupo[j] + o.saldo_account_move_in_account_account(fila,activos[size_bloques*contador_bloque + j])"/>
+                                                </t>
+
+                                                <!-- <t t-if="contador_linea == 20">
+                                                    <t t-set="contador_linea" t-value="0"/>
+                                                    <p style='page-break-after:always;'></p>
+                                                </t> -->
+
+                                                <t t-set="contador_linea" t-value="contador_linea + 1"/>    
+                                            </tr>
+                                        </t>
+                                        <!-- ################################ -->
+
+                                        <tr>
+                                            <td></td>
+                                            <td><strong><p>TOTALES POR GRUPO :</p></strong></td>
+                                            <td></td>
+                                            <t t-foreach="range(size_bloques)" t-as="j2">
+                                                <td><strong><span t-esc="'{:,.2f}'.format(totales_por_grupo[j2])"/></strong></td>
+                                            </t>
+                                        </tr>
+                                        <!-- ################################ -->
+
+                                    </tbody>
+                                </table>
+
+
+                            </t>
+
+                            <t t-if="size_residual > 0">
+                              <!-- <p style='page-break-after:always;'></p>-->
+
+                                <t t-set="totales_por_grupo_residual" t-value="[0.00 for i in range(size_residual)]"/>
+                                
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center; vertical-align: middle;">Numero correlativo o Código único de la Operación</th>
+                                            <th style="text-align: center; vertical-align: middle;">Glosa o descripción de la operación</th>
+                                            <th style="text-align: center; vertical-align: middle;">Fecha o periodo de la operación</th>
+                                            <t t-foreach="range(len(activos)-size_residual,len(activos))" t-as="i">
+                                                <th style="text-align: center; vertical-align: middle;"><span t-esc="activos[i]"/></th>
+                                            </t>
+                                                
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <t t-foreach="asientos" t-as="fila">
+                                            <tr>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "fila.name" /> </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "(fila.ref or '')[:30]" /> </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "fila.date" /> </td>
+                                                <t t-foreach="range(len(activos)-size_residual,len(activos))" t-as="k">
+                                                    <td><span t-esc="'{:,.2f}'.format(o.saldo_account_move_in_account_account(fila,activos[k]))"/></td>
+                                                    <t t-set="totales_por_grupo_residual[k-len(activos)+size_residual]" t-value="totales_por_grupo_residual[k-len(activos)+size_residual] + o.saldo_account_move_in_account_account(fila,activos[k])"/>
+                                                </t>
+                                            </tr>
+                                        </t>
+
+                                         <tr>
+                                            <td></td>
+                                            <td><strong><p>TOTALES POR GRUPO :</p></strong></td>
+                                            <td></td>
+                                            <t t-foreach="range(size_residual)" t-as="k2">
+                                                <td><strong><span t-esc="'{:,.2f}'.format(totales_por_grupo_residual[k2])"/></strong></td>
+                                            </t>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </t>
+
+                            <div style='page-break-after:always;'></div>
+                            <t t-set="contador" t-value="contador + 1"/>
+
+                            <!-- <br/> -->
+                            <p></p>
+                        </t>
+
+                        </t>
+                       
+                    </body>
+                </div>
+            </html>
+        </t>
+    </template>
+
+
+    <template id="report_custom_template_a4_simplificado">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.create_uid.sudo().lang"/>
+                <t t-call="ple_diary.report_ple_diary_document_simplificado" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

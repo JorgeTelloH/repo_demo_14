@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="external_layout_account_move">
+        <!--<div class="header">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+                        <t t-if="o.fiscal_month!='01'"> 
+                        <t t-set="diario_anterior" t-value="env['ple.diary'].search([('fiscal_month','=','{:02}'.format(int(o.fiscal_month)-1)),('fiscal_year','=',o.fiscal_year)])"/>
+                        <t t-set="debe_anterior" t-value="sum([i.movimientos_debe for i in diario_anterior.ple_diary_line_ids])"/>
+                        <t t-set="haber_anterior" t-value="sum([i.movimientos_haber for i in diario_anterior.ple_diary_line_ids])"/>
+                    </t>
+
+                    <div class="text-right">
+                        <p style="font-family: sans-serif; font-size: 8px;"><strong>Folio <span class="page"/></strong></p>
+                    </div>
+
+                  
+                    <div class="text-center">
+                        <p style="font-family: sans-serif; font-size: 12px;"><strong>FORMATO 5.1 LIBRO DIARIO GENERAL</strong></p>
+                        <p style="font-family: sans-serif; font-size: 10px;"><strong><span t-esc="o.fiscal_month"/> AL <span t-esc="o.fiscal_month"/></strong></p>
+                        <p style="font-family: sans-serif; font-size: 10px;"><strong>EN NUEVOS SOLES</strong></p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-1"><strong>EJERCICIO:</strong> <span t-esc="o._periodo_fiscal()"/></p>
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-1"><strong>RUC:</strong> <span t-esc="o.company_id.vat"/></p>
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-2"><strong>APELLIDOS Y NOMBRE, DENOMINACIÓN O RAZÓN SOCIAL:</strong> <span t-esc="o.company_id.name"/></p>
+                        </div>
+                    </div>
+            
+        </div>-->
+
+      
+        <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+    <template id="report_ple_diary_document">
+        <t t-call="ple_diary.external_layout_account_move">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+            <html>
+
+                <div class="page">
+
+                    <style>
+                        table thead th, table tbody td {
+                            border: 1px solid #000;
+                            padding: 2px;
+                        }
+
+                        table tbody td {
+                            padding: 0 1px;
+                            border-top: 0;
+                            border-bottom: 0;
+                        }
+
+                        p, th, td, span {
+                            font-family: sans-serif !important;
+                            font-size: 8px;
+                        }
+                    </style>
+
+                    <body>
+
+                        <!--""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""-->
+                    <t t-if="not o" t-set="o" t-value="doc"/>
+
+                        <t t-if="o.fiscal_month!='01'"> 
+                        <t t-set="diario_anterior" t-value="env['ple.diary'].search([('fiscal_month','=','{:02}'.format(int(o.fiscal_month)-1)),('fiscal_year','=',o.fiscal_year)])"/>
+                        <t t-set="debe_anterior" t-value="sum([i.movimientos_debe for i in diario_anterior.ple_diary_line_ids])"/>
+                        <t t-set="haber_anterior" t-value="sum([i.movimientos_haber for i in diario_anterior.ple_diary_line_ids])"/>
+                    </t>
+
+                    <div class="text-right">
+                        <p style="font-family: sans-serif; font-size: 8px;"><strong>Folio <span class="page"/></strong></p>
+                    </div>
+
+                  
+                    <div class="text-center">
+                        <p style="font-family: sans-serif; font-size: 12px;"><strong>FORMATO 5.1 LIBRO DIARIO GENERAL</strong></p>
+                        <p style="font-family: sans-serif; font-size: 10px;"><strong><span t-esc="o.fiscal_month"/> AL <span t-esc="o.fiscal_month"/></strong></p>
+                        <p style="font-family: sans-serif; font-size: 10px;"><strong>EN NUEVOS SOLES</strong></p>
+                    </div>
+
+                    <div class="text-left">
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-1"><strong>EJERCICIO:</strong> <span t-esc="o._periodo_fiscal()"/></p>
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-1"><strong>RUC:</strong> <span t-esc="o.company_id.vat"/></p>
+                            <p style="font-family: sans-serif; font-size: 10px;" class="pb-2"><strong>APELLIDOS Y NOMBRE, DENOMINACIÓN O RAZÓN SOCIAL:</strong> <span t-esc="o.company_id.name"/></p>
+                    </div>
+
+
+                    <!--""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""-->
+
+
+                        <!-- asientos_actuales=[] -->
+                        <!-- fin_asiento=False -->
+                        <!-- infimo=0 -->
+                        <!-- supremo=0 -->
+                        <t t-set="van" t-value="0.00"/>
+                        
+                        <table>
+                            <colgroup>
+                                <col width="9%"/>
+                                <col width="5%"/>
+                                <col width="24%"/>
+                                <col width="2%"/>
+                                <col width="2%"/>
+                                <col width="7%"/>
+                                <col width="5%"/>
+                                <col width="28%"/>
+                                <col width="8%"/>
+                                <col width="8%"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; vertical-align: middle;" rowspan="2">NÚMERO CORRELATIVO DEL ASIENTO O CÓDIGO ÚNICO DE LA OPERACIÓN</th>
+                                    <th style="text-align: center; vertical-align: middle;" rowspan="2">FECHA DE LA OPERCIÓN</th>
+                                    <th style="text-align: center; vertical-align: middle;" rowspan="2">GLOSA O DESCRIPCIÓN DE LA OPERACIÓN</th>
+                                    <th style="text-align: center; vertical-align: middle;" colspan="3">REFERENCIA DE LA OPERACIÓN</th>
+                                    <th style="text-align: center; vertical-align: middle;" colspan="2">CUENTA CONTABLE ASOCIADA A LA OPERACIÓN</th>
+                                    <th style="text-align: center; vertical-align: middle;" colspan="2">MOVIMIENTOS</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center; vertical-align: middle;">COD. LIBRO</th>
+                                    <th style="text-align: center; vertical-align: middle;">NÚMERO FOLIO</th>
+                                    <th style="text-align: center; vertical-align: middle;">NUMERO DOCUMENTO </th>
+                                    <th style="text-align: center; vertical-align: middle;">CÓDIGO</th>
+                                    <th style="text-align: center; vertical-align: middle;">DENOMINACIÓN</th>
+                                    <th style="text-align: center; vertical-align: middle;">DEBE</th>
+                                    <th style="text-align: center; vertical-align: middle;">HABER</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <t t-set="capacidad_maxima" t-value="115"/>
+
+                                <t t-set="conta_asiento" t-value="0"/>
+                                <t t-set="initial_accounting_entry" t-value="0"/>
+
+                                <t t-set="contador_linea" t-value="0"/>
+
+                                <t t-foreach="o.get_asientos_actuales()"  t-as="element_set" >
+                                    <t t-foreach = "o.ple_diary_line_ids[o.infimo:o.supremo]" t-as= "i">
+                                        <t t-if="element_set.id== i.move_id.id">
+                                            <t t-if="i.asiento_contable != initial_accounting_entry">
+                                                
+                                                <tr>
+                                                    <td/>
+                                                    <td/>
+                                                    <td><strong>REGISTRO CONTABLE <span t-esc="i.asiento_contable"/></strong></td>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                </tr>
+                                                <t t-set="initial_accounting_entry" t-value="i.asiento_contable"/>
+
+                                                <t t-set="contador_linea" t-value="contador_linea +1"/>
+
+                                                <t t-if="contador_linea==capacidad_maxima">
+                                                    <t t-set="contador_linea" t-value="0"/>
+                                                    <p style="page-break-after:always"></p>
+                                                </t>
+
+                                            </t>
+
+                                            <tr>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "i.asiento_contable" /> </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t t-esc = "i.fecha_operacion" /> </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t  t-esc = "(i.glosa or '')[:20]" />  </td>
+                                                <td/>
+                                                <td/>
+                                                <td style="text-align: left; vertical-align: middle;">  <t  t-esc = "((i.num_serie_comprobante_pago or '') + ('-')*(i.num_comprobante_pago!='-') + (i.num_comprobante_pago or ''))[:13]" />  </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t  t-esc = "i.codigo_cuenta_desagregado" />  </td>
+                                                <td style="text-align: left; vertical-align: middle;">  <t  t-esc = "(i.move_line_id.account_id.name or '')[:24]" />  </td>
+                                                <td style="text-align: end; vertical-align: middle;"><t  t-esc="'{:.2f}'.format(i.movimientos_debe)"/></td>
+                                                <td style="text-align: end; vertical-align: middle;"><t  t-esc="'{:.2f}'.format(i.movimientos_haber)"/></td>
+                                            </tr>
+
+                                            <t t-set="contador_linea" t-value="contador_linea +1"/>
+
+                                            <t t-if="contador_linea==capacidad_maxima">
+                                                <tr>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td><strong>VAN<span t-esc="contador_linea"/></strong></td>
+
+                                                </tr>
+                                                <t t-set="contador_linea" t-value="0"/>
+                                                <p style="page-break-after:always"></p>
+                                            </t>
+
+                                        </t>
+
+                                    </t>
+
+
+                                    <t t-set="conta_asiento" t-value="conta_asiento + 1"/>
+                                    <t t-if="o.is_menor(conta_asiento,len(o.get_asientos_actuales()))">
+                                        <tr> 
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td style="text-align: end; vertical-align: middle;"><strong>TOTAL EN EL RegCtb <span t-esc="initial_accounting_entry"/></strong></td>
+                                            <td style="text-align: end; vertical-align: middle;"><strong><t t-esc="'{:.2f}'.format(sum([j.debit for j in element_set.line_ids]))"/></strong></td>
+                                            <td style="text-align: end; vertical-align: middle;"><strong><t t-esc="'{:.2f}'.format(sum([j.credit for j in element_set.line_ids]))"/></strong></td>
+                                        </tr>
+                                        
+                                        <t t-set="contador_linea" t-value="contador_linea +1"/>
+
+                                                <t t-if="contador_linea==capacidad_maxima">
+                                                    <t t-set="contador_linea" t-value="0"/>
+                                                    <p style="page-break-after:always"></p>
+                                                </t>
+
+                                    </t>
+                                    <t t-elif="conta_asiento==len(o.get_asientos_actuales()) and o.fin_asiento">
+                                        <tr> 
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td/>
+                                            <td style="text-align: end; vertical-align: middle;"><strong>TOTAL EN EL RegCtb <span t-esc="initial_accounting_entry"/></strong></td>
+                                            <td style="text-align: end; vertical-align: middle;"><strong><t t-esc="'{:.2f}'.format(sum([j.debit for j in element_set.line_ids]))"/></strong></td>
+                                            <td style="text-align: end; vertical-align: middle;"><strong><t t-esc="'{:.2f}'.format(sum([j.credit for j in element_set.line_ids]))"/></strong></td>
+                                        </tr>
+                                        
+                                        <t t-set="contador_linea" t-value="contador_linea +1"/>
+
+                                                <t t-if="contador_linea==capacidad_maxima">
+                                                    <t t-set="contador_linea" t-value="0"/>
+                                                </t>
+
+                                    </t>
+                                </t>
+                                
+                                <t t-if="o.fin_documento">
+                                    <tr>
+                                        <td style="text-align: center; vertical-align: middle;">    </td>
+                                        <td style="text-align: center; vertical-align: middle;">   </td>
+                                        <td style="text-align: center; vertical-align: middle;">    </td>
+                                        <td style="text-align: center; vertical-align: middle;">   </td>
+                                        <td style="text-align: center; vertical-align: middle;">    </td>      
+                                        <td style="text-align: center; vertical-align: middle;">   </td>
+                                        <td style="text-align: center; vertical-align: middle;"> </td>
+                                        <td style="text-align: right; vertical-align: middle;"><strong>TOTAL MES  <span t-esc="o.fiscal_month"/></strong> </td>
+                                        <td style="text-align: right; vertical-align: middle;"><p align="right"><strong><t t-esc="'{:.2f}'.format(sum([line.movimientos_debe for line in o.ple_diary_line_ids]))" /></strong></p></td>
+                                        <td style="text-align: right; vertical-align: middle;"><p align="right"><strong><t t-esc="'{:.2f}'.format(sum([line.movimientos_haber for line in o.ple_diary_line_ids]))"/></strong></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; vertical-align: middle;">    </td>
+                                        <td style="text-align: center; vertical-align: middle;">   </td>
+                                        <td style="text-align: center; vertical-align: middle;">    </td>
+                                        <td style="text-align: center; vertical-align: middle;">   </td>
+                                        <td style="text-align: center; vertical-align: middle;">    </td>      
+                                        <td style="text-align: center; vertical-align: middle;">   </td>
+                                        
+                                        <td style="text-align: center; vertical-align: middle;"> </td>
+                                        <td style="text-align: right; vertical-align: middle;"> <strong>  TOTAL GENERAL >>> </strong></td>
+                                        <td style="text-align: right; vertical-align: middle;"><p align="right"><strong><t t-esc="'{:.2f}'.format(sum([line.movimientos_debe for line in o.ple_diary_line_ids]) + float((debe_anterior) or '0.00'))" /></strong></p></td>
+                                        <td style="text-align: right; vertical-align: middle;"><p align="right"><strong><t t-esc="'{:.2f}'.format(sum([line.movimientos_haber for line in o.ple_diary_line_ids]) + float((debe_anterior) or '0.00'))"/></strong></p></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                       
+                    </body>
+                </div>
+            </html>
+        </t>
+    </template>
+
+
+    <template id="report_custom_template_a4">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.create_uid.sudo().lang"/>
+                <t t-call="ple_diary.report_ple_diary_document" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>
+
+<!-- 112  registros por cada hoja-->

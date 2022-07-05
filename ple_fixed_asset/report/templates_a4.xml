@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="external_layout_account_move">
+     <t t-if="not o" t-set="o" t-value="doc"/>
+
+      
+
+        <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!--<t t-call="web.address_layout"/>-->
+            <t t-raw="0"/>
+        </div>
+
+   
+    </template>
+
+<template id="report_ple_fixed_asset_document">
+        <t t-call="ple_fixed_asset.external_layout_account_move">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+              <html>
+                <div class="page" >
+                      <!--   <t t-if="o.fiscal_month!='01'"> 
+                        <t  t-set = "diario_anterior"  t-value = "env['ple.fixed.asset'].search([('fiscal_month','=','{:02}'.format(int(o.fiscal_month)-1)),('fiscal_year','=',o.fiscal_year)]) " /> 
+                        <t t-set="debe_anterior" t-value="sum([i.movimientos_debe for i in diario_anterior.ple_fixed_asset_line_ids])"/>
+                        <t t-set="haber_anterior" t-value="sum([i.movimientos_haber for i in diario_anterior.ple_fixed_asset_line_ids])"/>
+                        </t> -->
+
+                         <div class="text-left">
+                             
+                                    <p><font size="6"><strong><span t-esc="o.company_id.name"/></strong></font></p>
+                                    <p><font size="6"><strong><span t-esc="o.company_id.vat"/></strong></font></p>
+                                </div>
+
+                                <div class="text-right">
+                                    <p> <font size="3">FECHA : <t t-esc="time.strftime('%d/%m/%Y')"/> </font> </p>
+                                </div>
+                                <div class="text-center">
+                                      <p><font size="18px"><strong>FORMATO 7.1 REGISTRO DE ACTIVOS FIJOS-DETALLE DE LOS ACTIVOS FIJOS</strong></font></p>
+                                   <!--  <p><font size="6"><strong>En Nuevos Soles del periodo <span t-esc="o.fiscal_month"/> al <span t-esc="o.fiscal_month"/> del <span t-esc="o.fiscal_year"/></strong></font></p> -->
+                                </div>
+
+                                <br/>
+
+                                <!-- ####################### -->
+                                <div class="row">
+                                    <div class="col-6"> <strong><p>PERIODO:</p></strong> </div>
+                                    <div class="col-6"><p> <t t-esc="(o._periodo_fiscal() or '')[:4]"/> </p></div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-6"> <strong><p>RUC:</p></strong> </div>
+                                    <div class="col-6"><p> <t t-esc="o.company_id.vat or ''"/> </p></div>
+                                </div>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-6"> <strong><p>APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL:</p></strong></div>
+                                    <div class="col-6"><p> <t t-esc="o.company_id.name or ''"/> </p></div>
+                                </div>
+
+                                <br/>
+<!-- 
+                                 <div class="row">
+                                      <p><font size="9"><strong>RUC:</strong></font></p>
+                                </div>
+
+                                <div class="row">
+                                      <p><font size="9"><strong>APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL:</strong></font></p>
+                                </div>
+ -->
+     
+                         <style>
+                            table, th, tr ,td{
+                            border: 1px solid black;
+                            }
+                        </style>
+
+                        <body>
+                           
+                           <table  align="center" style ="font-size:11px !important" >
+                                <thead>
+
+                                    <tr>
+                                        <th height="135" style="text-align: center; vertical-align: middle;" scope="row" rowspan="3">Código relacionado con el Activo Fijo</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3" >Cuenta Contable del Activo Fijo</th>
+                                        <th style="text-align: center; vertical-align: middle;" colspan="4" rowspan="1">Detalle del Activo Fijo</th>
+                                        
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Saldo Inicial</th>
+
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Adquisiciones Adicionales</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Mejoras</th>
+
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Retiros y/o Bajas</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Otros Ajustes</th>
+
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Valor histórico del Activo Fijo al 31-12</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Ajuste por inflación</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Valor ajustado del Activo Fijo al 31-12</th>
+
+                                        <th width="50" style="text-align: center; vertical-align: middle;" rowspan="3">Fecha de Adquisición</th>
+                                        <th width="50" style="text-align: center; vertical-align: middle;" rowspan="3">Fecha de Inicio del uso del Activo Fijo</th>
+
+                                        <th style="text-align: center; vertical-align: middle;" colspan="2" rowspan="1">Depreciación</th>
+
+                                        
+
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Porcentaje de Depreciación</th>
+
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Depreciación acumulada al cierre del ejercicio anterior</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Depreciación del ejercicio</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Depreciación del ejercicio relacionada con los retiros y/o bajas</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Depreciación relacionada con otros ajustes</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Depreciación acumulada histórica</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Ajuste por Inflación de la Depreciación</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="3">Depreciación acumulada ajustada por inflación</th>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="2">Descripción</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="2">Marca del Activo Fijo</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="2">Modelo del Activo Fijo</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="2">Número de Serie y/o Placa del Activo Fijo</th>
+
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="2">Método aplicado</th>
+                                        <th style="text-align: center; vertical-align: middle;" rowspan="2">N.° de Documento de Autorización</th>
+
+                                    </tr>
+
+                                    </thead>
+
+
+                                    <tbody>
+                                        <t  t-foreach = "o.ple_fixed_asset_line_ids" t-as= "i" >
+                                        <tr>
+                                             <td style="vertical-align: middle;"> <p align="center">  <t t-esc = "i.codigo_propio_activo" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="center">  <t t-esc = "i.codigo_cuenta_desagregado" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="center">  <t t-esc = "i.descripcion_activo_fijo" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="center">  <t t-esc = "i.marca_activo_fijo" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="center">  <t t-esc = "i.modelo_activo_fijo" /> </p></td>
+
+                                             <td style="vertical-align: middle;"> <p align="center">  <t t-esc = "i.numero_serie_placa_activo" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="right">  <t t-esc = "'{:,.2f}'.format(i.importe_saldo_inicial_activo_fijo)" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="right">  <t t-esc = "'{:,.2f}'.format(i.importe_adquisiciones_adiciones)" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="right">  <t t-esc = "'{:,.2f}'.format(i.importe_mejoras)" /> </p></td>
+
+                                             <td style="vertical-align: middle;"> <p align="right">  <t t-esc = "'{:,.2f}'.format(i.importe_retiros_bajas)" /> </p></td>
+
+                                             <td style="vertical-align: middle;"> <p align="right">  <t t-esc = "'{:,.2f}'.format(i.importe_otros_ajustes)" /> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"><t t-esc = "'{:,.2f}'.format(i.importe_valor_ajuste_por_inflacion)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="center"><t t-esc = "o._convert_object_date(i.fecha_adquisicion_activo)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="center"><t t-esc="o._convert_object_date(i.fecha_inicio_uso_activo_fijo)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="center"><t t-esc="i.codigo_metodo_aplicado_calculo_depreciacion"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="center"><t t-esc="i.numero_documento_cambio_metodo_depreciacion"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="center"><t t-esc="str(i.porcentaje_depreciacion) + ' %'"/></p></td>
+
+                                             <td style="vertical-align: middle;"> <p align="right"><t t-esc="'{:,.2f}'.format(i.depreciacion_acumulada_cierre_ejercicio_anterior)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"><t t-esc="'{:,.2f}'.format(i.valor_depreciacion_ejercicio_sin_considerar_revaluacion)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"><t t-esc="'{:,.2f}'.format(i.valor_depreciacion_ejercicio_relacionada_con_retiros_bajas)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"><t t-esc="'{:,.2f}'.format(i.valor_depreciacion_relacionada_con_otros_ajustes)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"> </p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"><t t-esc="'{:,.2f}'.format(i.valor_ajuste_por_inflacion_de_depreciacion)"/></p></td>
+                                             <td style="vertical-align: middle;"> <p align="right"></p></td>
+                                        </tr>
+                                        </t>
+
+                                        <tr>
+
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="vertical-align: middle;"><strong><p align="center"><font size="11">Totales</font></p></strong></td>
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.importe_saldo_inicial_activo_fijo for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.importe_adquisiciones_adiciones for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.importe_mejoras for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.importe_retiros_bajas for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.importe_otros_ajustes for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+                                            <td></td>
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.importe_valor_ajuste_por_inflacion for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.depreciacion_acumulada_cierre_ejercicio_anterior for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.valor_depreciacion_ejercicio_sin_considerar_revaluacion for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.valor_depreciacion_ejercicio_relacionada_con_retiros_bajas for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.valor_depreciacion_relacionada_con_otros_ajustes for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+
+                                            <td></td>
+
+                                            <td style="vertical-align: middle;"><p align="right"><strong> <t  t-esc = "'{:,.2f}'.format(sum([j.valor_ajuste_por_inflacion_de_depreciacion for j in o.ple_fixed_asset_line_ids]))" />  </strong> </p> </td>
+                                            
+                                            <td></td>
+                                           
+                                        </tr>
+
+                                    </tbody>
+
+                                    </table>
+                        </body>
+                </div>
+                 </html> 
+                
+            </t>
+      </template>
+
+
+        <template id="report_custom_template_a4">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.create_uid.sudo().lang"/>
+                    <t t-call="ple_fixed_asset.report_ple_fixed_asset_document" t-lang="lang"/>
+                </t>
+            
+            </t>
+        </template>
+</odoo>
