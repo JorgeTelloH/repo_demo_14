@@ -18,7 +18,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['account','l10n_pe_edi','l10n_pe_edi_facturaonline'],
+    'depends': ['account','l10n_pe_edi','l10n_pe_edi_facturaonline','account_invoice_fix_discount'],
 
     # always loaded
     'data': [
