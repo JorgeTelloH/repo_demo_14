@@ -15,7 +15,7 @@
                 <field name="discount_fixed" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='amount_by_group']" position="after">
-                <field name="discount_total"/>
+                <field name="discount_line_total"/>
             </xpath>
         </field>
     </record>
