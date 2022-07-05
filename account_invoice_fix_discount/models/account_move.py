@@ -91,23 +91,6 @@ class AccountMoveLine(models.Model):
             quantity, discount, amount_currency, move_type, currency, taxes, price_subtotal, force_computation=force_computation,
             )
 
-    #@api.model_create_multi
-    #def create(self, vals_list):
-    #    prev_discount = []
-    #    for vals in vals_list:
-    #        if vals.get("discount_fixed"):
-    #            prev_discount.append( {"discount_fixed": vals.get("discount_fixed"), "discount": 0.00} )
-    #            fixed_discount = ( vals.get("discount_fixed") / vals.get("price_unit") ) * 100
-    #            vals.update({"discount": fixed_discount, "discount_fixed": 0.00})
-    #        elif vals.get("discount"):
-    #            prev_discount.append({"discount": vals.get("discount")})
-    #    res = super(AccountMoveLine, self).create(vals_list)
-    #    i = 0
-    #    for rec in res:
-    #        if rec.discount and prev_discount:
-    #            rec.write(prev_discount[i])
-    #            i += 1
-    #    return res
 
     #============= INI CALCULAR DSCTO TOTAL LINEA =============
     @api.depends("discount", "discount_fixed", "price_total")
