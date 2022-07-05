@@ -73,7 +73,8 @@ class AccountMoveLine(models.Model):
     def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes, move_type):
         if self.discount_fixed != 0:
             if self.quantity !=0:
-                discount = (self.discount_fixed / self.quantity)
+                #discount = (self.discount_fixed / self.quantity)
+                discount = (((self.discount_fixed) / price_unit) * 100 or 0.00) / self.quantity
             else:
                 discount = 0
         return super(AccountMoveLine, self)._get_price_total_and_subtotal_model(
@@ -84,7 +85,8 @@ class AccountMoveLine(models.Model):
     ):
         if self.discount_fixed != 0:
             if self.quantity !=0:
-                discount = (self.discount_fixed / self.quantity)
+                #discount = (self.discount_fixed / self.quantity)
+                discount = (((self.discount_fixed) / price_unit) * 100 or 0.00) / self.quantity
             else:
                 discount = 0
         return super(AccountMoveLine, self)._get_fields_onchange_balance_model(
