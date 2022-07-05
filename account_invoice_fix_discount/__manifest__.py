@@ -4,7 +4,7 @@
     "name": "Factura con Monto de Descuento",
     "summary": "Permitir aplicar Monto de Dscto en Facturas",
     'description': """
-        Permitir aplicar Monto de Dscto en Facturas
+        Permitir aplicar Monto de Dscto en Lineas de Facturas
     """,
 
     'author': "TH",

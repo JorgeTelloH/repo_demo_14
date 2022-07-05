@@ -45,7 +45,7 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    discount_fixed = fields.Float( string="Monto Dscto", digits="Product Price", default=0.00, help="Aplicar monto de Dscto sobre el Precio")
+    discount_fixed = fields.Float( string="Monto Dscto", digits="Discount", default=0.0, help="Aplicar monto de Dscto sobre el Precio")
     discount_line_total = fields.Monetary(compute="_compute_discount_amount", string="Dscto Total Linea", store=True)
 
     @api.onchange("discount")
@@ -70,72 +70,44 @@ class AccountMoveLine(models.Model):
         return super(AccountMoveLine, self)._onchange_price_subtotal()
 
     @api.model
-    def _get_price_total_and_subtotal_model(
-        self,
-        price_unit,
-        quantity,
-        discount,
-        currency,
-        product,
-        partner,
-        taxes,
-        move_type,
-    ):
+    def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes, move_type):
         if self.discount_fixed != 0:
             if self.quantity !=0:
-                discount = (self.discount_fixed / self.quantity) #((self.discount_fixed) / price_unit) * 100 or 0.00
+                discount = (self.discount_fixed / self.quantity)
             else:
                 discount = 0
         return super(AccountMoveLine, self)._get_price_total_and_subtotal_model(
-            price_unit, quantity, discount, currency, product, partner, taxes, move_type
-        )
+            price_unit, quantity, discount, currency, product, partner, taxes, move_type )
 
     @api.model
-    def _get_fields_onchange_balance_model(
-        self,
-        quantity,
-        discount,
-        amount_currency,
-        move_type,
-        currency,
-        taxes,
-        price_subtotal,
-        force_computation=False,
+    def _get_fields_onchange_balance_model(self, quantity, discount, amount_currency, move_type, currency, taxes, price_subtotal, force_computation=False,
     ):
         if self.discount_fixed != 0:
-            discount = ((self.discount_fixed) / self.price_unit) * 100 or 0.00
+            if self.quantity !=0:
+                discount = (self.discount_fixed / self.quantity)
+            else:
+                discount = 0
         return super(AccountMoveLine, self)._get_fields_onchange_balance_model(
-            quantity,
-            discount,
-            amount_currency,
-            move_type,
-            currency,
-            taxes,
-            price_subtotal,
-            force_computation=force_computation,
-        )
+            quantity, discount, amount_currency, move_type, currency, taxes, price_subtotal, force_computation=force_computation,
+            )
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        prev_discount = []
-        for vals in vals_list:
-            if vals.get("discount_fixed"):
-                prev_discount.append(
-                    {"discount_fixed": vals.get("discount_fixed"), "discount": 0.00}
-                )
-                fixed_discount = (
-                    vals.get("discount_fixed") / vals.get("price_unit")
-                ) * 100
-                vals.update({"discount": fixed_discount, "discount_fixed": 0.00})
-            elif vals.get("discount"):
-                prev_discount.append({"discount": vals.get("discount")})
-        res = super(AccountMoveLine, self).create(vals_list)
-        i = 0
-        for rec in res:
-            if rec.discount and prev_discount:
-                rec.write(prev_discount[i])
-                i += 1
-        return res
+    #@api.model_create_multi
+    #def create(self, vals_list):
+    #    prev_discount = []
+    #    for vals in vals_list:
+    #        if vals.get("discount_fixed"):
+    #            prev_discount.append( {"discount_fixed": vals.get("discount_fixed"), "discount": 0.00} )
+    #            fixed_discount = ( vals.get("discount_fixed") / vals.get("price_unit") ) * 100
+    #            vals.update({"discount": fixed_discount, "discount_fixed": 0.00})
+    #        elif vals.get("discount"):
+    #            prev_discount.append({"discount": vals.get("discount")})
+    #    res = super(AccountMoveLine, self).create(vals_list)
+    #    i = 0
+    #    for rec in res:
+    #        if rec.discount and prev_discount:
+    #            rec.write(prev_discount[i])
+    #            i += 1
+    #    return res
 
     #============= INI CALCULAR DSCTO TOTAL LINEA =============
     @api.depends("discount", "discount_fixed", "price_total")
