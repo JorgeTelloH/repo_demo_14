@@ -48,7 +48,7 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    #discount_fixed = fields.Float( string="Monto Dscto", digits="Discount", default=0.0, help="Aplicar monto de Dscto sobre el Precio")
+    discount_fixed = fields.Float( string="Monto Dscto", digits="Discount", default=0.0, help="Aplicar monto de Dscto sobre el Precio")
     discount_line_total = fields.Monetary(compute="_compute_discount_amount", string="Dscto Total Linea", store=True)
 
     #@api.onchange("discount")
