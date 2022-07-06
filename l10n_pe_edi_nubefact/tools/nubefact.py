@@ -281,8 +281,10 @@ def _get_invoice_line_values_odoofact(invoice,data_process):
             valorUnitario = 0
             if tax.price_include:
                 valorUnitario = line.price_subtotal / line.quantity
+                precioUnitario = valorUnitario
             else:
                 valorUnitario = line.price_unit
+                precioUnitario = line.price_unit + line_tax_detail.get('tax_amount')
 
             tipoafectacionigv_val = tax.l10n_pe_edi_affectation_reason
             codigotributo_val = tax.l10n_pe_edi_tax_code
@@ -299,7 +301,7 @@ def _get_invoice_line_values_odoofact(invoice,data_process):
                 'descripcion': line.name,
                 'cantidad': abs(line.quantity),
                 'valor_unitario': abs(valorUnitario),
-                'precio_unitario': abs(line_tax_detail.get('unit_total_included')),
+                'precio_unitario': abs(precioUnitario), #abs(line_tax_detail.get('unit_total_included')),
                 'descuento': abs(line.discount_line_total) or "",
                 'subtotal': abs(line.price_subtotal),
                 'tipo_de_igv': TIPOS_IGV_NUBEFAC_SUNAT.get(tipoafectacionigv_val),
