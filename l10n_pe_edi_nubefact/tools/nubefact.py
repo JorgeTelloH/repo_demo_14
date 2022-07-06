@@ -118,7 +118,7 @@ def get_header_invoice_nubefact(invoice,data_process):
     totalVentaInafecta = 0
     sumatoriaIgv = 0
     total_descuento = False
-    total_dscto_linea = False #invoice.discount_line_total
+    total_dscto_linea = invoice.discount_line_total
     total_anticipo = False
     total_gratuita = False
     total_otros_cargos = False
@@ -302,7 +302,7 @@ def _get_invoice_line_values_odoofact(invoice,data_process):
                 'cantidad': abs(line.quantity),
                 'valor_unitario': abs(valorUnitario),
                 'precio_unitario': abs(precioUnitario), #abs(line_tax_detail.get('unit_total_included')),
-                'descuento': "" #abs(line.discount_line_total) or "",
+                'descuento': abs(line.discount_line_total) or "",
                 'subtotal': abs(line.price_subtotal),
                 'tipo_de_igv': TIPOS_IGV_NUBEFAC_SUNAT.get(tipoafectacionigv_val),
                 'igv': abs(round(montoafectacionigv_val,2)),
