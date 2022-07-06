@@ -12,12 +12,12 @@
        - Comprobantes de Cliente\n
        - Comprobantes de Proveedor
     """,
-    'author': 'Franco Najarro-Cabalcon',
+    'author': 'Franco Najarro / TH (Cabalcon)',
     'website': 'www.cabalcon.com',
-    'depends': ['sale', 'account'],
+    'depends': ['sale', 'account', 'odoope_currency'],
     'data': [
         'views/account_move_view.xml',
-        #'views/account_payment_view.xml',
-        #'views/account_payment_register_view.xml'
+        'views/account_payment_view.xml',
+        'views/account_payment_register_view.xml'
     ],
 }
