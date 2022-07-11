@@ -33,8 +33,7 @@ class AccountMove(models.Model):
 
     def get_information_currency_tc(self):
         for rec in self:
-
-            information_currency_tc = False
+            information_currency_tc = 1.0
             if rec.invoice_date or rec.date and not rec.is_special_tc:
                 
                 if rec.currency_id and rec.currency_id != rec.company_id.currency_id and rec.move_type in ['out_invoice','in_invoice']:
@@ -44,8 +43,6 @@ class AccountMove(models.Model):
                         ('currency_id', '=', rec.currency_id.id)], order="name desc", limit=1)
                     if currency_rate_id:
                         information_currency_tc = currency_rate_id.rate_pe
-                    else:
-                        information_currency_tc = False
 
                 elif rec.currency_id and rec.currency_id != rec.company_id.currency_id and rec.move_type in ['in_refund','out_refund']:
                     currency_rate_id = self.env['res.currency.rate'].search([
@@ -54,8 +51,6 @@ class AccountMove(models.Model):
                         ('currency_id', '=', rec.reversed_entry_id.currency_id.id)], order="name desc", limit=1)
                     if currency_rate_id:
                         information_currency_tc = currency_rate_id.rate_pe
-                    else:
-                        information_currency_tc = False
                 
                 elif rec.currency_id and rec.currency_id != rec.company_id.currency_id:
                     currency_rate_id = self.env['res.currency.rate'].search([
@@ -64,13 +59,10 @@ class AccountMove(models.Model):
                         ('currency_id', '=', rec.currency_id.id)], order="name desc", limit=1)
                     if currency_rate_id:
                         information_currency_tc = currency_rate_id.rate_pe
-                    else:
-                        information_currency_tc = False
             else:
                 information_currency_tc = rec.currency_tc
 
             return information_currency_tc
-
 
     ##########################################################################
     @api.onchange('date','invoice_date','currency_id')
