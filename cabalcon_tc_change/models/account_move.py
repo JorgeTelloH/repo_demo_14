@@ -141,6 +141,13 @@ class AccountMove(models.Model):
                 raise ValidationError(_('El tipo de Cambio no puede ser menor o igual que 0'))
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
+        if not default_values_list:
+            default_values_list = [{} for move in self]
+        for move, default_values in zip(self, default_values_list):
+            default_values.update({
+                'is_special_tc': True,
+                'currency_tc': move.currency_tc,
+            })
         reverse_moves = super()._reverse_moves(default_values_list=default_values_list, cancel=cancel)
         reverse_moves.onchange_currency_tc()
         return reverse_moves
@@ -174,10 +181,10 @@ class AccountMoveLine(models.Model):
 
                 _logger.info('\n\nENTRE : _onchange_amount_currency_2\n\n')
 
-                if line.move_id.move_type == 'in_refund':
+                if line.move_id.move_type in ('in_refund'):
                     date_rate = line.move_id.reversed_entry_id.invoice_date or \
                         line.move_id.reversed_entry_id.date or fields.Date.today()
-                elif line.move_id.move_type == 'in_invoice':
+                elif line.move_id.move_type in ('in_invoice'):
                     date_rate = line.move_id.invoice_date or \
                         line.move_id.date or fields.Date.today()
 
@@ -238,7 +245,9 @@ class AccountMoveLine(models.Model):
                     company=company or self.move_id.company_id,
                     date=date or self.move_id.invoice_date or self.move_id.date,
                 )
-            elif self.move_id.move_type in ['in_refund']:
+            elif self.move_id.move_type in ['in_refund','out_refund']:
+                date =self.move_id.reversed_entry_id.invoice_date or \
+                            self.move_id.reversed_entry_id.date
                 return self._get_fields_onchange_subtotal_model(
                     price_subtotal=price_subtotal or self.price_subtotal,
                     move_type=move_type or self.move_id.move_type,
@@ -249,3 +258,19 @@ class AccountMoveLine(models.Model):
         
         else:
             return ret
+
+    def _get_fields_onchange_subtotal(self, price_subtotal=None, move_type=None, currency=None, company=None,
+                                          date=None):
+        self.ensure_one()
+        #res = super(AccountMoveLine, self)._get_fields_onchange_subtotal(price_subtotal=price_subtotal,move_type=move_type, currency=currency,company=company,date=date)
+        if self.move_id.move_type in ['in_refund', 'out_refund']:
+            date = self.move_id.reversed_entry_id.invoice_date or \
+                            self.move_id.reversed_entry_id.date
+        return self._get_fields_onchange_subtotal_model(
+            price_subtotal=price_subtotal or self.price_subtotal,
+            move_type=move_type or self.move_id.move_type,
+            currency=currency or self.currency_id,
+            company=company or self.move_id.company_id,
+            date=date or self.move_id.date,
+        )
+
