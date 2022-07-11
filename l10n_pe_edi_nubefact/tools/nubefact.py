@@ -279,12 +279,13 @@ def _get_invoice_line_values_odoofact(invoice,data_process):
             line_tax_detail = element.get('tax_details')
             tax = line.tax_ids
             valorUnitario = 0
+            precioUnitario = 0
             if tax.price_include:
                 valorUnitario = line.price_subtotal / line.quantity
                 precioUnitario = valorUnitario
             else:
                 valorUnitario = line.price_unit
-                precioUnitario = line.price_unit + line_tax_detail.get('tax_amount')
+                precioUnitario =line.price_unit + line_tax_detail.get('taxes')[0].get('tax_amount')
 
             tipoafectacionigv_val = tax.l10n_pe_edi_affectation_reason
             codigotributo_val = tax.l10n_pe_edi_tax_code
