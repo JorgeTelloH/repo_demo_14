@@ -255,7 +255,7 @@ class Letras(models.Model):
                 amount = mount_currency*element.exchange
             else:
                 amount = mount_currency
-            return amount
+            return round(amount,2)
 
     def create_credit_line(self):
         list_line_move=[]
@@ -405,6 +405,20 @@ class Letras(models.Model):
                 days = (datetime.strptime(date_due, '%Y-%m-%d').date() - element.date).days
                 if x == element.numero:
                     canje_letra=element.total_invoice-suma_letras
+
+                # invoice_line_vals = []
+                # invoice_vals = self._prepare_invoice(date_due)
+                # #line = self._prepare_invoice_line(price_unit=canje_letra, account_id=self.account_id.id)
+                # invoice_line_vals.append(
+                #     (0, 0, self._prepare_invoice_line(
+                #         price_unit=canje_letra,
+                #         account_id=self.account_id.id
+                #     )),
+                # )
+                # invoice_vals['line_ids'] += invoice_line_vals
+                # moves = self.env['account.move'].sudo().with_context(default_move_type=self.move_type).create(invoice_vals)
+
+
                 obj = {'days':days,
                        #'date': self.date + timedelta(days= x),
                        'date':date_due,
@@ -429,17 +443,22 @@ class Letras(models.Model):
         for canje in self:
             for line in canje.invoice_ids:
                 invoice = line.invoice_id
-                for aml in invoice.payment_move_line_ids:
-                    if aml.move_id.id  == self.move_id.id:
-                        aml.with_context(invoice_id=invoice.id).remove_move_reconcile()
+                for lines_inv in invoice.line_ids:
+
+                    lines = (lines_inv.matched_debit_ids + lines_inv.matched_credit_ids)
+                    lines_inv.remove_move_reconcile()
+                    # for aml in lines_recon:
+                    #     if aml.move_id.id  == self.move_id.id:
+                    #         aml.with_context(invoice_id=invoice.id).remove_move_reconcile()
             for letra in canje.letra_line_ids:
                 letra.write({'state': 'anulled'})
             #canje.write({'move_id': False})
             #letra_ids
 
         if moves:
-            moves.button_cancel()
-            moves.unlink()
+            moves.button_draft()
+            #moves.button_cancel()
+            moves.with_context(force_delete=True).unlink()
 
         return True
 
@@ -450,6 +469,72 @@ class Letras(models.Model):
             elif canje.name:
                 raise UserError(_('No puedes Eliminar una Factura después de haber sido validado (o recibido).'))
         return super(Letras, self).unlink()
+
+    def _prepare_invoice(self, date_due=False):
+        """
+        Prepare the dict of values to create the new invoice for a sales order. This method may be
+        overridden to implement custom invoice generation (making sure to call super() to establish
+        a clean extension chain).
+        """
+        self.ensure_one()
+        journal = self.journal_id
+        if not journal:
+            raise UserError(_('Please define an accounting sales journal for the company %s (%s).') % (self.company_id.name, self.company_id.id))
+
+        invoice_vals = {
+            'ref': '',
+            'move_type': self.move_type,
+            #'narration': self.note,
+            'currency_id': self.currency_id.id,
+            #'campaign_id': self.campaign_id.id,
+            #'medium_id': self.medium_id.id,
+            #'source_id': self.source_id.id,
+            #'invoice_user_id': self.user_id and self.user_id.id,
+            #'team_id': self.team_id.id,
+            'partner_id': self.partner_id.id,
+            #'partner_shipping_id': self.partner_shipping_id.id,
+            #'fiscal_position_id': (self.fiscal_position_id or self.fiscal_position_id.get_fiscal_position(self.partner_invoice_id.id)).id,
+            #'partner_bank_id': self.company_id.partner_id.bank_ids[:1].id,
+            'journal_id': self.journal_id.id,  # company comes from the journal
+            'invoice_origin': self.name,
+            'invoice_date_due': date_due,
+            #'invoice_payment_term_id': self.payment_term_id.id,
+            #'payment_reference': self.reference,
+            #'transaction_ids': [(6, 0, self.transaction_ids.ids)],
+            'line_ids': [],
+            'company_id': self.company_id.id,
+            'canje_id':self.id,
+        }
+        return invoice_vals
+
+
+    def _prepare_invoice_line(self, **optional_values):
+        """
+        Prepare the dict of values to create the new invoice line.
+
+        :param qty: float quantity to invoice
+        :param optional_values: any parameter that should be added to the returned invoice line
+        """
+        self.ensure_one()
+        res = {
+            'display_type': False,
+            'sequence': 0,
+            'name': 'Canje',
+            #'product_id': self.product_id.id,
+            #'product_uom_id': self.product_uom.id,
+            'quantity': 1,
+            'discount': 0,
+            'price_unit': 1,
+            'tax_ids': False,
+            'account_id': self.account_id.id,
+            'exclude_from_invoice_tab':False,
+            #'analytic_account_id': self.order_id.analytic_account_id.id,
+            #'analytic_tag_ids': [(6, 0, self.analytic_tag_ids.ids)],
+            #'sale_line_ids': [(4, self.id)],
+        }
+        if optional_values:
+            res.update(optional_values)
+        return res
 
 
 class LetrasLineas(models.Model):
@@ -512,7 +597,7 @@ class LetrasLineas(models.Model):
     move_line_id = fields.Many2one('account.move.line', string='Apuntes', readonly=True)
     disbursed_move_line_id = fields.Many2one('account.move.line', string='Apunte desembolso', readonly=True)
     residual = fields.Monetary(string='Residual', compute='_compute_residual', store=True, help="Remaining amount due.")
-    reconciled = fields.Boolean(string='Pagado/Conciliado', store=True, readonly=True, compute='_compute_residual')
+    reconciled = fields.Boolean(related="move_line_id.reconciled", string='Pagado/Conciliado', readonly=True)
     acept = fields.Boolean(string='Aceptada', readonly=True, default=False)
     send_bank = fields.Boolean(string='Enviada al Banco', default=False)
     date_send_bank = fields.Date(string='Fecha Enviada al Banco')
@@ -541,6 +626,8 @@ class LetrasLineas(models.Model):
     _sql_constraints = [
         ('name', 'unique(name,company_id)', 'Numero unico por compañia'),
     ]
+
+
 
     @api.onchange('days')
     def _onchange_days(self):
