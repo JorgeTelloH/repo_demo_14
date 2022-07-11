@@ -5,7 +5,7 @@ from odoo import api, fields, models, _
 class AccountPaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
 
-    exchange_rate_value_p = fields.Float(string='Tipo de Cambio', digits='Tipo Cambio')
+    currency_tc = fields.Float(string='Tipo de Cambio', digits='Tipo Cambio')
 
     def _create_payments(self):
         payments = super(AccountPaymentRegister, self)._create_payments()
@@ -24,7 +24,7 @@ class AccountPaymentRegister(models.TransientModel):
                 v_rate_pe = excha.rate_pe if excha else 1
 
         for payment in payments:
-            self.exchange_rate_value_p = v_rate_pe
-            payment.exchange_rate_value = v_rate_pe
+            self.currency_tc = v_rate_pe
+            payment.currency_tc = v_rate_pe
 
         return payments

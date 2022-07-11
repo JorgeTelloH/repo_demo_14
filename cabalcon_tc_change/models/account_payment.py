@@ -5,10 +5,10 @@ from odoo import api, fields, models, _
 class AccountMove(models.Model):
     _inherit = 'account.payment'
 
-    exchange_rate_value= fields.Float(string='Tipo de Cambio', digits='Tipo Cambio')
+    currency_tc= fields.Float(string='Tipo de Cambio', digits='Tipo Cambio')
 
     @api.onchange('date', 'currency_id', 'partner_id')
-    def get_exchange_rate_value(self):
+    def get_currency_tc(self):
         v_rate_pe = 1
         if self.currency_id != self.company_id.currency_id:
             excha = self.env['res.currency.rate'].search([
@@ -22,4 +22,4 @@ class AccountMove(models.Model):
                     ], order='name desc', limit=1)
                 v_rate_pe = excha.rate_pe if excha else 1
 
-        self.exchange_rate_value = v_rate_pe
+        self.currency_tc = v_rate_pe

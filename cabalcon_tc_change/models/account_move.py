@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
-from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons import decimal_precision as dp
 import logging
 #_logger = logging.getLogger(__name__)
 
@@ -10,7 +9,7 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     is_special_tc = fields.Boolean(string='Activar Tipo Cambio', help='Activar el Tipo de Cambio personalizado por el usuario')
-    currency_tc = fields.Float(string='Tipo de Cambio', digits=dp.get_precision('Tipo Cambio'), default=1.0)
+    currency_tc = fields.Float(string='Tipo de Cambio', digits='Tipo Cambio', default=1.0)
     is_invoice_in_me = fields.Boolean(string="Es Documento en Moneda Extranjera",compute="compute_is_invoice_in_me",store=True)
     invoice_date = fields.Date(default=fields.Date.context_today)
 
