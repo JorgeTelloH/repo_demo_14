@@ -3,21 +3,15 @@ from odoo import api, fields, models, SUPERUSER_ID, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
 import logging
-_logger = logging.getLogger(__name__)
+#_logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
     is_special_tc = fields.Boolean(string='Activar Tipo Cambio', help='Activar el Tipo de Cambio personalizado por el usuario')
-
-    currency_tc = fields.Float(string='Tipo de Cambio', digits=dp.get_precision('Tipo Cambio'))
-
-    #####################################
-    #information_currency_tc = fields.Float(string='Tipo de Cambio', digits=dp.get_precision('Tipo Cambio'),compute='compute_information_currency_tc')
+    currency_tc = fields.Float(string='Tipo de Cambio', digits=dp.get_precision('Tipo Cambio'), default=1.0)
     is_invoice_in_me = fields.Boolean(string="Es Documento en Moneda Extranjera",compute="compute_is_invoice_in_me",store=True)
-    ##########################################################################
-
     invoice_date = fields.Date(default=fields.Date.context_today)
 
 
@@ -31,12 +25,11 @@ class AccountMove(models.Model):
                 rec.is_invoice_in_me = False
 
     ##########################################################################
-    @api.constrains('date','invoice_date')
-    def _check_reconcile(self):
-        for rec in self:
-            if rec.date and rec.invoice_date and rec.date<rec.invoice_date:
-                raise ValidationError(_("La fecha de Emisión no puede ser mayor a la fecha contable !!"))
-
+    #@api.constrains('date','invoice_date')
+    #def _check_reconcile(self):
+    #    for rec in self:
+    #        if rec.date and rec.invoice_date and rec.date<rec.invoice_date:
+    #            raise ValidationError(_("La fecha de Emisión no puede ser mayor a la fecha contable!"))
     ###############################################################################
 
     def get_information_currency_tc(self):
@@ -51,7 +44,7 @@ class AccountMove(models.Model):
                         ('company_id', '=', rec.company_id.id),
                         ('currency_id', '=', rec.currency_id.id)], order="name desc", limit=1)
                     if currency_rate_id:
-                        information_currency_tc = 1.00/currency_rate_id.rate
+                        information_currency_tc = currency_rate_id.rate_pe
                     else:
                         information_currency_tc = False
 
@@ -61,7 +54,7 @@ class AccountMove(models.Model):
                         ('company_id', '=', rec.company_id.id),
                         ('currency_id', '=', rec.reversed_entry_id.currency_id.id)], order="name desc", limit=1)
                     if currency_rate_id:
-                        information_currency_tc = 1.00/currency_rate_id.rate
+                        information_currency_tc = currency_rate_id.rate_pe
                     else:
                         information_currency_tc = False
                 
@@ -70,12 +63,10 @@ class AccountMove(models.Model):
                         ('name', '<=', rec.date),
                         ('company_id', '=', rec.company_id.id),
                         ('currency_id', '=', rec.currency_id.id)], order="name desc", limit=1)
-                    
                     if currency_rate_id:
-                        information_currency_tc = 1.00/currency_rate_id.rate
+                        information_currency_tc = currency_rate_id.rate_pe
                     else:
                         information_currency_tc = False
-
             else:
                 information_currency_tc = rec.currency_tc
 
@@ -89,17 +80,14 @@ class AccountMove(models.Model):
             if not rec.is_special_tc:
                 super(AccountMove,self)._onchange_currency()
 
-        _logger.info('\n\nENTRE : _onchange_currency\n\n')
+        #_logger.info('\n\nENTRE : _onchange_currency\n\n')
         for rec in self:
             if rec.move_type in ['in_invoice','in_refund'] and rec.currency_id != rec.company_id.currency_id and not rec.is_special_tc:
-
                 if not rec.currency_id:
                     return
                 if rec.is_invoice(include_receipts=True):
-
                     company_currency = rec.company_id.currency_id
                     has_foreign_currency = rec.currency_id and rec.currency_id != company_currency
-
                     for line in rec._get_lines_onchange_currency():
                         new_currency = has_foreign_currency and rec.currency_id
                         line.currency_id = new_currency
@@ -114,8 +102,7 @@ class AccountMove(models.Model):
     def onchange_is_special_tc(self):        
         for rec in self:
             if not rec.is_special_tc:
-                _logger.info('\n\nENTRE : _onchange_is_special_tc\n\n')
-                #rec.currency_tc = (1/rec.currency_id.rate)
+                #_logger.info('\n\nENTRE : _onchange_is_special_tc\n\n')
                 rec.currency_tc = self.get_information_currency_tc()
                 for line in rec.line_ids:
                     line._onchange_amount_currency()
@@ -124,14 +111,14 @@ class AccountMove(models.Model):
     def onchange_currency_tc(self):
         for rec in self:
             for line in rec.line_ids:
-                _logger.info('\n\nENTRE : onchange_currency_tc\n\n')
+                #_logger.info('\n\nENTRE : onchange_currency_tc\n\n')
                 line._onchange_amount_currency()
 
     @api.onchange('currency_id')
     def onchange_currency_id(self):
         for rec in self:
             for line in rec.line_ids:
-                _logger.info('\n\nENTRE : onchange_currency_id\n\n')
+                #_logger.info('\n\nENTRE : onchange_currency_id\n\n')
                 line._onchange_amount_currency()
 
     @api.constrains('is_special_tc')
@@ -156,7 +143,7 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    exchange_rate_value= fields.Float(related='move_id.currency_tc', string='Tipo de Cambio', digits=dp.get_precision('Tipo Cambio'))
+    currency_tc= fields.Float(related='move_id.currency_tc', string='Tipo de Cambio', digits='Tipo Cambio')
 
     @api.onchange('amount_currency')
     def _onchange_amount_currency(self):
@@ -169,8 +156,7 @@ class AccountMoveLine(models.Model):
             if line.move_id.is_special_tc and line.move_id.currency_tc > 0 and\
                 line.currency_id and company_currency and line.currency_id != company_currency:
 
-                _logger.info('\n\nENTRE : _onchange_amount_currency_1\n\n')
-
+                #_logger.info('\n\nENTRE : _onchange_amount_currency_1\n\n')
                 balance = line.currency_id.with_context(default_pen_rate=self.move_id.currency_tc)._convert(
                     line.amount_currency, company.currency_id, company,
                     line.move_id.date or fields.Date.context_today(line))
@@ -179,8 +165,7 @@ class AccountMoveLine(models.Model):
 
                 date_rate = line.move_id.invoice_date or line.move_id.date or fields.Date.today()
 
-                _logger.info('\n\nENTRE : _onchange_amount_currency_2\n\n')
-
+                #_logger.info('\n\nENTRE : _onchange_amount_currency_2\n\n')
                 if line.move_id.move_type in ('in_refund'):
                     date_rate = line.move_id.reversed_entry_id.invoice_date or \
                         line.move_id.reversed_entry_id.date or fields.Date.today()
@@ -202,18 +187,16 @@ class AccountMoveLine(models.Model):
      ### SE TOMA EL TC A FECHA EMISION COMPROBANTE
     def _recompute_debit_credit_from_amount_currency(self):
         super(AccountMoveLine,self)._recompute_debit_credit_from_amount_currency()
-        _logger.info('\n\nENTRE RECOMPUTE AHORA\n\n')
+        #_logger.info('\n\nENTRE RECOMPUTE AHORA\n\n')
         for line in self:
             if line.move_id.move_type in ['in_invoice','in_refund'] and not line.move_id.is_special_tc:
             # Recompute the debit/credit based on amount_currency/currency_id and date.
                 company_currency = line.account_id.company_id.currency_id
                 balance = line.amount_currency
                 if line.currency_id and company_currency and line.currency_id != company_currency and not line.move_id.is_special_tc:
-                    _logger.info('\n\nENTRE IF RECOMPUTE\n\n')
-
+                    #_logger.info('\n\nENTRE IF RECOMPUTE\n\n')
                     #### Calculo de Date de Rate
                     date_rate = ''
-
                     if line.move_id.move_type == 'in_refund':
                         date_rate = line.move_id.reversed_entry_id.invoice_date or \
                             line.move_id.reversed_entry_id.date or fields.Date.today()
@@ -223,7 +206,6 @@ class AccountMoveLine(models.Model):
 
                     #balance = line.currency_id._convert(balance, company_currency, line.account_id.company_id,
                     #    line.move_id.invoice_date or line.move_id.date or fields.Date.today())
-
                     balance = line.currency_id._convert(balance, company_currency, 
                         line.account_id.company_id, date_rate)
 
@@ -235,9 +217,9 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         ret=super(AccountMoveLine,self)._get_fields_onchange_subtotal()
         if self.move_id.move_type in ['in_invoice','in_refund'] and self.currency_id != self.company_id.currency_id and not self.move_id.is_special_tc:
-            _logger.info('\n\nGET FIELDS ONCHANGE SUBTOTAL\n\n')
+            #_logger.info('\n\nGET FIELDS ONCHANGE SUBTOTAL\n\n')
             if self.move_id.move_type in ['in_invoice']:
-                _logger.info('\n\nGET FIELDS ONCHANGE SUBTOTAL RETURN\n\n')
+                #_logger.info('\n\nGET FIELDS ONCHANGE SUBTOTAL RETURN\n\n')
                 return self._get_fields_onchange_subtotal_model(
                     price_subtotal=price_subtotal or self.price_subtotal,
                     move_type=move_type or self.move_id.move_type,
@@ -259,8 +241,7 @@ class AccountMoveLine(models.Model):
         else:
             return ret
 
-    def _get_fields_onchange_subtotal(self, price_subtotal=None, move_type=None, currency=None, company=None,
-                                          date=None):
+    def _get_fields_onchange_subtotal(self, price_subtotal=None, move_type=None, currency=None, company=None, date=None):
         self.ensure_one()
         #res = super(AccountMoveLine, self)._get_fields_onchange_subtotal(price_subtotal=price_subtotal,move_type=move_type, currency=currency,company=company,date=date)
         if self.move_id.move_type in ['in_refund', 'out_refund']:
@@ -273,4 +254,3 @@ class AccountMoveLine(models.Model):
             company=company or self.move_id.company_id,
             date=date or self.move_id.date,
         )
-
