@@ -10,7 +10,6 @@
                      <attribute name="invisible">1</attribute>
                 </field>
                 <field name="job_id" position="attributes">
-                     <!--<attribute name="class">d-flex</attribute>-->
                      <attribute name="widget">selection</attribute>
                 </field>
                 <field name="category_ids" position="attributes">
@@ -19,12 +18,14 @@
                 <xpath expr="//div[hasclass('oe_title')]" position="inside">
                     <xpath expr="//field[@name='job_id']" position="move"/>
                 </xpath>
-
                 <xpath expr="//h1//field[@name='name']/.." position="after">
                     <group>
                         <field name="code"/>
                     </group>
                 </xpath>
+                <xpath expr="//field[@name='mobile_phone']" position="before">
+                    <xpath expr="//field[@name='company_id']" position="move"/>
+                </xpath> 
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
