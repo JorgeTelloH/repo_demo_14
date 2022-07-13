@@ -14,7 +14,6 @@
                      <attribute name="widget">selection</attribute>
                 </field>
                 <xpath expr="//field[@name='job_title']" position="before">
-                    <field name="code" />
                     <xpath expr="//field[@name='job_id']" position="move"/>
                 </xpath>
                 <xpath expr="//h1//field[@name='name']/.." position="after">
@@ -22,7 +21,6 @@
                         <field name="code"/>
                     </group>
                 </xpath>
-
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
