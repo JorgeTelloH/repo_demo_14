@@ -31,7 +31,7 @@
                     <group name="info_job" string="Puesto">
                         <field name="job_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
-                        <xpath expr="//field[@name='parent_id']" position="move"/>
+                        <field name="parent_id" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                 </xpath>
 
