@@ -26,13 +26,16 @@
                 <xpath expr="//field[@name='mobile_phone']" position="before">
                     <xpath expr="//field[@name='company_id']" position="move"/>
                 </xpath>
+                <!--Quitamos campos-->
                 <xpath expr="//sheet/group/group/field[@name='parent_id']" position="replace"/>
+                <xpath expr="//sheet/group/group/field[@name='coach_id']" position="replace"/>
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
                     <group name="info_job" string="Puesto">
                         <field name="job_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="parent_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="coach_id" string="Supervisor" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                 </xpath>
 
