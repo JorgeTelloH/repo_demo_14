@@ -30,6 +30,8 @@
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
                     <group name="info_job" string="Puesto">
                         <field name="job_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
+                        <xpath expr="//field[@name='parent_id']" position="move"/>
                     </group>
                 </xpath>
 
