@@ -27,7 +27,7 @@
                     <xpath expr="//field[@name='company_id']" position="move"/>
                 </xpath>
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
-                <xpath expr="//page[@name='public']//group[@name='Location']" position="before">
+                <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
                     <group name="info_job" string="Puesto">
                         <field name="job_id" options="{'no_create': True, 'no_open': True}"/>
                     </group>
