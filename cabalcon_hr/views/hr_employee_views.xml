@@ -9,16 +9,21 @@
                 <field name="job_title" position="attributes">
                      <attribute name="invisible">1</attribute>
                 </field>
-                <field name="job_id" position="attributes">
+                <!--<field name="job_id" position="attributes">
                      <attribute name="class">d-flex</attribute>
                      <attribute name="widget">selection</attribute>
-                </field>
+                </field>-->
+                <xpath expr="//label[@for='job_id']" position="replace">
+                </xpath>
                 <xpath expr="//field[@name='job_title']" position="before">
                     <label for="code" class="oe_edit_only" />
                     <h3>
                         <field name="code" />
                     </h3>
-                    <xpath expr="//field[@name='job_id']" position="move"/>
+                    <label for="job_id" class="oe_edit_only"/>
+                    <h3>
+                        <field name="job_id" />
+                    </h3>
                 </xpath>
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
