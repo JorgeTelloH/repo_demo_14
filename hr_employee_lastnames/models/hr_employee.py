@@ -1,10 +1,6 @@
-import logging
-
+# -*- encoding: utf-8 -*-
 from odoo import api, models
-
 from odoo.addons.hr_employee_firstname.models.hr_employee import UPDATE_PARTNER_FIELDS
-
-_logger = logging.getLogger(__name__)
 
 UPDATE_PARTNER_FIELDS += ["lastname2"]
 
@@ -112,11 +108,9 @@ class HrEmployee(models.Model):
         return result
 
     def _split_part(self, name_part, name_split):
-        """Split a given part of a name.
-
+        """Dividir el Nombre en una parte determinada.
         :param name_split: The parts of the name
         :type dict
-
         :param name_part: The part to split
         :type str
         """
@@ -140,17 +134,16 @@ class HrEmployee(models.Model):
 
     @api.model
     def _install_employee_lastnames(self):
-        """Save names correctly in the database.
-        Before installing the module, field ``name`` contains all full names.
-        When installing it, this method parses those names and saves them
-        correctly into the database. This can be called later too if needed.
+        """Guardar nombres correctamente en la base de datos.
+        Antes de instalar el módulo, el campo "nombre" contiene todos los nombres completos.
+        Al instalarlo, este método analiza esos nombres y los guarda
+        correctamente en la base de datos. Esto también se puede llamar más tarde si es necesario.
         """
         # Find records with empty firstname and lastnames
         records = self.search([("firstname", "=", False), ("lastname", "=", False)])
 
         # Force calculations there
         records._inverse_name()
-        _logger.info("%d employees updated installing module.", len(records))
 
     @api.onchange("firstname", "lastname", "lastname2")
     def _onchange_firstname_lastname(self):

@@ -1,24 +1,24 @@
+# -*- encoding: utf-8 -*-
 from odoo import SUPERUSER_ID
 from odoo.api import Environment
 
 
 def post_init_hook(cr, _):
-    # This SQL statement is necessary to call _install_employee_lastnames() and
-    # set name fields correctly.
+    # Esta instrucción SQL es necesaria para llamar a _install_employee_lastnames()
+    # con ello establecer campos de nombre correctamente.
     #
-    # After the installation, previously the dependency hr_employee_firstname
-    # splitting the name into two parts: firstname and lastname, so for this
-    # module to be able to process the new field lastmane2 it is necessary to
-    # reset the values to empty to be able to correctly set the three fields
-    # (firstname, lastname and lastname2).
-    #
-    # For example:
-    #  After install hr_employee_fisrtname and before install hr_employee_lastnames:
+	# Después de la instalación, previamente instalada la dependencia hr_employee_firstname
+    # el cual divide el nombre en dos partes: Nombres y Apellidos, así que para este
+    # módulo para poder procesar el nuevo campo lastmane2 es necesario
+    # restablecer los valores a vacío para poder configurar correctamente los tres campos
+    # (Nombres, Apellido paterno y Apellido materno).
+    # Por ejemplo:
+    #  Después de instalar hr_employee_fisrtname y antes de instalar hr_employee_lastnames:
     #     name = 'John Peterson Clinton'
     #     firstname = 'John'
     #     lastname = 'Peterson Clinton'
     #
-    #  After install hr_employee_lastnames:
+    #  Después de instalar hr_employee_lastnames:
     #     name = 'John Peterson Clinton'
     #     firstname = 'John'
     #     lastname = 'Peterson'
