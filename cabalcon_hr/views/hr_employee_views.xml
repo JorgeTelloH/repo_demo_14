@@ -14,6 +14,10 @@
                      <attribute name="widget">selection</attribute>
                 </field>
                 <xpath expr="//field[@name='job_title']" position="before">
+                    <label for="code" class="oe_edit_only" />
+                    <h3>
+                        <field name="code" />
+                    </h3>
                     <xpath expr="//field[@name='job_id']" position="move"/>
                 </xpath>
                 <field name="birthday" position="attributes">
@@ -28,13 +32,6 @@
                 <field name="identification_id" position="before">
                     <field name="document_type" options="{'no_create': True, 'no_open': True}"/>
                 </field>
-
-                <xpath expr="//div[hasclass('oe_title')]" position="inside">
-                    <label for="code" class="oe_edit_only" />
-                    <h3>
-                        <field name="code" />
-                    </h3>
-                </xpath>
 
                 <field name="department_id" position="before">
                     <field name="contract_type_id" options="{'no_create': True, 'no_open': True}"/>
