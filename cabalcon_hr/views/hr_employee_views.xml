@@ -29,9 +29,13 @@
                     <field name="document_type" options="{'no_create': True, 'no_open': True}"/>
                 </field>
 
-                <field name="name" position="before">
-                    <field name="code"/>
-                </field>
+                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                    <label for="code" class="oe_edit_only" />
+                    <h3>
+                        <field name="code" />
+                    </h3>
+                </xpath>
+
                 <field name="department_id" position="before">
                     <field name="contract_type_id" options="{'no_create': True, 'no_open': True}"/>
                     <field name="is_not_dependent" invisible="1"/>
