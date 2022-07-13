@@ -1,13 +1,6 @@
-# Copyright 2010-2014 Savoir-faire Linux (<http://www.savoirfairelinux.com>)
-# Copyright 2016-2019 Onestein (<https://www.onestein.eu>)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
-import logging
-
+# -*- encoding: utf-8 -*-
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
-
-_logger = logging.getLogger(__name__)
 
 UPDATE_PARTNER_FIELDS = ["firstname", "lastname", "user_id", "address_home_id"]
 
@@ -21,9 +14,8 @@ class HrEmployee(models.Model):
 
     @api.model
     def _get_names_order(self):
-        """Get names order configuration from system parameters.
-        You can override this method to read configuration from language,
-        country, company or other"""
+        """Obtener la configuración del orden de los nombres a partir de los parámetros del sistema.
+        Puede anular este método para leer la configuración del idioma, país, empresa u otro"""
         return (
             self.env["ir.config_parameter"]
             .sudo()
@@ -150,18 +142,15 @@ class HrEmployee(models.Model):
 
     @api.model
     def _install_employee_firstname(self):
-        """Save names correctly in the database.
-
-        Before installing the module, field ``name`` contains all full names.
-        When installing it, this method parses those names and saves them
-        correctly into the database. This can be called later too if needed.
+        """Guardar nombres correctamente en la base de datos.
+        Antes de instalar el módulo, el campo "nombre" contiene todos los nombres completos.
+        Al instalarlo, este método analiza esos nombres y los guarda correctamente en la base de datos.
+        Esto también se puede llamar más tarde si es necesario.
         """
         # Find records with empty firstname and lastname
         records = self.search([("firstname", "=", False), ("lastname", "=", False)])
-
         # Force calculations there
         records._inverse_name()
-        _logger.info("%d employees updated installing module.", len(records))
 
     def _update_partner_firstname(self):
         for employee in self:

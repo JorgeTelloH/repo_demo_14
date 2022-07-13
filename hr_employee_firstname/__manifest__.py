@@ -1,20 +1,21 @@
-# Copyright 2010-2014 Savoir-faire Linux (<http://www.savoirfairelinux.com>)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
+# -*- encoding: utf-8 -*-
 {
-    "name": "HR Employee First Name, Last Name",
-    "version": "14.0.3.0.0",
-    "author": "Savoir-faire Linux, "
-    "Fekete Mihai (Forest and Biomass Services Romania), "
-    "Onestein, "
-    "Odoo Community Association (OCA)",
-    "maintainer": "Savoir-faire Linux",
+    "name": "HR Nombres y Apellidos del Empleado",
+    "summary": "Agrega Nombre al Empleado",
+    "description": """
+       Agrega Nombre al Empleado
+    """,
+    "version": "1.1",
+    "author": "Savoir-faire Linux, Fekete Mihai (Forest and Biomass Services Romania), "
+    "Onestein, Odoo Community Association (OCA), TH",
     "website": "https://github.com/OCA/hr",
     "license": "AGPL-3",
     "category": "Human Resources",
-    "summary": "Adds First Name to Employee",
     "depends": ["hr"],
-    "data": ["views/hr_view.xml", "views/base_config_view.xml"],
+    "data": [
+       "views/hr_view.xml", 
+       "views/base_config_view.xml"
+       ],
     "post_init_hook": "post_init_hook",
     "installable": True,
 }

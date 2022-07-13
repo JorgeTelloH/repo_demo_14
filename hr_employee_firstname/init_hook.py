@@ -1,6 +1,4 @@
-# Copyright 2016-2019 Onestein (<http://www.onestein.eu>)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
+# -*- encoding: utf-8 -*-
 from odoo import SUPERUSER_ID
 from odoo.api import Environment
 
