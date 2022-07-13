@@ -32,6 +32,7 @@
                 <xpath expr="//sheet/group/group/field[@name='mobile_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_email']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/field[@name='resource_calendar_id']" position="replace"/>
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
                     <group name="info_job" string="Puesto">
