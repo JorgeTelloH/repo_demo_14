@@ -32,7 +32,7 @@
                 <xpath expr="//sheet/group/group/field[@name='mobile_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_email']" position="replace"/>
-                <xpath expr="//sheet/notebook/page/div/div/group/field[@name='resource_calendar_id']" position="replace"/>
+
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
                     <group name="info_job" string="Puesto">
@@ -40,6 +40,7 @@
                         <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="parent_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="coach_id" string="Supervisor" options="{'no_create': True, 'no_open': True}"/>
+                        <xpath expr="//field[@name='resource_calendar_id']" position="move"/>
                         <field name="mobile_phone" string="Celular Corporativo" widget="phone"/>
                         <field name="work_email" string="Email Corporativo" widget="email"/>
                     </group>
