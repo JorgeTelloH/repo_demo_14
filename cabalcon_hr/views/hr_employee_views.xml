@@ -29,8 +29,8 @@
                     <field name="document_type" options="{'no_create': True, 'no_open': True}"/>
                 </field>
 
-                <field name="job_id" position="before">
-                    <field name="code" options="{'no_create': True, 'no_open': True}"/>
+                <field name="name" position="before">
+                    <field name="code"/>
                 </field>
                 <field name="department_id" position="before">
                     <field name="contract_type_id" options="{'no_create': True, 'no_open': True}"/>
