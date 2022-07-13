@@ -13,8 +13,6 @@
                      <attribute name="class">d-flex</attribute>
                      <attribute name="widget">selection</attribute>
                 </field>
-                <xpath name="job_id" position="replace">
-                </xpath>
                 <xpath expr="//field[@name='job_title']" position="before">
                     <field name="code" />
                     <xpath expr="//field[@name='job_id']" position="move"/>
