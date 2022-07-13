@@ -15,15 +15,16 @@
                 <field name="category_ids" position="attributes">
                      <attribute name="invisible">1</attribute>
                 </field>
-                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <!--<xpath expr="//div[hasclass('oe_title')]" position="inside">
                     <xpath expr="//field[@name='job_id']" position="move"/>
-                </xpath>
+                </xpath>-->
                 <xpath expr="//h1//field[@name='name']/.." position="after">
                     <group>
                         <field name="code"/>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='mobile_phone']" position="before">
+                    <xpath expr="//field[@name='job_id']" position="move"/>
                     <xpath expr="//field[@name='company_id']" position="move"/>
                 </xpath>
                 <!--Quitamos campos-->
