@@ -6,9 +6,11 @@
         <field name="model">res.company</field>
         <field name="arch" type="xml">
             <field name="company_registry" position="after">
+                <field name="sector"/>
                 <field name="company_type"/>
                 <field name="rubro"/>
-                <field name="general_manager"/>
+                <field name="general_manager_id"/>
+                <field name="sigla"/>
             </field>
             <notebook position="inside">
                 <page string="Configuraciones">
@@ -50,6 +52,12 @@
                             <field name="insurance_premium_cap"/>
                             <separator/>
                             <field name="eps_credit_amount"/>
+                            <separator/>
+                            <field name="ofic_norm_prev"/>
+                        </group>
+                        <group string="Adelantos">
+                            <field name="account_type"/>
+                            <field name="account"/>
                         </group>
                     </group>
                 </page>

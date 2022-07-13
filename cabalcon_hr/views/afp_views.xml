@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="afp_form_view" model="ir.ui.view">
             <field name="name">cabalcon_hr.afp.form</field>
             <field name="model">res.afp</field>
@@ -22,7 +21,9 @@
                             <field name="seat"/>
                             <field name="commission_flow"/>
                             <field name="commission_mixed"/>
+                            <field name="commission_mixed_year"/>
                             <field name="insurance"/>
+                            <field name="rma"/>
                         </group>
                     </sheet>
                 </form>
@@ -39,7 +40,9 @@
                     <field name="seat"/>
                     <field name="commission_flow"/>
                     <field name="commission_mixed"/>
+                    <field name="commission_mixed_year"/>
                     <field name="insurance"/>
+                    <field name="rma"/>
                 </tree>
             </field>
         </record>

@@ -1,9 +1,10 @@
+# -*- encoding: utf-8 -*-
 from odoo import fields, models, api
 
 
 class EducacionalSituation(models.Model):
     _name = 'hr.educational.situation'
-    _description = 'Situación educacional'
+    _description = 'Situación Educacional'
     _sql_constraints = [
         ('code', 'unique (code)', 'El código de la situación educacional debe ser único!')
     ]
@@ -12,4 +13,4 @@ class EducacionalSituation(models.Model):
     name = fields.Char(string='Nombre', required=True)
     desc = fields.Char(string='Descripción', required=True)
 
-    active = fields.Boolean(string='Active',  default=True)
+    active = fields.Boolean(string='Activo',  default=True)

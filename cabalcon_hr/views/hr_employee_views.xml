@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record model="ir.ui.view" id="hr_employee_inherit_form_view">
             <field name="name">hr.employee.form.view.inherit</field>
             <field name="model">hr.employee</field>
@@ -11,8 +10,10 @@
                      <attribute name="invisible">1</attribute>
                 </field>
                 <field name="job_id" position="attributes">
-                     <attribute name="placeholder">Puesto de trabajo</attribute>
+                     <!--<attribute name="placeholder">Puesto de trabajo</attribute>-->
                      <attribute name="class">d-flex</attribute>
+                     <!--<attribute name="options">{'no_create_edit': True, 'no_create':True}</attribute>-->
+                     <attribute name="widget">selection</attribute>
                 </field>
                 <xpath expr="//field[@name='job_title']" position="before">
                     <xpath expr="//field[@name='job_id']" position="move"/>
@@ -23,9 +24,12 @@
                 <field name="gender" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <!--<xpath expr="//field[@name='work_location']" position="after">-->
-                     <!--<field name="type_employee"/>-->
-                <!--</xpath>-->
+                <field name="identification_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="identification_id" position="before">
+                    <field name="document_type" options="{'no_create': True, 'no_open': True}"/>
+                </field>
                 <div name="button_box" position="after">
                     <div class="oe_title">
                         <label for="code" class="oe_edit_only"/>
@@ -34,12 +38,10 @@
                         </h2>
                     </div>
                 </div>
-
                 <field name="department_id" position="before">
-                    <field name="contract_type_id" options="{'no_create': True, 'no_open': True}" />
+                    <field name="contract_type_id" options="{'no_create': True, 'no_open': True}"/>
                     <field name="is_not_dependent" invisible="1"/>
                 </field>
-
                 <field name="user_id" position="attributes">
                      <attribute name="attrs">{'invisible':[('is_not_dependent','=', True)]}</attribute>
                 </field>
@@ -52,21 +54,31 @@
                 </xpath>
 
                 <xpath expr="//page[@name='hr_settings']//group[@name='identification_group']" position="after">
-                    <group string="Datos para plantilla AFP Net" attrs="{'invisible':[('is_not_dependent','=', True)]}">
-                        <field name="afp_id" options="{'no_create': True}"/>
+                    <group string="Régimen de pensión" attrs="{'invisible':[('is_not_dependent','=', True)]}">
+                        <field name="regimen_pensions"/>
+                        <field name="afp_id" options="{'no_create': True}" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
                         <field name="afp_code" invisible="1"/>
-                        <field name="commission_type" attrs="{'invisible':[('afp_code','=', 'ONP')]}"/>
-                        <field name="CUSPP" />
-                        <field name="type_work" />
+                        <field name="commission_type" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <field name="CUSPP" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <field name="type_work" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <field name="document_type" />
                     </group>
                 </xpath>
                 <xpath expr="//page[@name='personal_information']/group" position="inside">
                     <group string="Cuenta CTS" attrs="{'invisible':[('is_not_dependent','=', True)]}">
-                        <field name="cts_account"/>
+                        <field name="cts_account" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="bank_id" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                 </xpath>
+                <field name="bank_account_id" position="after">
+                    <field name="account_type"/>
+                    <field name="cci" help="Código de Cuenta Interbancaria"/>
+                </field>
                 <field name="departure_description" position="after">
                     <field name="opinion"/>
+                </field>
+                <field name="children" position="after">
+                    <field name="minor_children"/>
                 </field>
             </field>
         </record>
@@ -105,6 +117,16 @@
                 </field>
             </field>
         </record>
+
+        <!--<record id="view_employee_form_driver_cabalcon" model="ir.ui.view">
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_employee_driver.view_employee_form_driver"/>
+            <field name="arch" type="xml">
+                <field name="type_employee" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>-->
 
     </data>
 </odoo>

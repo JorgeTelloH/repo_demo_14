@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="hr_occupational_category_form_view" model="ir.ui.view">
             <field name="name">cabalcon_hr.hr_occupational_category.form</field>
             <field name="model">hr.occupational.category</field>
@@ -26,7 +25,6 @@
                 </form>
             </field>
         </record>
-
         <record id="hr_occupational_category_tree_view" model="ir.ui.view">
             <field name="name">cabalcon_hr.hr_occupational_category.tree</field>
             <field name="model">hr.occupational.category</field>
@@ -40,7 +38,6 @@
                 </tree>
             </field>
         </record>
-
         <record id="hr_occupational_category_search_view" model="ir.ui.view">
             <field name="name">cabalcon_hr.hr_occupational_category.search</field>
             <field name="model">hr.occupational.category</field>
@@ -51,14 +48,12 @@
                 </search>
             </field>
         </record>
-
         <record id="hr_occupational_category_act_window" model="ir.actions.act_window">
             <field name="name">Categorías ocupacional</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.occupational.category</field>
             <field name="view_mode">tree,form</field>
         </record>
-
        <menuitem
                 id="menu_occupational_category_tree"
                 action="hr_occupational_category_act_window"

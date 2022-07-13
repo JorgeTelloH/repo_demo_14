@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_employee_form_driver" model="ir.ui.view">
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Datos Conductor">
+                    <group>
+                    	<group string="Activación">
+                        	<field name="driver"/>
+                            <field name="partner_id" options="{'no_create_edit': True}" attrs="{'invisible':[('driver','=',False)]}"/>
+                    	</group>
+                    	<group string="Licencia de conducir">
+                            <field name="driver_license" attrs="{'invisible':[('driver','=',False)]}"/>
+                        	<field name="license_type" attrs="{'invisible': [('driver','=',False)]}"/>
+                        	<field name="license_expiration" attrs="{'invisible': [('driver','=',False)]}"/>
+                        	<field name="days_to_expire" attrs="{'invisible': [('driver','=',False)]}"/>
+                    	</group>
+                	</group>
+                </page>
+            </notebook>
+            <!-- <xpath expr="//field[@name='work_location']" position="after">
+                <field name="type_employee"/>
+            </xpath> -->
+        </field> 
+    </record>
+    <record id="view_employee_tree_driver" model="ir.ui.view">
+        <field name="name">hr.employee.tree.driver</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="driver"/>
+                <field name="partner_id"/>
+                <field name="license_type"/>
+                <field name="driver_license"/>
+                <field name="create_uid"/>
+                <field name="create_date"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_employee_filter_driver" model="ir.ui.view">
+        <field name="name">hr.employee.filter.driver</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <field name="job_id" position="after">
+                <field name="partner_id"/>
+                <field name="license_type"/>
+                <field name="driver_license"/>
+            </field>
+            <filter name="inactive" position="after">
+                <separator/>
+                <filter string="Es conductor" name="driver" domain="[('driver','=',True)]"/>
+                <filter string="No es conductor" name="driver" domain="[('driver','!=',True)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="driver_open_view_employee_list" model="ir.actions.act_window">
+        <field name="name">Conductores</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="domain">[('driver','=',True)]</field>
+        <field name="search_view_id" ref="hr.view_employee_filter"/>
+        <field name="context">{}
+        </field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Clic para agregar Nuevo Conductor.
+            </p><p>
+                Con solo un vistazo rápido a la pantalla de Empleados en Odoo,
+                puede encontrar fácilmente toda la información que necesita para cada persona;
+                datos de contacto, puesto de trabajo, disponibilidad, etc.
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="driver_open_view_employee_list" 
+        parent="hr.menu_hr_root" 
+        id="menu_driver_open_view_employee_list" 
+        sequence="3" 
+        groups="hr.group_hr_user"/>
+</odoo>

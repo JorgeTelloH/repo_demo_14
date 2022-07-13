@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from odoo import fields, models, api
 
 
@@ -11,7 +12,9 @@ class Afp(models.Model):
     code = fields.Char(string='Código', required=True)
     name = fields.Char(string='Nombre', required=True)
     seat = fields.Float(string='Fondo')
-    commission_flow = fields.Float(string='Comisión flujo')
-    commission_mixed = fields.Float(string='Comisión mixta')
+    commission_flow = fields.Float(string='Comisión Flujo')
+    commission_mixed = fields.Float(string='Comisión Mixta')
+    commission_mixed_year = fields.Float(string='Comisión Mixta Anual')
     insurance = fields.Float(string='Seguro')
+    rma = fields.Float(string='Remuneración maxima asegurable')
 
