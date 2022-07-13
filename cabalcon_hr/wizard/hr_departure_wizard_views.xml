@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="hr_departure_wizard_view_form_cabalcon" model="ir.ui.view">
             <field name="name">hr.departure.wizard.view.form.cabalcon</field>
             <field name="model">hr.departure.wizard</field>
@@ -12,6 +11,5 @@
                 </field>
             </field>
         </record>
-
     </data>
 </odoo>

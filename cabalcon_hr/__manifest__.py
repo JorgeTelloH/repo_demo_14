@@ -10,7 +10,12 @@
     'author': "Cabalcon",
     'website': "www.cabalcon.com",
     'sequence': 180,
-    'depends': ['hr', 'hr_employee_lastnames', 'report_xlsx', 'product', 'l10n_pe', 'hr_employee_driver'],
+    'depends': ['hr', 
+        'hr_employee_lastnames',
+        'report_xlsx', 
+        'product', 
+        'l10n_pe', 
+        'hr_employee_driver'],
     "data": [
         'security/ir.model.access.csv',
         'data/afp_data.xml',
