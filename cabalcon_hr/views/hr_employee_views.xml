@@ -13,7 +13,7 @@
                      <attribute name="class">d-flex</attribute>
                      <attribute name="widget">selection</attribute>
                 </field>-->
-                <xpath expr="//label[@for='job_id']" position="replace">
+                <xpath name="job_id" position="replace">
                 </xpath>
                 <xpath expr="//field[@name='job_title']" position="before">
                     <label for="code" class="oe_edit_only" />
