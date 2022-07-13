@@ -10,7 +10,7 @@
                      <attribute name="invisible">1</attribute>
                 </field>
                 <field name="job_id" position="attributes">
-                     <attribute name="class">d-flex</attribute>
+                     <!--<attribute name="class">d-flex</attribute>-->
                      <attribute name="widget">selection</attribute>
                 </field>
                 <xpath expr="//field[@name='job_title']" position="before">
