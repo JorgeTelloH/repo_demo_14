@@ -13,7 +13,10 @@
                      <!--<attribute name="class">d-flex</attribute>-->
                      <attribute name="widget">selection</attribute>
                 </field>
-                <xpath expr="//field[@name='job_title']" position="before">
+                <!--<xpath expr="//field[@name='job_title']" position="before">
+                    <xpath expr="//field[@name='job_id']" position="move"/>
+                </xpath>-->
+                <xpath expr="//div[hasclass('oe_title')]" position="inside">
                     <xpath expr="//field[@name='job_id']" position="move"/>
                 </xpath>
                 <xpath expr="//h1//field[@name='name']/.." position="after">
