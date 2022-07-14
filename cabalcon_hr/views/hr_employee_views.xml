@@ -21,8 +21,7 @@
                 <xpath expr="//h1//field[@name='name']/.." position="after">
                     <group>
                         <field name="code"/>
-                        <field name="document_type" options="{'no_create': True, 'no_open': True}"/>
-                        <label for="document_type" string="Documento"/>
+                        <label for="document_type" string="Identificación"/>
                         <div class="d-flex">
                             <field name="document_type" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
                             <field name="identification_id" placeholder="Nro Documento" required="True"/>
