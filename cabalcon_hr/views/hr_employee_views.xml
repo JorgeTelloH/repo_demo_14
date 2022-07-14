@@ -48,7 +48,7 @@
                     </group>
                     <group name="info_bank" string="Datos Bancario" attrs="{'invisible':[('is_not_dependent','=', True)]}">
                         <!--Cuenta Bancaria de sueldo-->
-                        <xpath name="bank_account_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="bank_account_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="account_type"/>
                         <field name="cci" help="Código de Cuenta Interbancaria"/>
                         <!--Cuenta Bancaria de CTS-->
