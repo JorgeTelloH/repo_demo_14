@@ -45,6 +45,16 @@
                         <field name="mobile_phone" string="Celular Corporativo" widget="phone"/>
                         <field name="work_email" string="Email Corporativo" widget="email"/>
                     </group>
+                    <group name="info_pension" string="Régimen Pensionario" attrs="{'invisible':[('is_not_dependent','=', True)]}">
+                        <field name="regimen_pensions"/>
+                        <field name="afp_id" options="{'no_create': True}" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <field name="afp_code" invisible="1"/>
+                        <field name="commission_type" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <field name="CUSPP" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <field name="date_pensions"/>
+                        <field name="type_work" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
+                        <!--<field name="document_type" options="{'no_create': True, 'no_open': True}"/>-->
+                    </group>
                 </xpath>
                 <xpath expr="//page[@name='personal_information']" position="attributes">
                     <attribute name="string">Información Personal</attribute>
@@ -77,17 +87,8 @@
                     <attribute name="attrs">{'invisible':[('is_not_dependent','=', True)]}</attribute>
                 </xpath>
 
-                <xpath expr="//page[@name='hr_settings']//group[@name='identification_group']" position="after">
-                    <group string="Régimen de pensión" attrs="{'invisible':[('is_not_dependent','=', True)]}">
-                        <field name="regimen_pensions"/>
-                        <field name="afp_id" options="{'no_create': True}" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
-                        <field name="afp_code" invisible="1"/>
-                        <field name="commission_type" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
-                        <field name="CUSPP" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
-                        <field name="type_work" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
-                        <field name="document_type" />
-                    </group>
-                </xpath>
+                <!--<xpath expr="//page[@name='hr_settings']//group[@name='identification_group']" position="after">
+                </xpath>-->
                 <xpath expr="//page[@name='personal_information']/group" position="inside">
                     <group string="Cuenta CTS" attrs="{'invisible':[('is_not_dependent','=', True)]}">
                         <field name="cts_account" options="{'no_create': True, 'no_open': True}"/>

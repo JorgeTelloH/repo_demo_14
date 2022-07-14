@@ -18,7 +18,7 @@ class HrEmployee(models.Model):
     minor_children = fields.Integer(string='Hijos menores de edad', copy=False)
     is_university = fields.Boolean(string='Cursando Estudios Superiores', copy=False)  # hijos cursando estudios universitarios
     # Campos que se utilizan para la plantilla AFP Net
-    regimen_pensions = fields.Selection(string='Sistema',
+    regimen_pensions = fields.Selection(string='Régimen pensionario',
                                         selection=[('afp', 'AFP'),
                                                    ('onp', 'ONP'),
                                                    ('srp', 'Sin Regimen Pensionario')],
@@ -34,6 +34,7 @@ class HrEmployee(models.Model):
                                             ('C', 'Dependiente Construcción'),
                                             ('M', 'Dependiente Minería'),
                                             ('P', 'Pesquero')])
+    date_pensions = fields.Date(string='Fecha registro')
     # fin afp
     # Este campo se usa en el reporte Certificado de trabajo
     opinion = fields.Text(string="Opinión", groups="hr.group_hr_user", copy=False, tracking=True,
