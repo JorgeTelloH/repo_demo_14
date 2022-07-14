@@ -31,6 +31,7 @@
                 <xpath expr="//sheet/group/group/field[@name='work_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_email']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='identification_id']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='bank_account_id']" position="replace"/>
 
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
@@ -47,7 +48,7 @@
                     </group>
                     <group name="info_bank" string="Datos Bancario" attrs="{'invisible':[('is_not_dependent','=', True)]}">
                         <!--Cuenta Bancaria de sueldo-->
-                        <xpath expr="//field[@name='bank_account_id']" position="move"/>
+                        <xpath name="bank_account_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="account_type"/>
                         <field name="cci" help="Código de Cuenta Interbancaria"/>
                         <!--Cuenta Bancaria de CTS-->
