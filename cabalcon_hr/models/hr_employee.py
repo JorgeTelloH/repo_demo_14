@@ -43,7 +43,7 @@ class HrEmployee(models.Model):
     cts_account = fields.Many2one('res.partner.bank', string='Cuenta CTS', copy=False,
         domain="[('partner_id', '=', address_home_id), ('type', '=', '1'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
                                   tracking=True)
-    bank_id = fields.Many2one('res.bank', string='Banco', related='cts_account.bank_id', readonly=1, copy=False)
+    bank_id = fields.Many2one('res.bank', string='Banco de CTS', related='cts_account.bank_id', readonly=1, copy=False)
 
     bank_account_id = fields.Many2one('res.partner.bank', copy=False,
         domain="[('partner_id', '=', address_home_id), ('type', '=', '2'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]")

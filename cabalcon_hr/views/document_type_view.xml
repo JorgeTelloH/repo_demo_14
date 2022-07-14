@@ -63,7 +63,7 @@
             </field>
         </record>
         <menuitem id="document_types_menuitem"
-              name="Employee Document Types"
+              name="Tipos de Documento del Empleado"
               parent="hr.menu_human_resources_configuration"
               sequence="6"
               action="action_hr_employee_document_type"
