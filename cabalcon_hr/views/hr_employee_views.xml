@@ -33,6 +33,7 @@
                 <xpath expr="//sheet/group/group/field[@name='mobile_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_email']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='identification_id']" position="replace"/>
 
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
@@ -58,12 +59,12 @@
                 <field name="gender" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <field name="identification_id" position="attributes">
+                <!--<field name="identification_id" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
                 <field name="identification_id" position="before">
                     <field name="document_type" options="{'no_create': True, 'no_open': True}"/>
-                </field>
+                </field>-->
                 <field name="department_id" position="before">
                     <field name="contract_type_id" options="{'no_create': True, 'no_open': True}"/>
                     <field name="is_not_dependent" invisible="1"/>
@@ -117,7 +118,7 @@
             <field name="arch" type="xml">
                 <data>
                 <xpath expr="//field[@name='lastname2']" position="after">
-                    <label for="document_type" string=""/>
+                    <label for="document_type" string="Identificación"/>
                     <div class="d-flex">
                         <field name="document_type" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
                         <field name="identification_id" placeholder="Nro Documento" required="True"/>
