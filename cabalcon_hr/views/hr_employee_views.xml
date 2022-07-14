@@ -15,18 +15,9 @@
                 <field name="category_ids" position="attributes">
                      <attribute name="invisible">1</attribute>
                 </field>
-                <!--<xpath expr="//div[hasclass('oe_title')]" position="inside">
-                    <xpath expr="//field[@name='job_id']" position="move"/>
-                </xpath>-->
                 <xpath expr="//h1//field[@name='name']/.." position="after">
                     <group>
                         <field name="code"/>
-                        <label for="document_type" string="Identificación"/>
-                        <div class="o_row">
-                            <field name="document_type" placeholder="Tipo Documento" colspan="1" nolabel="1" widget="selection" required="True" options="{'no_open': True, 'no_create': True}"/>
-                            <span> </span>
-                            <field name="identification_id" placeholder="Nro Documento" colspan="3" nolabel="1" required="True"/>
-                        </div>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='mobile_phone']" position="before">
@@ -117,7 +108,7 @@
         </record>
 
         <!--Agregar Tipo de Documento y Nro Documento -->
-        <!--<record id="view_employee_form_inherit" model="ir.ui.view">
+        <record id="view_employee_form_inherit" model="ir.ui.view">
             <field name="name">hr.employee.form.identification.inherit</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr_employee_lastnames.view_employee_form_inherit" />
@@ -126,14 +117,14 @@
                 <xpath expr="//field[@name='lastname2']" position="after">
                     <label for="document_type" string="Identificación"/>
                     <div class="o_row">
-                        <field name="document_type" placeholder="Tipo Documento" colspan="1" nolabel="1" widget="selection" required="True" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="document_type" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
                         <span> </span>
-                        <field name="identification_id" placeholder="Nro Documento" colspan="3" nolabel="1" required="True"/>
+                        <field name="identification_id" placeholder="Nro Documento" required="True"/>
                     </div>
                 </xpath>
                 </data>
             </field>
-        </record>-->
+        </record>
 
         <record id="hr_kanban_view_employees" model="ir.ui.view">
             <field name="name">hr.employee.kanban</field>
