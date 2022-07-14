@@ -21,11 +21,6 @@
                 <xpath expr="//h1//field[@name='name']/.." position="after">
                     <group>
                         <field name="code"/>
-                        <label for="document_type" string="Identificación"/>
-                        <div class="d-flex">
-                            <field name="document_type" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="identification_id" placeholder="Nro Documento" required="True"/>
-                        </div>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='mobile_phone']" position="before">
@@ -111,6 +106,24 @@
                 <field name="children" position="after">
                     <field name="minor_children"/>
                 </field>
+            </field>
+        </record>
+
+        <!--Agregar Tipo de Documento y Nro Documento -->
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.identification.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_employee_lastnames.view_employee_form_inherit" />
+            <field name="arch" type="xml">
+                <data>
+                <xpath expr="//field[@name='lastname2']" position="after">
+                    <label for="document_type" string=""/>
+                    <div class="d-flex">
+                        <field name="document_type" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="identification_id" placeholder="Nro Documento" required="True"/>
+                    </div>
+                </xpath>
+                </data>
             </field>
         </record>
 
