@@ -120,9 +120,9 @@
                 <xpath expr="//field[@name='lastname2']" position="after">
                     <label for="document_type" string="Identificación"/>
                     <div class="o_row">
-                        <field name="document_type" placeholder="Tipo Documento" widget="selection" required="True" options="{'no_open': True, 'no_create': True}"/>
-                        <span>""</span>
-                        <field name="identification_id" placeholder="Nro Documento" required="True"/>
+                        <field name="document_type" placeholder="Tipo Documento" colspan="1" nolabel="1" widget="selection" required="True" options="{'no_open': True, 'no_create': True}"/>
+                        <span> </span>
+                        <field name="identification_id" placeholder="Nro Documento" colspan="3" nolabel="1" required="True"/>
                     </div>
                 </xpath>
                 </data>
