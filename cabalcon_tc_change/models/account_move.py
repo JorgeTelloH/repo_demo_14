@@ -134,7 +134,7 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    currency_tc= fields.Float(related='move_id.currency_tc', string='Tipo de Cambio', digits='Tipo Cambio')
+    currency_tc= fields.Float(related='move_id.currency_tc', string='Tipo de Cambio', digits='Tipo Cambio', store=True)
     is_special_tc = fields.Boolean(string='Tipo Cambio Personalizado', help='Se usó Tipo de Cambio personalizado por el usuario',related='move_id.is_special_tc')
 
     @api.onchange('amount_currency')
