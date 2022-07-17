@@ -34,9 +34,9 @@ class AccountMoveLine(models.Model):
     discount_line_total = fields.Monetary(compute="_compute_discount_amount", string="Dscto Total Linea", store=True)
 
     #============= INI CALCULAR DSCTO TOTAL LINEA =============
-    @api.depends("discount", "discount_fixed", "price_total")
+    @api.depends("discount", "price_total")
     def _compute_discount_amount(self):
-        invoice_lines_discount = self.filtered( lambda a: (a.discount or a.discount_fixed) and not a.exclude_from_invoice_tab)
+        invoice_lines_discount = self.filtered( lambda a: (a.discount) and not a.exclude_from_invoice_tab)
 
         # Lineas de Factura con descuento
         for line in invoice_lines_discount:
