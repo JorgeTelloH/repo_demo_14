@@ -17,8 +17,8 @@
         -->
             <xpath expr="//field[@name='narration']" position="after">
                 <div>
-                    <label for="discount_line_total" string="Dscto Total Linea :"/>
-                    <field name="discount_line_total" class="oe_inline"/>
+                    <label for="discount_line_total" string="Dscto Total Linea :" attrs="{'invisible':[('discount_line_total','=', 0)]}"/>
+                    <field name="discount_line_total" class="oe_inline" attrs="{'invisible':[('discount_line_total','=',0)]}"/>
                 </div>
             </xpath>
         </field>
