@@ -72,14 +72,24 @@
                 <xpath expr="//page[@name='personal_information']" position="attributes">
                     <attribute name="string">Información Personal</attribute>
                 </xpath>
+                <xpath expr="//page[@name='personal_information']/group/group[1]" position="attributes">
+                    <attribute name="string">Datos de Contacto</attribute>
+                    <attribute name="name">data_contacto</attribute>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']/group/group[2]" position="attributes">
+                    <attribute name="string">Datos Personales</attribute>
+                    <attribute name="name">data_personal</attribute>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']/group/group[3]" position="attributes">
+                    <attribute name="string">Dirección Actual</attribute>
+                    <attribute name="name">data_address_actual</attribute>
+                </xpath>
                 <field name="gender" position="after">
                     <field name="marital"/>
                     <field name="spouse_complete_name" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
                     <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
                 </field>
-                <xpath expr="//page[@name='personal_information']/group/group[2]" position="attributes">
-                    <attribute name="string">Datos Personales</attribute>
-                </xpath>
+
 
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
