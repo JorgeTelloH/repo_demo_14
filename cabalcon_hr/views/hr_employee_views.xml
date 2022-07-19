@@ -36,6 +36,9 @@
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_complete_name']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_birthdate']" position="replace"/>
 
+                <xpath expr="//page[@name='public']/div/div/group[4]" position="replace"/>
+
+
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
                     <group name="info_job" string="Puesto">
@@ -48,6 +51,7 @@
                         <field name="resource_calendar_id" options="{'no_create': True, 'no_open': True}"/>
                         <field name="mobile_phone" string="Celular Corporativo" widget="phone"/>
                         <field name="work_email" string="Email Corporativo" widget="email"/>
+                        <field name="tz" groups="hr.group_hr_user"/>
                     </group>
                     <group name="info_bank" string="Datos Bancario" attrs="{'invisible':[('is_not_dependent','=', True)]}">
                         <!--Cuenta Bancaria de sueldo-->
