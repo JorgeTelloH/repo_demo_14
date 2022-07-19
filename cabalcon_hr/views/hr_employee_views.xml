@@ -32,6 +32,9 @@
                 <xpath expr="//sheet/group/group/field[@name='work_email']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='identification_id']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='bank_account_id']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='marital']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_complete_name']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_birthdate']" position="replace"/>
 
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
@@ -69,6 +72,11 @@
                 <xpath expr="//page[@name='personal_information']" position="attributes">
                     <attribute name="string">Información Personal</attribute>
                 </xpath>
+                <field name="gender" position="after">
+                    <field name="marital"/>
+                    <field name="spouse_complete_name" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
+                    <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
+                </field>
 
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
