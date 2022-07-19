@@ -77,6 +77,9 @@
                     <field name="spouse_complete_name" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
                     <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
                 </field>
+                <xpath expr="//page[@name='personal_information']/group/group[2]" position="attributes">
+                    <attribute name="string">Datos Personales</attribute>
+                </xpath>
 
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
