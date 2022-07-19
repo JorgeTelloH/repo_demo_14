@@ -36,8 +36,10 @@
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_complete_name']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_birthdate']" position="replace"/>
 
+                <!-- Quitamos Zona Horaria de INFORMACION DE TRABAJO -->
                 <xpath expr="//page[@name='public']/div/div/group[4]" position="replace"/>
-
+                <!-- Quitamos Educacion de INFORMACION PERSONAL -->
+                <xpath expr="//page[@name='personal_information']/group/group[7]" position="replace"/>
 
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
@@ -118,9 +120,6 @@
 
                 <!--<xpath expr="//page[@name='hr_settings']//group[@name='identification_group']" position="after">
                 </xpath>-->
-                <xpath expr="//page[@name='personal_information']/group" position="inside">
-
-                </xpath>
                 <field name="departure_description" position="after">
                     <field name="opinion"/>
                 </field>
