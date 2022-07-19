@@ -35,6 +35,7 @@
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='marital']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_complete_name']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_birthdate']" position="replace"/>
+                <xpath expr="//group[@string='Marital Status']" position="replace"/>
 
                 <!--Crea Grupo PUESTO dentro de INFORMACION DE TRABAJO-->
                 <xpath expr="//page[@name='public']//group[@name='managers']" position="before">
