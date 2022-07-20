@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from odoo import api, models
 from odoo.addons.hr_employee_firstname.models.hr_employee import UPDATE_PARTNER_FIELDS
 

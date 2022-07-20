@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 {
     "name": "HR Nombres, Apellido Paterno y Materno del Empleado",
     "summary": "Divide el Nombre del Empleado en Nombres, Apellido Paterno y Materno",
