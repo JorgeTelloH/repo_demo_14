@@ -15,7 +15,7 @@ class HrEmployee(models.Model):
     contract_type_id = fields.Many2one('hr.contract.type', string='Tipo de contratación')
     #type_employee = fields.Selection(selection=[("planilla", "Planilla"), ("tercero", "Tercero")], string='Tipo de empleado', default='planilla')
     is_not_dependent = fields.Boolean(string='No es Independiente', compute='_compute_is_not_dependent')
-    minor_children = fields.Integer(string='Hijos menores de edad', copy=False)
+    minor_children = fields.Integer(string='Hijo(s) menor(es) de edad', copy=False)
     is_university = fields.Boolean(string='Cursando Estudios Superiores', copy=False)  # hijos cursando estudios universitarios
     # Campos que se utilizan para la plantilla AFP Net
     regimen_pensions = fields.Selection(string='Régimen pensionario',
