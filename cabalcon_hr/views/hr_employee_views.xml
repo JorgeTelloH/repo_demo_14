@@ -44,6 +44,7 @@
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_birthdate']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='emergency_contact']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='emergency_phone']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='children']" position="replace"/>
 
                 <!-- Quitamos Zona Horaria de INFORMACION DE TRABAJO -->
                 <xpath expr="//page[@name='public']/div/div/group[4]" position="replace"/>
@@ -143,9 +144,6 @@
 
                 <field name="departure_description" position="after">
                     <field name="opinion"/>
-                </field>
-                <field name="children" position="after">
-                    <field name="minor_children"/>
                 </field>
             </field>
         </record>
