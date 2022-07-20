@@ -94,10 +94,6 @@
                     <attribute name="string">Datos Personales</attribute>
                     <attribute name="name">data_personal</attribute>
                 </xpath>
-                <xpath expr="//page[@name='personal_information']/group/group[3]" position="attributes">
-                    <attribute name="string">Dirección Actual</attribute>
-                    <attribute name="name">data_address_actual</attribute>
-                </xpath>
 
                 <!--Agregar datos en Informacion Personal / Datos de Contacto-->
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='phone']" position="after">
@@ -128,6 +124,8 @@
                 <xpath expr="//page[@name='personal_information']/group/group[5]" position="replace"/>
                 <!-- Quitamos INFORMACION PERSONAL - Titulo: Dependiente -->
                 <xpath expr="//page[@name='personal_information']/group/group[4]" position="replace"/>
+                <!-- Quitamos INFORMACION PERSONAL - Titulo: Estado Civil -->
+                <xpath expr="//page[@name='personal_information']/group/group[3]" position="replace"/>
 
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
