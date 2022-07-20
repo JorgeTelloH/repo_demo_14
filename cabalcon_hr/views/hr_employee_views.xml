@@ -113,7 +113,6 @@
                 <xpath expr="//page[@name='personal_information']/group/group[7]" position="replace"/>
                 <xpath expr="//page[@name='personal_information']/group/group[6]" position="replace"/>
 
-
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
@@ -161,6 +160,9 @@
                     <field name="firstname"/>
                     <field name="lastname"/>
                     <field name="lastname2"/>
+                </xpath>
+                <xpath expr="//field[@name='passport_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='lastname2']" position="after">
                     <label for="document_type" string="Identificación"/>
