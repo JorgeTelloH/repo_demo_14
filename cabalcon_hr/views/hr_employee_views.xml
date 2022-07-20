@@ -95,7 +95,7 @@
                     <attribute name="name">data_address_actual</attribute>
                 </xpath>
 
-                <xpath expr="//sheet/notebook/page[@name='personal_information']/group/group/field[@name='identification_id']" position="replace"/>
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='identification_id']" position="replace">
                     <label for="document_type" string="Identificación"/>
                     <div class="o_row">
                         <field name="document_type" placeholder="Tipo Documento" options="{'no_open': True, 'no_create': True}"/>
