@@ -40,7 +40,7 @@ class HrEmployeeFamilyInfo(models.Model):
         ('divorced', 'Divorciado(a)')
         ], string='Estado civil', default='single')
     birth_date = fields.Date(string="Fecha de nacimiento", tracking=True)
-    age = fields.Integer(compute="_compute_age")
+    age = fields.Integer(string="Edad", compute="_compute_age")
     document_family_type_id = fields.Many2one('hr.employee.document.family.type', string='Documento que sustenta el vínculo', help="Tipo de documento que sustenta el vínculo familiar")
     doc_attachment_id = fields.Many2many('ir.attachment', 'family_doc_attach_rel', 'famili_id', 'attach_id', string="Adjunto",
                                          help='You can attach the copy of your document', copy=False)
