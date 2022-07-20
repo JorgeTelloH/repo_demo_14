@@ -135,14 +135,10 @@
                 </field>
 
                 <field name="user_id" position="attributes">
-                     <attribute name="attrs">{'invisible':[('is_not_dependent','=', True)]}</attribute>
+                     <attribute name="attrs">{'readonly':[('is_not_dependent','=', True)]}</attribute>
                 </field>
                 <xpath expr="//label[@for='barcode']" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_not_dependent', '=', True)]}</attribute>
-                </xpath>
-
-                <xpath expr="//group[@name='identification_group']/div" position="attributes">
-                    <attribute name="attrs">{'invisible':[('is_not_dependent','=', True)]}</attribute>
                 </xpath>
 
                 <field name="departure_description" position="after">
