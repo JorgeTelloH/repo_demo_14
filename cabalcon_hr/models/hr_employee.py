@@ -62,7 +62,7 @@ class HrEmployee(models.Model):
     #Buscamos el movil personal del Empleado
     @api.onchange('address_home_id')
     def _onchange_mobile_address_home_id(self):
-        if not self.mobile_personal and address_home_id:
+        if not self.mobile_personal and self.address_home_id:
             self.mobile_personal = self.address_home_id.mobile
 
     @api.depends("birthday")
