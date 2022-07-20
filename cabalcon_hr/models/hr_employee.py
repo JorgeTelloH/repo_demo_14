@@ -56,6 +56,14 @@ class HrEmployee(models.Model):
                                     default='A')
     document_type = fields.Many2one('hr.employee.document.type', string='Tipo de documento', help="Tipo de documento de Identidad",
                                     required=True, domain=[('identity', '=', 'True')])
+    mobile_personal = fields.Char('Celular Personal')
+
+
+    #Buscamos el movil personal del Empleado
+    @api.onchange('address_home_id')
+    def _onchange_mobile_address_home_id(self):
+        if not self.mobile_personal and address_home_id:
+            self.mobile_personal = self.address_home_id.mobile
 
     @api.depends("birthday")
     def _compute_age(self):

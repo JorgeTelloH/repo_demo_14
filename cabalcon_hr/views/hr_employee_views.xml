@@ -98,6 +98,13 @@
                     <attribute name="name">data_address_actual</attribute>
                 </xpath>
 
+                <!--Agregar datos en Informacion Personal / Datos de Contacto-->
+                <xpath expr="//sheet/notebook/page/group/group/field[@name='phone']" position="after">
+                    <field name="mobile_personal"/>
+                    <field name="emergency_contact"/>
+                    <field name="emergency_phone"/>
+                </xpath>
+
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='identification_id']" position="replace">
                     <label for="document_type" string="Identificación"/>
                     <div class="o_row">
