@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError

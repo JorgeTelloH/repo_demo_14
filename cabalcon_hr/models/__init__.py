@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 from . import hr_employee
 from . import hr_employee_public
 from . import hr_job

@@ -1,6 +1,6 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 {
-    'name': 'HR Empleados :: Personalización',
+    'name': 'Empleados para Perú',
     'summary': 'Personalización de Empleados',
     'description': """
     Personalización del módulo de Recursos Humanos
@@ -22,6 +22,7 @@
         'data/hr_occupational_category_data.xml',
         'data/hr_educational_situation_data.xml',
         'data/hr_contract_type_data.xml',
+        'data/hr_document_type_data.xml',
         'views/hr_job_views.xml',
 		'views/document_type_view.xml',
         'views/hr_employee_views.xml',
