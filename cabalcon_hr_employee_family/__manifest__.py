@@ -9,7 +9,7 @@
     'category': 'Human Resources/Employees',
     'author': 'Cabalcon',
     'website': "www.cabalcon.com",
-    'depends': ['base', 'cabalcon_hr'],
+    'depends': ['base', 'cabalcon_hr', 'cabalcon_hr_documents'],
     'data': [
         'security/ir.model.access.csv',
         'data/data.xml',
