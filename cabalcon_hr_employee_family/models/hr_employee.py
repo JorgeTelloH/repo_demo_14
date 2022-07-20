@@ -144,6 +144,7 @@ class HrEmployee(models.Model):
 
 class EmployeeRelation(models.Model):
     _name = 'hr.employee.relation'
-    _description = 'Parentesco con el empleado'
+    _description = 'Parentesco con el Empleado'
 
     name = fields.Char(string="Parentesco")
+    active = fields.Boolean(string='Activo', default=True)
