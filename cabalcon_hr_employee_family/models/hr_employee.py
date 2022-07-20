@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-
+# -*- coding: utf-8 -*-
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, _, api
 
@@ -70,7 +69,7 @@ class HrEmployeeFamilyInfo(models.Model):
     def _compute_is_passport(self):
         for record in self:
             if record.document_type:
-                record.is_passport = (record.document_type == self.env.ref('cabalcon_hr_documents.document_type_PASSPORT'))
+                record.is_passport = (record.document_type == self.env.ref('cabalcon_hr.document_type_PASSPORT'))
             else:
                 record.is_passport = False
 
