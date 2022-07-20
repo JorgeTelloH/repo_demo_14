@@ -120,9 +120,14 @@
                     <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
                 </field>
 
-                <!-- Quitamos INFORMACION PERSONAL -->
+                <!-- Quitamos INFORMACION PERSONAL - Titulo: Education -->
                 <xpath expr="//page[@name='personal_information']/group/group[7]" position="replace"/>
+                <!-- Quitamos INFORMACION PERSONAL - Titulo: Permiso de Trabajo -->
                 <xpath expr="//page[@name='personal_information']/group/group[6]" position="replace"/>
+                <!-- Quitamos INFORMACION PERSONAL - Titulo: Emergencia -->
+                <xpath expr="//page[@name='personal_information']/group/group[5]" position="replace"/>
+                <!-- Quitamos INFORMACION PERSONAL - Titulo: Dependiente -->
+                <xpath expr="//page[@name='personal_information']/group/group[4]" position="replace"/>
 
                 <field name="birthday" position="attributes">
                     <attribute name="required">1</attribute>
