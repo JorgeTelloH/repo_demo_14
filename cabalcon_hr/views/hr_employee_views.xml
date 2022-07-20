@@ -16,27 +16,28 @@
                 <field name="category_ids" position="attributes">
                      <attribute name="invisible">1</attribute>
                 </field>
-                <!--<field name="job_id" position="attributes">
-                     <attribute name="widget">selection</attribute>
-                </field>-->
                 <xpath expr="//h1//field[@name='name']/.." position="after">
                     <group>
                         <field name="code"/>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='mobile_phone']" position="before">
-                    <!--<xpath expr="//field[@name='job_id']" position="move"/>-->
                     <field name="job_id" readonly="1"/>
-                    <!--<xpath expr="//field[@name='company_id']" position="move"/>-->
                     <field name="company_id" readonly="1"/>
                 </xpath>
-                <!--Quitamos campos-->
+                <field name="department_id" position="before">
+                    <field name="contract_type_id" readonly="1"/>
+                    <field name="is_not_dependent" invisible="1"/>
+                </field>
+                <field name="department_id" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </field>
+                <!--Quitamos datos-->
                 <xpath expr="//sheet/group/group/field[@name='parent_id']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='coach_id']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='mobile_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_phone']" position="replace"/>
                 <xpath expr="//sheet/group/group/field[@name='work_email']" position="replace"/>
-                <!--<xpath expr="//sheet/notebook/page/group/group/field[@name='identification_id']" position="replace"/>-->
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='bank_account_id']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='marital']" position="replace"/>
                 <xpath expr="//sheet/notebook/page/group/group/field[@name='spouse_complete_name']" position="replace"/>
@@ -76,7 +77,6 @@
                         <field name="CUSPP" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
                         <field name="date_pensions" attrs="{'invisible':[('regimen_pensions','=','srp')]}"/>
                         <field name="type_work" attrs="{'invisible':[('regimen_pensions','in',['onp','srp'])]}"/>
-                        <!--<field name="document_type" options="{'no_create': True, 'no_open': True}"/>-->
                     </group>
                 </xpath>
                 <xpath expr="//page[@name='personal_information']" position="attributes">
@@ -111,10 +111,7 @@
                 <field name="gender" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <field name="department_id" position="before">
-                    <field name="contract_type_id" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="is_not_dependent" invisible="1"/>
-                </field>
+
                 <field name="user_id" position="attributes">
                      <attribute name="attrs">{'invisible':[('is_not_dependent','=', True)]}</attribute>
                 </field>
