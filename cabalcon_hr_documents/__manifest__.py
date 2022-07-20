@@ -12,7 +12,6 @@
     'depends': ['base', 'cabalcon_hr'],
     'data': [
         'security/ir.model.access.csv',
-        'data/demo_data.xml',
         'views/employee_document_view.xml',
     ],
     'installable': True,
