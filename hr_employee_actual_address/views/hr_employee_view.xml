@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-		<record id="add_employee_ubigeo_fields_form_view" model="ir.ui.view">
-		    <field name="name">hr.employee.form.view</field>
-		    <field name="model">hr.employee</field>
-		    <field name="inherit_id" ref="hr.view_employee_form"/>
-		    <field name="arch" type="xml">
+        <record id="add_employee_ubigeo_fields_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.form.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
                 <xpath expr="//page[@name='personal_information']/group" position="inside">
                     <group name="address_actual_employee" string="Dirección Actual">
-		            <label for="address_street" string="Dirección"/>
-		            <div class="o_address_format">
-		                <field name="address_street" placeholder="Dirección" class="o_address_street"/>
-		                <field name="address_ref" placeholder="Referencia" class="o_address_street"/>
-		                <field name="address_l10n_pe_district" placeholder="Distrito" options="{'no_open': True, 'no_quick_create': True}"/>
-		                <field name="address_city_id" class="o_address_state" placeholder="Provincia" options="{'no_open': True, 'no_quick_create': True}"/>
-		                <field name="address_state_id" class="o_address_state" placeholder="Dpto" options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': address_country_id}"/>
-		                <field name="address_country_id" class="o_address_country" placeholder="Pais" options='{"no_open": True, "no_create": True}'/>
-		            </div>
+                    <label for="address_street" string="Dirección"/>
+                    <div class="o_address_format">
+                        <field name="address_street" placeholder="Dirección" class="o_address_street"/>
+                        <field name="address_ref" placeholder="Referencia" class="o_address_street"/>
+                        <field name="address_l10n_pe_district" placeholder="Distrito" 
+                            options="{'no_open': True, 'no_quick_create': True}"/>
+                        <field name="address_city_id" class="o_address_state" placeholder="Provincia" 
+                            options="{'no_open': True, 'no_quick_create': True}"/>
+                        <field name="address_state_id" class="o_address_state" placeholder="Dpto" 
+                            options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': address_country_id}"/>
+                        <field name="address_country_id" class="o_address_country" placeholder="Pais" 
+                            options='{"no_open": True, "no_create": True}'/>
+                    </div>
+                    </group>
+
+                    <group name="address_dni_employee" string="Dirección de DNI/CE">
+                    <label for="dni_address_street" string="Dirección"/>
+                    <div class="o_address_format">
+                        <field name="dni_address_street" placeholder="Dirección" class="o_address_street"/>
+                        <field name="dni_address_ref" placeholder="Referencia" class="o_address_street"/>
+                        <field name="dni_address_l10n_pe_district" placeholder="Distrito" 
+                            options="{'no_open': True, 'no_quick_create': True}"/>
+                        <field name="dni_address_city_id" class="o_address_state" placeholder="Provincia" 
+                            options="{'no_open': True, 'no_quick_create': True}"/>
+                        <field name="dni_address_state_id" class="o_address_state" placeholder="Dpto" 
+                        	options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': dni_address_country_id}"/>
+                        <field name="dni_address_country_id" class="o_address_country" placeholder="Pais" 
+                        	options='{"no_open": True, "no_create": True}'/>
+                    </div>
                     </group>
                 </xpath>
-		    </field>
-		</record>
+            </field>
+        </record>
 
     </data>
 </odoo>
