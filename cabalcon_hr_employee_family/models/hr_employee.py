@@ -24,9 +24,9 @@ class HrEmployeeFamilyInfo(models.Model):
     member_name = fields.Char(string='Nombres', required=True)
     first_name = fields.Char(string='Apellido paterno', required=True)
     last_name = fields.Char(string='Apellido materno')
-    document_type = fields.Many2one('hr.employee.document.type', string='Tipo de documento', help="Tipo de Documento de Identidad",
+    document_type = fields.Many2one('hr.employee.document.type', string='Tipo de Documento', help="Tipo de Documento de Identidad",
                                      domain=[('identity', '=', 'True')])
-    member_id = fields.Char(string='Nro Documento de identidad')
+    member_id = fields.Char(string='Nro Documento', help="Nro Documento de Identidad")
     gender = fields.Selection([
         ('male', 'Masculino'),
         ('female', 'Femenino'),
