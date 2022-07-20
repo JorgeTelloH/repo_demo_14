@@ -23,7 +23,7 @@ class HrEmployeeDocument(models.Model):
     doc_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_rel', 'doc_id', 'attach_id3', string="Adjunto",
                                          help='Puedes Adjuntar la copia de tu(s) Documento(s)', copy=False)
     issue_date = fields.Date(string='Fecha de asunto', default=fields.datetime.now(), copy=False)
-    document_type = fields.Many2one('hr.employee.document.type', string="Tipo de docuemnto")
+    document_type = fields.Many2one('hr.employee.document.type', string="Tipo de documento")
     user_id = fields.Many2one('res.users', string='Usuario', default=lambda self: self.env.user)
 
 
