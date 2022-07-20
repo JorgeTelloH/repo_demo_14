@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 {
     "name": "HR Nombres y Apellidos del Empleado",
     "summary": "Agrega Nombre al Empleado",
