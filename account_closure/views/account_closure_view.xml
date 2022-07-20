@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <record id="account_closure_view_form" model="ir.ui.view">
+            <field name="name">Proceso de Cierre/Apertura Contable</field>
+            <field name="model">account.closure</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="limpiar_campos" class="oe_highlight" string="Limpiar" type="object" states="draft,cancel"/>
+                        <button name="run_closure" class="oe_highlight" string="Ejecutar Cierre/Apertura Contable" icon="fa-plus"  type="object" states="draft,generated,cancel"/>
+                        <button name="post_account_moves" class="oe_highlight" string="Generar Asientos Contables" type="object" states="generated"/>
+                        <button name="cancel" class="oe_highlight" string="Cancelar Cierre/Apertura" type="object" states="posted"/>
+                        <button name="draft" class="oe_highlight" string="Convertir a Borrador" type="object" states="cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,generated,posted,cancel"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="company_id"  options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <group string="Especifique Tipo de Cierre/Apertura">
+                                <field name="type_closing_opening"/>
+                                <field name="date" attrs="{'invisible': [('type_closing_opening','not in',['1'])]}"/>
+                                <field name="date_from" attrs="{'invisible': [('type_closing_opening','not in',['2'])]}"/>
+                                <field name="date_to" attrs="{'invisible': [('type_closing_opening','not in',['2'])]}"/>
+                            </group>
+                        </group>
+                    </group>
+                    <br/>
+
+                    <group>
+                            <group name="Filtros_dinamicos" string='Filtros dinámicos'>
+                                <label for="account_ids"/>
+                                <div>
+                                    <field name="account_option" placeholder="" class="oe_inline"/>
+                                    <field name="account_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
+                                </div>                           
+                                <label for="partner_ids"/>
+                                <div>
+                                    <field name="partner_option" placeholder="" class="oe_inline"/>
+                                    <field name="partner_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
+                                </div>
+                                <label for="journal_ids"/>
+                                <div>
+                                    <field name="journal_option" placeholder="" class="oe_inline"/>
+                                    <field name="journal_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
+                                </div>
+                                <label for="move_ids"/>
+                                <div>
+                                    <field name="move_option" placeholder="" class="oe_inline"/>
+                                    <field name="move_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
+                                </div>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page name="Asientos_Contables_a_generar" string="Asientos Contables a generar">
+                                <field name="closing_account_move_ids">
+                                    <tree> 
+                                        <field name="date"/>
+                                        <field name="journal_id"/>
+                                        <field name="ref"/>
+                                        <field name="name_relationship"/>
+                                        <field name="operation_type"/>
+                                        <field name="closing_account_id"/>
+                                        <field name="affected_account_ids"/>
+                                        <field name="exist_move_id" invisible="1"/>
+                                        
+                                        <button name="button_view_account_move" class="oe_stat_button" icon="fa-book" type="object" string="Asiento Contable Generado"/>
+                                        <!--attrs="{'invisible': [('exist_move_id','=',False)]}">-->
+                                    </tree>
+                                     <form>
+                                    <sheet>
+                                <group>
+                                    <group>
+                                        <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="date"/>
+                                        <field name="journal_id"/>
+                                        <field name="ref"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="operation_type"/>
+                                        <field name="name_relationship" readonly="1"/>
+                                    </group>
+                            </group>
+                    <group>
+                        <group string="Cuentas de Cierre y Afectas">
+
+                            <field name="closing_account_id" options="{'no_create': True}"/>
+                            <field name="relationship_between_accounts_id" options="{'no_create': True}"/>
+                            <field name="affected_account_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <!-- ·························· -->
+                    <field name="account_move_line_ids" >
+                                    <tree> 
+                                        <field name="account_id" sum="suma"/>
+                                        <field name="date" sum="suma"/>
+                                        <field name="name" sum="suma"/>
+                                        <field name="amount_currency" sum="suma"/>
+                                        <field name="currency_id" sum="suma"/>
+                                        <field name="saldo" sum="suma"/>
+                                        <field name="saldo_currency" sum="suma"/>
+                                        <field name="debit" sum="suma"/>
+                                        <field name="credit" sum="suma"/>
+                                        <field name="debit_currency" sum="suma"/>
+                                        <field name="credit_currency" sum="suma"/>
+                                    </tree>
+                     </field>
+                     <!-- ########################## -->
+                                     </sheet>
+                                </form>        
+                                </field>
+                            </page>
+
+                            <page name="Apuntes_Contables_a_generar" string="Apuntes Contables a generar">
+                            
+                                <field name="closing_account_move_line_ids">
+                                    <tree editable="bottom"> 
+                                        <field name="account_id"/>
+                                        <field name="date"/>
+                                        <field name="name"/>
+                                        <field name="saldo" sum="saldo"/>
+                                        <field name="saldo_currency" sum="saldo currency"/>
+                                        <field name="debit" sum="debit"/>
+                                        <field name="credit" sum="credit"/>
+                                        <field name="debit_currency" sum="debit_currency"/>
+                                        <field name="credit_currency" sum="credit_currency"/>
+                                    </tree>      
+                                </field>
+                            </page>
+
+                            <page name="Balance_sumas_saldos" string="BALANCE DE COMPROBACIÓN">
+                            <group>
+                                <group string="Parámetros de Fecha">
+                                    <field name="fecha_inicio"/>
+                                    <field name="fecha_final"/>
+                                </group>
+                            </group>
+                            <group>
+                            <group>
+                                <!-- <br/> -->
+                                         <div>
+
+                            <button name="run_balance_of_sums_and_balances" 
+                                string="GENERAR BALANCE DE COMPROBACIÓN"
+                                class="oe_highlight"
+                                type="object"
+                                icon="fa-plus"
+                            />
+                        </div>
+
+                        <br/>
+                            </group>
+                        </group>
+                                <field name="report_amount_balances_ids" options="{'no_create': True}">
+                                    <tree editable="bottom">  
+                                        <!-- <field name="account_id"/> -->
+                                        <field name="name_account"/>
+                                        <field name="saldos_iniciales_deudor" sum="saldos_iniciales_deudor"/>
+                                        <field name="saldos_iniciales_acreedor" sum="saldos_iniciales_acreedor"/>
+                                        <field name="anio_fiscal_debe" sum="anio_fiscal_debe"/>
+                                        <field name="anio_fiscal_haber" sum="anio_fiscal_haber"/>
+                                        <field name="saldos_finales_deudor" sum="saldos_finales_deudor"/>
+                                        <field name="saldos_finales_acreedor" sum="saldos_finales_acreedor"/>
+                                        <field name="balance_general_activo" sum="balance_general_activo"/>
+                                        <field name="balance_general_pas_y_patr" sum="balance_general_pas_y_patr"/>
+                                        <field name="resultados_naturaleza_perdidas" sum="resultados_naturaleza_perdidas"/>
+                                        <field name="resultados_naturaleza_ganancias" sum="resultados_naturaleza_ganancias"/>
+                                        <field name="resultados_funcion_perdidas" sum="resultados_funcion_perdidas"/>
+                                        <field name="resultados_funcion_ganancias" sum="resultados_funcion_ganancias"/>
+                                    </tree>      
+                                </field>
+                            </page>
+
+                        </notebook>
+                    </form>
+                </field>
+        </record>
+
+        <record id="account_closure_view_tree" model="ir.ui.view">
+            <field name="name">Proceso de Cierre/Apertura Contable</field>
+            <field name="model">account.closure</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="company_id"/>
+                    <field name="type_closing_opening"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_account_closure" model="ir.actions.act_window">
+            <field name="name">Proceso de Cierre/Apertura Contable</field>
+   		    <field name="res_model">account.closure</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="account_closure_view_tree"/>
+        </record>
+
+        <menuitem id="menu_account_closure" name="Proceso de Cierre/Apertura Contable" parent="account.menu_finance_entries_actions"  groups="account.group_account_invoice" action="action_account_closure"/>
+
+	</data>
+</odoo>

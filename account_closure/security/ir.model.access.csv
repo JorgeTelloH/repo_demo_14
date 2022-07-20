@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_amount_balances,modelo report_amount_balances,model_report_amount_balances,account.group_account_invoice,1,1,1,1
+access_relationship_between_accounts,modelo relationship_between_accounts,model_relationship_between_accounts,account.group_account_invoice,1,1,1,1
+access_account_closure,modelo account_closure,model_account_closure,account.group_account_invoice,1,1,1,1
+access_closing_account_move,modelo closing_account_move,model_closing_account_move,account.group_account_invoice,1,1,1,1
+access_closing_account_move_line,modelo closing_account_move_line,model_closing_account_move_line,account.group_account_invoice,1,1,1,1
