@@ -148,6 +148,15 @@
             <field name="inherit_id" ref="hr_employee_lastnames.view_employee_form_inherit"/>
             <field name="arch" type="xml">
                 <data>
+                <field name="firstname" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="lastname" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="lastname2" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
                 <xpath expr="//field[@name='passport_id']" position="before">
                     <field name="firstname"/>
                     <field name="lastname"/>
@@ -156,7 +165,7 @@
                 <xpath expr="//field[@name='lastname2']" position="after">
                     <label for="document_type" string="Identificación"/>
                     <div class="o_row">
-                        <field name="document_type" placeholder="Tipo Documento"  readonly="1"/>
+                        <field name="document_type" placeholder="Tipo Documento" readonly="1"/>
                         <span> </span>
                         <field name="identification_id" placeholder="Nro Documento" readonly="1"/>
                     </div>
