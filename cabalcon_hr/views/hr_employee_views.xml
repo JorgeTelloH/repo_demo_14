@@ -26,7 +26,7 @@
                 <xpath expr="//field[@name='mobile_phone']" position="before">
                     <xpath expr="//field[@name='job_id']" position="move"/>
                     <!--<xpath expr="//field[@name='company_id']" position="move"/>-->
-                    <field name="company_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_company"/>
+                    <field name="company_id" readonly="1"/>
                 </xpath>
                 <!--Quitamos campos-->
                 <xpath expr="//sheet/group/group/field[@name='parent_id']" position="replace"/>
