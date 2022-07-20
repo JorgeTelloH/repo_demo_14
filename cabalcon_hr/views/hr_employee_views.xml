@@ -132,8 +132,6 @@
                     <attribute name="attrs">{'invisible':[('is_not_dependent','=', True)]}</attribute>
                 </xpath>
 
-                <!--<xpath expr="//page[@name='hr_settings']//group[@name='identification_group']" position="after">
-                </xpath>-->
                 <field name="departure_description" position="after">
                     <field name="opinion"/>
                 </field>
@@ -147,15 +145,20 @@
         <record id="view_employee_form_inherit" model="ir.ui.view">
             <field name="name">hr.employee.form.identification.inherit</field>
             <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr_employee_lastnames.view_employee_form_inherit" />
+            <field name="inherit_id" ref="hr_employee_lastnames.view_employee_form_inherit"/>
             <field name="arch" type="xml">
                 <data>
+                <xpath expr="//field[@name='passport_id']" position="before">
+                    <field name="firstname"/>
+                    <field name="lastname"/>
+                    <field name="lastname2"/>
+                </xpath>
                 <xpath expr="//field[@name='lastname2']" position="after">
                     <label for="document_type" string="Identificación"/>
                     <div class="o_row">
-                        <field name="document_type" placeholder="Tipo Documento" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="document_type" placeholder="Tipo Documento"  readonly="1"/>
                         <span> </span>
-                        <field name="identification_id" placeholder="Nro Documento"/>
+                        <field name="identification_id" placeholder="Nro Documento" readonly="1"/>
                     </div>
                 </xpath>
                 </data>
