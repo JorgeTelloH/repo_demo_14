@@ -25,6 +25,7 @@
                                         <field name="name"/>
                                         <field name="relation_id"/>
                                         <field name="birth_date"/>
+                                        <field name="document_type"/>
                                         <field name="member_id"/>
                                         <field name="age"/>
                                     </tree>
