@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_employee_relation_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.relation.form</field>
+            <field name="model">hr.employee.relation</field>
+            <field name="arch" type="xml">
+                <form string="Parentesco del Empleado">
+                    <sheet>
+                       <group >
+                           <field name="name" colspan="2"/>
+                           <field name="active" colspan="2"/>
+                       </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_employee_relation_tree_view" model="ir.ui.view">
+            <field name="name">hr.employee.relation.tree</field>
+            <field name="model">hr.employee.relation</field>
+            <field name="arch" type="xml">
+                <tree string="Parentesco del Empleado">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="hr_employee_relation_search_view" model="ir.ui.view">
+            <field name="name">hr.employee.relation.search</field>
+            <field name="model">hr.employee.relation</field>
+            <field name="arch" type="xml">
+                <search string="Parentesco del Empleado">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="hr_employee_relation_act_window" model="ir.actions.act_window">
+            <field name="name">Parentesco del Empleado</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.relation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+       <menuitem
+                id="menu_hr_employee_relation_tree"
+                action="hr_employee_relation_act_window"
+                parent="hr.menu_human_resources_configuration"
+                sequence="98"
+                groups="hr.group_hr_user"/>
+    </data>
+</odoo>

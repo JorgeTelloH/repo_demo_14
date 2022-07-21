@@ -15,6 +15,7 @@
         'data/data.xml',
         'views/hr_employee_view.xml',
         'views/employee_family.xml',
+        'views/hr_employee_relation_view.xml',
     ],
     'installable': True,
     'auto_install': False,

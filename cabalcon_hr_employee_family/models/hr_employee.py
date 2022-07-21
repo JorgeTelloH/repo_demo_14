@@ -103,7 +103,7 @@ class HrEmployeeFamilyInfo(models.Model):
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    family_ids = fields.One2many('hr.employee.family', 'employee_id', string='Familia', help='Imformación Familiar del Empleado')
+    family_ids = fields.One2many('hr.employee.family', 'employee_id', string='Familia', help='Información Familiar del Empleado')
     children = fields.Integer(compute='_compute_children', string='Hijo(s)')
     minor_children = fields.Integer(compute='_compute_children', string='Menores de edad')
     is_university = fields.Boolean(compute='_compute_children', string='Cursando estudios superiores')
