@@ -122,8 +122,9 @@ class Expense(models.Model):
                 if d_inv.state not in ['draft', 'cancel']:
                     amount_inv = d_inv.amount_residual_signed + amount_inv
 
-            if rec.expense_amount <= 0:
-                raise ValidationError(_('Debe ingresar un monto de gasto mayor a cero!'))
+            #Se comenta para permitir crear Gasto con monto cero
+            #if rec.expense_amount <= 0:
+            #    raise ValidationError(_('Debe ingresar un monto de gasto mayor a cero!'))
             if not rec.journal_expense_id:
                 raise ValidationError(_('Debe Configurar un diario de gastos'))
             if not rec.journal_expense_id.payment_credit_account_id:
@@ -136,23 +137,25 @@ class Expense(models.Model):
 
             rec.name = name
 
-            payment_method_id = rec.journal_expense_id.inbound_payment_method_ids[0].id
-            payment = payment_obj.with_context(skip_account_move_synchronization=True).create({
-                'payment_type': 'outbound',
-                'partner_type': 'supplier',
-                'partner_id': rec.partner_id.id,
-                'amount': rec.expense_amount,
-                'journal_id':rec.journal_expense_id.id,
-                'date':rec.date,
-                'ref':rec.name + " " + rec.note,
-                'payment_method_id':payment_method_id,
-                'expense_id': rec.id,
-                'destination_account_id':rec.account_id.id,
-                'currency_id':rec.currency_id.id,
-                'l10n_latam_document_type_id':rec.document_type_id.id,
-                'document_nbr':rec.document_nbr,
-            })
-            payment.action_post()
+            #Si existe monto, entonces se genera el pago
+            if rec.expense_amount > 0:
+                payment_method_id = rec.journal_expense_id.inbound_payment_method_ids[0].id
+                payment = payment_obj.with_context(skip_account_move_synchronization=True).create({
+                    'payment_type': 'outbound',
+                    'partner_type': 'supplier',
+                    'partner_id': rec.partner_id.id,
+                    'amount': rec.expense_amount,
+                    'journal_id':rec.journal_expense_id.id,
+                    'date':rec.date,
+                    'ref':rec.name + " " + rec.note,
+                    'payment_method_id':payment_method_id,
+                    'expense_id': rec.id,
+                    'destination_account_id':rec.account_id.id,
+                    'currency_id':rec.currency_id.id,
+                    'l10n_latam_document_type_id':rec.document_type_id.id,
+                    'document_nbr':rec.document_nbr,
+                })
+                payment.action_post()
             rec.state = 'approved'
             rec.invoice_balance = amount_inv
 
