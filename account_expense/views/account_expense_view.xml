@@ -31,7 +31,7 @@
         <field name="name">expense.tree</field>
         <field name="model">account.expense</field>
         <field name="arch" type="xml">
-            <tree string="Gasto" decoration-info="state=='draft'" decoration-success="state=='approved'" decoration-muted="state=='done'" decoration-danger="state=='refused'" delete="false">
+            <tree string="Gasto" default_order='name desc' decoration-info="state=='draft'" decoration-success="state=='approved'" decoration-muted="state=='done'" decoration-danger="state=='refused'" delete="false">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="state"/>
