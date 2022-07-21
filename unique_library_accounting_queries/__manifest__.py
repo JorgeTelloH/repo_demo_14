@@ -4,7 +4,7 @@
 	'author': 'Franco Najarro',
 	'website': '',
 	'category': '',
-	'depends': ['base','web','account','account_fiscal_year_period'],
+	'depends': ['base','web','account'],
 	'data': [],
 	'installable': True,
 	'auto_install': False
