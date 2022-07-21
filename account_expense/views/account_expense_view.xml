@@ -101,6 +101,7 @@
                                 <field name="payment_ids" readonly="1" nolabel="1">
                                    <tree string="Pagos" decoration-info="state=='draft'" decoration-success="state=='posted'" decoration-muted="state=='cancel'">
                                         <field name="date"/>
+                                        <field name="payment_type"/>
                                         <field name="name"/>
                                         <field name="journal_id"/>
                                         <field name="partner_id"/>
