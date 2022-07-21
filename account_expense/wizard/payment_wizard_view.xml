@@ -16,8 +16,11 @@
                     </group>
                     <group col="4" colspan="4">
                         <field name="journal_expense_id"/>
-                        <field name="document_type_id"/>
-                        <field name="document_nbr"/>
+                        <label for="document_type_id" string="Documento"/>
+                        <div class="d-flex">
+                            <field name="document_type_id" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="document_nbr" placeholder="Nro Documento" required="True"/>
+                        </div>
                     </group>
                     <group attrs="{'invisible': [('payment_difference', '=', 0.0)]}">
                     <label for="payment_difference"/>
@@ -62,8 +65,11 @@
                     </group>
                     <group col="4" colspan="4">
                         <field name="journal_expense_id"/>
-                        <field name="document_type_id"/>
-                        <field name="document_nbr"/>
+                        <label for="document_type_id" string="Documento"/>
+                        <div class="d-flex">
+                            <field name="document_type_id" placeholder="Tipo Documento" required="True" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="document_nbr" placeholder="Nro Documento" required="True"/>
+                        </div>
                     </group>
                 </group>
                 <footer>
@@ -82,5 +88,4 @@
         <field name="view_id" ref="account_payment_register_wizard_form"/>
         <field name="target">new</field>
     </record>
-
 </odoo>
