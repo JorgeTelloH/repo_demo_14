@@ -10,8 +10,9 @@ _logger = logging.getLogger(__name__)
 
 options=[
 	('in','esta en'),
-	('not in','no esta en')
-	]
+	('not in','no esta en')]
+
+
 
 class AccountClosure(models.Model):
 	_name = 'account.closure'
@@ -62,8 +63,10 @@ class AccountClosure(models.Model):
 
 	report_amount_balances_ids = fields.One2many('report.amount.balances' , 'account_closure_id' , string="Balance de Sumas y Saldos", readonly=True)
 
+	#tabla_cuentas_saldos=[]
+	tabla_cuentas_saldos_ids = fields.One2many('table.account.cum.sum.closure','closure_id',string="Tabla Buffer de Saldos")
 
-	tabla_cuentas_saldos=[]
+
 
 	def get_filter_clause(self):
 		filter_clause=''
@@ -95,14 +98,27 @@ class AccountClosure(models.Model):
 	
 	def fill_table_balance(self):
 		# formato de la tabla : (cuenta_cierre , cuenta_afecta , saldo)
-		self.tabla_cuentas_saldos=[]
+		self.tabla_cuentas_saldos_ids.unlink()
+
+		registro=[]
+
 		for line in self.closing_account_move_ids:
-			self.tabla_cuentas_saldos.append([line.closing_account_id, line.affected_account_ids[0] if len(line.affected_account_ids.ids or '')==1 else '',0.00,0.00])
+			registro.append((0,0,{
+				'closing_account_id':line.closing_account_id.id,
+				'affected_account_id':line.affected_account_ids[0].id if len(line.affected_account_ids.ids or '')==1 else False,
+				'saldo_soles':0.00,
+				'saldo_dolares':0.00
+				}))
+		self.tabla_cuentas_saldos_ids = registro
+
 
 	
 	def search_saldo_account_in_table(self,account):
-		saldo_soles = -sum([item[2] for item in self.tabla_cuentas_saldos if item[0]==account])
-		saldo_dolares = -sum([item[3] for item in self.tabla_cuentas_saldos if item[0]==account])
+		saldo_soles = -sum(self.tabla_cuentas_saldos_ids.filtered(lambda e:e.closing_account_id==account).mapped('saldo_soles'))
+		saldo_dolares = -sum(self.tabla_cuentas_saldos_ids.filtered(lambda e:e.closing_account_id==account).mapped('saldo_dolares'))
+
+		#saldo_soles = -sum([item[2] for item in tabla_cuentas_saldos if item[0]==account])
+		#saldo_dolares = -sum([item[3] for item in tabla_cuentas_saldos if item[0]==account])
 		return [saldo_soles or 0.00,saldo_dolares or 0.00]
 
 
@@ -116,8 +132,8 @@ class AccountClosure(models.Model):
 			if len(line.affected_account_ids.ids or '')==1:
 				saldo_inicial_soles, saldo_inicial_dolares= self.search_saldo_account_in_table(line.affected_account_ids[0])
 			saldo_final_soles , saldo_final_dolares =line.generate_accounting_entries(saldo_inicial_soles_cuenta_afecta=saldo_inicial_soles,saldo_inicial_dolares_cuenta_afecta=saldo_inicial_dolares)
-			self.tabla_cuentas_saldos[i][2]=-saldo_final_soles
-			self.tabla_cuentas_saldos[i][3]=-saldo_final_dolares
+			self.tabla_cuentas_saldos_ids[i].saldo_soles=-saldo_final_soles
+			self.tabla_cuentas_saldos_ids[i].saldo_dolares=-saldo_final_dolares
 			i += 1
 
 

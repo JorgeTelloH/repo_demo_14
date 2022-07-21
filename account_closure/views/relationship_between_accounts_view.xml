@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
+
         <record id="relationship_between_accounts_view_form" model="ir.ui.view">
             <field name="name">Relación entre Cuentas para Cierre/Apertura</field>
             <field name="model">relationship.between.accounts</field>
@@ -8,24 +9,29 @@
                 <form>
                     <sheet>
                         <header>
+
                         <button name="clear_fields" class="oe_highlight" string="Limpiar Campos" type="object"/>
                         <button name="clear_affected_account_ids" class="oe_highlight" string="Limpiar Cuentas Afectas" type="object"/>
                         </header>
+
                         <group>
                             <group>
                                 <field name="company_id"/>
                             </group>
                         </group>
+
                         <group>
                             <group>
                                 <field name="name"/>
                                 <field name="operation_type"/>
                             </group>
                         </group>
+
                         <group>
                             <group string="Cuenta de Cierre/Apertura">
                                 <field name="closing_opening_account_id" options="{'no_create': True}"/>
                             </group>
+
                             <group string="Cuentas Afectas">
                                 <field name="affected_account_ids" widget="many2many_tags" options="{'no_create': True}"/>
                             </group>
@@ -48,6 +54,7 @@
             </field>
         </record>
 
+
         <record id="action_relationship_between_accounts" model="ir.actions.act_window">
             <field name="name">Relación entre Cuentas para Cierre/Apertura</field>
    		    <field name="res_model">relationship.between.accounts</field>
@@ -57,6 +64,6 @@
 
         <menuitem id="accounting_closing_and_opening_menu" name="Ajustes en Cierre y Apertura Contable" parent="account.menu_finance_configuration" sequence="10" groups="account.group_account_manager"/>
         <menuitem id="menu_relationship_between_accounts" name="Relación entre Cuentas Cierre/Apertura" parent="accounting_closing_and_opening_menu" sequence="1" groups="account.group_account_invoice" action="action_relationship_between_accounts"/>
-
+             
 	</data>
 </odoo>

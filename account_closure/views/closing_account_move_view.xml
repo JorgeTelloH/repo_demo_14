@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
+      
 		<record id="closing_account_move_view_form" model="ir.ui.view">
 			<field name="name">Asiento Contable de Cierre/Apertura</field>
             <field name="model">closing.account.move</field>
@@ -47,6 +48,6 @@
                     </sheet>
                 </form>
                 </field>
-                </record>
+                </record>                          
 	</data>
 </odoo>

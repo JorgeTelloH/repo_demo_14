@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
+
         <record id="account_closure_view_form" model="ir.ui.view">
             <field name="name">Proceso de Cierre/Apertura Contable</field>
             <field name="model">account.closure</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
+                       
                         <button name="limpiar_campos" class="oe_highlight" string="Limpiar" type="object" states="draft,cancel"/>
                         <button name="run_closure" class="oe_highlight" string="Ejecutar Cierre/Apertura Contable" icon="fa-plus"  type="object" states="draft,generated,cancel"/>
                         <button name="post_account_moves" class="oe_highlight" string="Generar Asientos Contables" type="object" states="generated"/>
                         <button name="cancel" class="oe_highlight" string="Cancelar Cierre/Apertura" type="object" states="posted"/>
                         <button name="draft" class="oe_highlight" string="Convertir a Borrador" type="object" states="cancel"/>
+
                         <field name="state" widget="statusbar" statusbar_visible="draft,generated,posted,cancel"/>
                     </header>
+                    
                     <group>
+
                         <group>
                             <field name="company_id"  options="{'no_create': True}" groups="base.group_multi_company"/>
                             <field name="name"/>
                         </group>
+
                         <group>
                             <group string="Especifique Tipo de Cierre/Apertura">
                                 <field name="type_closing_opening"/>
@@ -28,35 +34,45 @@
                             </group>
                         </group>
                     </group>
-                    <br/>
 
+                    <br/>
+                        
                     <group>
                             <group name="Filtros_dinamicos" string='Filtros dinámicos'>
+
                                 <label for="account_ids"/>
                                 <div>
                                     <field name="account_option" placeholder="" class="oe_inline"/>
                                     <field name="account_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
                                 </div>                           
+
                                 <label for="partner_ids"/>
                                 <div>
                                     <field name="partner_option" placeholder="" class="oe_inline"/>
                                     <field name="partner_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
                                 </div>
+
+                               
+
                                 <label for="journal_ids"/>
                                 <div>
                                     <field name="journal_option" placeholder="" class="oe_inline"/>
                                     <field name="journal_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
                                 </div>
+
                                 <label for="move_ids"/>
                                 <div>
                                     <field name="move_option" placeholder="" class="oe_inline"/>
                                     <field name="move_ids" placeholder="" class="oe_inline" widget="many2many_tags" options="{'no_create': True}"/>
                                 </div>
+
+
                             </group>
                         </group>
 
                         <notebook>
                             <page name="Asientos_Contables_a_generar" string="Asientos Contables a generar">
+                            
                                 <field name="closing_account_move_ids">
                                     <tree> 
                                         <field name="date"/>
@@ -70,14 +86,18 @@
                                         
                                         <button name="button_view_account_move" class="oe_stat_button" icon="fa-book" type="object" string="Asiento Contable Generado"/>
                                         <!--attrs="{'invisible': [('exist_move_id','=',False)]}">-->
+
                                     </tree>
+
                                      <form>
                                     <sheet>
+                                    
                                 <group>
                                     <group>
                                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                                     </group>
                                 </group>
+
                                 <group>
                                     <group>
                                         <field name="date"/>
@@ -90,14 +110,18 @@
                                         <field name="name_relationship" readonly="1"/>
                                     </group>
                             </group>
+
                     <group>
                         <group string="Cuentas de Cierre y Afectas">
 
                             <field name="closing_account_id" options="{'no_create': True}"/>
                             <field name="relationship_between_accounts_id" options="{'no_create': True}"/>
+                            
+
                             <field name="affected_account_ids" widget="many2many_tags" options="{'no_create': True}"/>
                         </group>
                     </group>
+
                     <!-- ·························· -->
                     <field name="account_move_line_ids" >
                                     <tree> 
@@ -162,6 +186,7 @@
                         </group>
                                 <field name="report_amount_balances_ids" options="{'no_create': True}">
                                     <tree editable="bottom">  
+                                        
                                         <!-- <field name="account_id"/> -->
                                         <field name="name_account"/>
                                         <field name="saldos_iniciales_deudor" sum="saldos_iniciales_deudor"/>
@@ -201,6 +226,7 @@
             </field>
         </record>
 
+
         <record id="action_account_closure" model="ir.actions.act_window">
             <field name="name">Proceso de Cierre/Apertura Contable</field>
    		    <field name="res_model">account.closure</field>
@@ -209,6 +235,6 @@
         </record>
 
         <menuitem id="menu_account_closure" name="Proceso de Cierre/Apertura Contable" parent="account.menu_finance_entries_actions"  groups="account.group_account_invoice" action="action_account_closure"/>
-
+             
 	</data>
 </odoo>

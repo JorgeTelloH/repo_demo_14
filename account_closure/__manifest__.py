@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 {
 	'name': 'Proceso de Cierre/Apertura Contable',
 	'version': "1.0.0",
 	'author': 'Franco Najarro',
 	'website':'',
 	'category':'',
-	'depends':['account','account_element','account_fiscal_year_period','unique_library_accounting_queries'],
+	'depends':['account','account_element','unique_library_accounting_queries','analytic_distribution'],
 	'description':'''
 		Modulo para Proceso de Cierre/Apertura Contable.
 			> Cierre/Apertura Contable

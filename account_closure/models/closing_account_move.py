@@ -42,6 +42,7 @@ class ClosingAccountMove(models.Model):
 	@api.depends('generated_account_move_id')
 	def compute_exist_move_id(self):
 		for rec in self:
+			rec.exist_move_id = False
 			if rec.generated_account_move_id:
 				rec.exist_move_id = True
 			else:
@@ -68,6 +69,7 @@ class ClosingAccountMove(models.Model):
 	@api.depends('relationship_between_accounts_id')
 	def compute_campo_name_relationship(self):
 		for rec in self:
+			rec.name_relationship = False
 			if rec.relationship_between_accounts_id:
 				rec.name_relationship=rec.relationship_between_accounts_id.name
 
@@ -75,6 +77,7 @@ class ClosingAccountMove(models.Model):
 	@api.depends('relationship_between_accounts_id')
 	def _compute_campo_operation_type(self):
 		for rec in self:
+			rec.operation_type = False
 			if rec.relationship_between_accounts_id:
 				rec.operation_type=rec.relationship_between_accounts_id.operation_type
 
@@ -281,27 +284,27 @@ class ClosingAccountMove(models.Model):
 		self.env.cr.execute(string_update)
 
 	
-	def update_account_period_fiscal_year(self):
+	#def update_account_period_fiscal_year(self):
 
-		query_account_period= """select id from account_period where code='%s/%s' and special=true"""%(
-				'00' if self.operation_type=='opening' else '13',self.date.split('-')[0])
+	#	query_account_period= """select id from account_period where code='%s/%s' and special=true"""%(
+	#			'00' if self.operation_type=='opening' else '13',self.date.split('-')[0])
 
-		self.env.cr.execute(query_account_period)
-		id_account_period_init=self.env.cr.dictfetchall()
-		id_account_period=[]
+	#	self.env.cr.execute(query_account_period)
+	#	id_account_period_init=self.env.cr.dictfetchall()
+	#	id_account_period=[]
 
-		if len(id_account_period_init or ''):
-			id_account_period = id_account_period_init[0]['id']
+	#	if len(id_account_period_init or ''):
+	#		id_account_period = id_account_period_init[0]['id']
 
-		if id_account_period:
-			self.env.cr.execute("""update account_move_line set period_id=%s where move_id=%s"""%(
-				id_account_period,
-				self.generated_account_move_id.id))
+	#	if id_account_period:
+	#		self.env.cr.execute("""update account_move_line set period_id=%s where move_id=%s"""%(
+	#			id_account_period,
+	#			self.generated_account_move_id.id))
 
 
-			self.env.cr.execute("""update account_move set period_id=%s where id=%s""" % (
-				id_account_period,
-				self.generated_account_move_id.id))
+	#		self.env.cr.execute("""update account_move set period_id=%s where id=%s""" % (
+	#			id_account_period,
+	#			self.generated_account_move_id.id))
 
 
 
@@ -311,8 +314,8 @@ class ClosingAccountMove(models.Model):
 		new_account_move_line = self.env['account.move.line'].with_context(check_move_validity=False)
 
 		for line in self.account_move_line_ids:
-			#has_distribution=line.account_id.has_distribution
-			#line.account_id.write({'has_distribution':False})
+			has_distribution=line.account_id.has_distribution
+			line.account_id.write({'has_distribution':False})
 
 			apunte_contrapartida_conciliacion = new_account_move_line.create({
 				'move_id':self.generated_account_move_id.id,
@@ -320,21 +323,21 @@ class ClosingAccountMove(models.Model):
 				#'branch_id':line.branch_id.id ,
 				'name':line.name or '',
 				'date':line.date,
-				# 'currency_id':line.currency_id.id or line.account_id.currency_id.id,
+				'currency_id':line.currency_id.id or line.account_id.currency_id.id or None,
 				# 'amount_currency':-line.amount_currency,
-				# 'amount_currency':0.00,
+				'amount_currency':0.00,
 				# 'amount_residual':0.00,
 				# 'amount_residual_currency':0.00,
 				'debit': line.debit,
 				'credit': line.credit,
-				'analytic_tag_ids':None
+				#'analytic_tag_ids':None
 			})
-			# apunte_contrapartida_conciliacion.write({'has_distribution':has_distribution})
-			#line.account_id.write({'has_distribution':has_distribution})
+			#apunte_contrapartida_conciliacion.write({'has_distribution':has_distribution})
+			line.account_id.write({'has_distribution':has_distribution})
 		self.generated_account_move_id.post()
 
 		self.update_amount_residual_zero(self.generated_account_move_id.id)
-		self.update_account_period_fiscal_year()
+		#self.update_account_period_fiscal_year()
 
 
 	# self.env.cr.execute("UPDATE account_payment_detail SET account_id = " + str(invoice_id.account_id.id) + " WHERE id = " + str(line.id))
