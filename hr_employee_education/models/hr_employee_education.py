@@ -27,10 +27,10 @@ class HrEmployeeEducation(models.Model):
         ('maestria', 'Maestria'),
         ('Doctorado', 'Doctorado')
         ], string='Nivel de Estudio', required=True)
-	study_center_id = fields.Many2one('hr.study.center', string="Centro de Estudios")
-	study_situation_id = fields.Many2one('hr.educational.situation', string="Situación de Estudios")
-	start_date = fields.Date(string="Fecha Inicio", tracking=True)
-	finish_date = fields.Date(string="Fecha Fin", tracking=True)
+    study_center_id = fields.Many2one('hr.study.center', string="Centro de Estudios", required=True)
+    study_situation_id = fields.Many2one('hr.educational.situation', string="Situación de Estudios")
+    start_date = fields.Date(string="Fecha Inicio", tracking=True)
+    finish_date = fields.Date(string="Fecha Fin", tracking=True)
 
     #Solo en caso sea Primaria o Secundaria
     @api.onchange('study_level')
