@@ -58,7 +58,7 @@
                     <button name="action_approved" class="oe_highlight" states="draft" string="Aprobado" type="object"/>
                     <button string='Calcular Saldo(s)' type='object' name="action_calculate_balances" groups="account.group_account_user, account.group_account_invoice, account.group_account_manager" attrs="{'invisible': [('state', 'not in', ('approved'))]}"/>
                     <button string='Conciliar Pagos' type='object' name="action_reconcile_pay" class="oe_highlight" groups="account.group_account_manager" attrs="{'invisible': [('state', 'not in', ('approved'))]}"/>
-                    <button name="action_return_reconcile" class="oe_highlight" states="rembolso,cobro" string="Regresar a conciliaciones" type="object"/>
+                    <button name="action_return_reconcile" class="oe_highlight" states="rembolso,cobro,done" string="Regresar a conciliaciones" type="object"/>
                     <button name="%(action_payment_register_expense_wizard)d" id="account_expense_payment_btn" type="action" states="approved" string="Agregar Pago" class="oe_highlight"/>
                     <button name="%(action_payment_expense_wizard)d" id="account_expense_payment_btn" type="action" states="rembolso,cobro" string="Registrar Pago" class="oe_highlight"/>
                 </header>
