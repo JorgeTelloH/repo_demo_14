@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_study_center_form_view" model="ir.ui.view">
+            <field name="name">hr.study.center.form</field>
+            <field name="model">hr.study.center</field>
+            <field name="arch" type="xml">
+                <form string="Centros de Estudios">
+                    <sheet>
+                       <group >
+                           <field name="name" colspan="2"/>
+                           <field name="active" colspan="2"/>
+                       </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_study_center_tree_view" model="ir.ui.view">
+            <field name="name">hr.study.center.tree</field>
+            <field name="model">hr.study.center</field>
+            <field name="arch" type="xml">
+                <tree string="Centros de Estudios">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="hr_study_center_search_view" model="ir.ui.view">
+            <field name="name">hr.study.center.search</field>
+            <field name="model">hr.study.center</field>
+            <field name="arch" type="xml">
+                <search string="Centros de Estudios">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="hr_study_center_act_window" model="ir.actions.act_window">
+            <field name="name">Centros de Estudios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.study.center</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+       <menuitem
+                id="menu_study_center_tree"
+                action="hr_study_center_act_window"
+                parent="hr.menu_human_resources_configuration"
+                sequence="99"
+                groups="hr.group_hr_user"/>
+    </data>
+</odoo>

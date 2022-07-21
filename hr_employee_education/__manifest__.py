@@ -14,6 +14,7 @@
         'security/ir.model.access.csv',
         'views/hr_employee_view.xml',
         'views/hr_employee_education_view.xml',
+        'views/hr_study_center_views.xml',
     ],
     'installable': True,
     'auto_install': False,
