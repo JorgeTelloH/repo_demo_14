@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_education_employee,hr.employee.education_employee,model_hr_employee_education,base.group_user,1,0,0,0
+access_hr_employee_education_manager,hr.employee.education_manager,model_hr_employee_education,hr.group_hr_manager,1,1,1,1
+access_hr_employee_education_user,hr.employee.education_user,model_hr_employee_education,hr.group_hr_user,1,1,1,1
+access_hr_employee_study_center_manager,hr.employee.study_center_manager,model_hr_study_center,hr.group_hr_manager,1,1,1,1
+access_hr_employee_study_center_user,hr.employee.study_center_user,model_hr_study_center,base.group_user,1,0,0,0
