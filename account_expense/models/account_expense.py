@@ -182,7 +182,8 @@ class Expense(models.Model):
                 amount_inv += ammt_expn
 
         move_lines = self.create_lines_move()
-        move = self.env['account.move'].create({
+
+        move = self.env['account.move'].with_context(default_move_type='entry').create({
             'ref': 'GASTO RENDIDO ' + self.name,
             'date': fields.Date.today(),
             #'process_account_date': fields.Date.today(),
@@ -190,6 +191,7 @@ class Expense(models.Model):
             'journal_id': self.company_id.journal_expense_id.id,
             'currency_id':self.currency_id.id,
         })
+
         move.write({'line_ids': move_lines})  # agregamos al move
         move.post()  # Validamos
         self.rendi_move_id = move
