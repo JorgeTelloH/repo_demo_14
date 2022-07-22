@@ -114,7 +114,7 @@ class HrEmployee(models.Model):
     def action_get_dni(self):
         self.ensure_one()
         if self.identification_id and self.document_type.code == '01':
-            Warning('Configure _update_dni')
+            raise Warning('Configure _update_dni')
             #self._update_dni()
 
     #def _update_dni(self):
