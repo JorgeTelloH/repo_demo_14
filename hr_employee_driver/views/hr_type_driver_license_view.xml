@@ -31,6 +31,9 @@
             <field name="arch" type="xml">
                 <search string="Tipos de Licencia de Conducir">
                     <field name="name"/>
+                    <separator/>
+                    <filter name="Activo" string="Activo" domain="[('active', '=', True)]"/>
+                    <filter name="Inactivo" string="Inactivo" domain="[('active', '=', False)]"/>
                 </search>
             </field>
         </record>
