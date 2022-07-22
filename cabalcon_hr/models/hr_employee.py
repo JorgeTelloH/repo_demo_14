@@ -123,8 +123,22 @@ class HrEmployee(models.Model):
         company_id = self.company_id or self.env['res.company'].browse(self.env.company.id) 
         if not company_id.search_api_peru:
             raise Warning('Configure el token en la compañia')
-        else:
-            raise Warning('Configure _update_dni')
+        token = company_id.token_api_peru
+        #Arma consulta RENIEC con el DNI y Token
+        url = ('%s/%s?token=%s' % (URL_RENIEC, self.identification_id, token))
+        ses = requests.session()
+        res = ses.get(url)
+        if res.status_code == 200:
+            dic_res = json.loads(res.text)
+            if dic_res:
+                nombres = dic_res.get('nombres')
+                apellidoPaterno = dic_res.get('apellidoPaterno')
+                apellidoMaterno = dic_res.get('apellidoMaterno')
+
+                self.firstname = nombres
+                self.lastname = apellidoPaterno
+                self.lastname2 = apellidoMaterno
+
         return True
     #        company_id = self.company_id or self.env['res.company'].browse(self.env.company.id) 
     #        if not company_id.search_api_peru:
