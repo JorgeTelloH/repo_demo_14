@@ -36,7 +36,10 @@ class HrEmployee(models.Model):
             date_expire = rec.license_expiration or fields.Date().today()
             delta = date_expire - now
             if delta.days >= -1:
-                rec.days_to_expire = delta.days + 1
+                if rec.license_expiration:
+                    rec.days_to_expire = delta.days + 1
+                else:
+                    rec.days_to_expire = 0
             else:
                 rec.days_to_expire = 0
 
