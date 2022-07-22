@@ -6,11 +6,11 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <sheet position="before">
+                <!--<sheet position="before">
                     <header>
                         <button string="Consultar DNI" type="object" name="valida_dni"/>
                     </header>
-                </sheet>
+                </sheet>-->
                 <!--Quitamos datos -->
                 <xpath expr="//field[@name='company_id']" position="replace"/>
                 <xpath expr="//field[@name='job_id']" position="replace"/>

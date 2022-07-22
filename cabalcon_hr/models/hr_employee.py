@@ -2,9 +2,9 @@
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError, Warning
-import requests
-import json
-URL_RENIEC = 'https://dniruc.apisperu.com/api/v1/dni'
+#import requests
+#import json
+#URL_RENIEC = 'https://dniruc.apisperu.com/api/v1/dni'
 
 
 class HrEmployee(models.Model):
@@ -111,9 +111,9 @@ class HrEmployee(models.Model):
                     raise ValidationError('El documento de identificación especificado ya existe para {}'.format(text))
 
     #============= INI CONSULTAR DNI =============
-    def valida_dni(self):
-    if self.identification_id and self.document_type.code == '01':
-        Warning('Configure el token en la compañia')
+    #def valida_dni(self):
+    #if self.identification_id and self.document_type.code == '01':
+    #    Warning('Configure el token en la compañia')
         #self._update_dni()
 
     #def _update_dni(self):
