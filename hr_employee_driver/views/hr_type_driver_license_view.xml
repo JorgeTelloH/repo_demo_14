@@ -19,9 +19,9 @@
             <field name="name">hr.type.driver.license.tree</field>
             <field name="model">hr.type.driver.license</field>
             <field name="arch" type="xml">
-                <tree string="Tipos de Licencia de Conducir">
+                <tree string="Tipos de Licencia de Conducir" editable="bottom">
                     <field name="name"/>
-                    <field name="active"/>
+                    <field name="active" widget="boolean_toggle"/>
                 </tree>
             </field>
         </record>
