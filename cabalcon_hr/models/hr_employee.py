@@ -140,37 +140,7 @@ class HrEmployee(models.Model):
                 self.lastname2 = apellidoMaterno
 
         return True
-    #        company_id = self.company_id or self.env['res.company'].browse(self.env.company.id) 
-    #        if not company_id.search_api_peru:
-    #            return False
-    #        if not company_id.token_api_peru:
-    #            raise Warning('Configure el token en la compañia')
-
-    #        token = company_id.token_api_peru
-    #        vat = self.identification_id
-    #        if len(vat) == 8:
-    #            try:
-    #                int(vat)
-    #            except:
-    #                self.identification_id = False
-    #                raise Warning('Nro Documento Identidad incorrecto')
-    #            #Arma consulta RENIEC con el DNI y Token
-    #            url = ('%s/%s?token=%s' % (URL_RENIEC, self.vat, token))
-    #            ses = requests.session()
-    #            res = ses.get(url)
-    #            if res.status_code == 200:
-    #                dic_res = json.loads(res.text)
-    #                if dic_res:
-    #                    self.firstname = dic_res.get('nombres')
-    #                    self.lastname = dic_res.get('apellidoPaterno')
-    #                    self.lastname2 = dic_res.get('apellidoMaterno')
-
-    #        else:
-    #            self.identification_id = False
-    #            raise Warning('Nro Documento Identidad incorrecto')
-
     #============= FIN CONSULTAR DNI =============
-
 
 
 class HrContractType(models.Model):
