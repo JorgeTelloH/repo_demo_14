@@ -8,8 +8,8 @@
                 <form string="Tipos de Licencia de Conducir">
                     <sheet>
                        <group >
-                           <field name="name" colspan="2"/>
-                           <field name="active" colspan="2"/>
+                           <field name="name"/>
+                           <field name="active"/>
                        </group>
                     </sheet>
                 </form>
@@ -35,7 +35,7 @@
             </field>
         </record>
         <record id="hr_type_driver_license_act_window" model="ir.actions.act_window">
-            <field name="name">Tipos Licencia de Conducir</field>
+            <field name="name">Tipos de Brevete</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.type.driver.license</field>
             <field name="view_mode">tree,form</field>

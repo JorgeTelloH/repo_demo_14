@@ -6,7 +6,10 @@
         Agrega Datos de Conductor en Empleados""",
 
     'description': """
-        Agrega Datos de Conductor en Empleados.
+        Agrega Datos de Conductor en Empleados:
+        - Licencias de Conducir
+        - Activar a Empleado como Conductor
+        - SOAT
     """,
 
     'author': "TH",

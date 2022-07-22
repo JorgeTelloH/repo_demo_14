@@ -1,24 +1,13 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
-
 from datetime import datetime
-
-class HrTypeDriverLicense(models.Model):
-    _name = 'hr.type.driver.license'
-    _description = 'Tipos de Licencia de Conducir'
-
-    name = fields.Char(string='Tipo de Licencia', required=True)
-    active = fields.Boolean(string='Activo', default=True)
 
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     driver = fields.Boolean(string='Es Conductor?', help='Activar solo si el Empleado es conductor')
-    type_employee = fields.Selection([("planilla", "Planilla"), ("tercero", "Tercero")], string='Tipo Empleado (No Usar)', default='planilla')
-    partner_id = fields.Many2one('res.partner', string='Proveedor (No Usar)', index=True)
     driver_license = fields.Char(string='Nro Brevete')
-    license_type = fields.Char(string='Tipo Licencia (No Usar)')
     license_type_id = fields.Many2one('hr.type.driver.license', string="Tipo de Brevete")
     license_expiration = fields.Date(string='Caducidad de Brevete', help='Fecha de Caducidad de Brevete')
     days_to_expire = fields.Integer(compute='_compute_days_to_expire', string='Caducidad de Brevete')
