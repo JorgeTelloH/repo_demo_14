@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_type_driver_license_form_view" model="ir.ui.view">
+            <field name="name">hr.type.driver.license.form</field>
+            <field name="model">hr.type.driver.license</field>
+            <field name="arch" type="xml">
+                <form string="Tipos de Licencia de Conducir">
+                    <sheet>
+                       <group >
+                           <field name="name" colspan="2"/>
+                           <field name="active" colspan="2"/>
+                       </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_type_driver_license_tree_view" model="ir.ui.view">
+            <field name="name">hr.type.driver.license.tree</field>
+            <field name="model">hr.type.driver.license</field>
+            <field name="arch" type="xml">
+                <tree string="Tipos de Licencia de Conducir">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="hr_type_driver_license_search_view" model="ir.ui.view">
+            <field name="name">hr.type.driver.license.search</field>
+            <field name="model">hr.type.driver.license</field>
+            <field name="arch" type="xml">
+                <search string="Tipos de Licencia de Conducir">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="hr_type_driver_license_act_window" model="ir.actions.act_window">
+            <field name="name">Tipos Licencia de Conducir</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.type.driver.license</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+       <menuitem
+                id="menu_hr_type_driver_license_tree"
+                action="hr_type_driver_license_act_window"
+                parent="hr.menu_human_resources_configuration"
+                sequence="97"
+                groups="hr.group_hr_user"/>
+    </data>
+</odoo>

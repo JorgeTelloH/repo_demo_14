@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="view_employee_form_driver" model="ir.ui.view">
+        <field name="name">hr.employee.driver.form.view</field>
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page string="Datos Conductor">
+                <page string="Datos de Conductor">
                     <group>
-                    	<group string="Activación">
-                        	<field name="driver"/>
-                            <field name="partner_id" options="{'no_create_edit': True}" attrs="{'invisible':[('driver','=',False)]}"/>
-                    	</group>
-                    	<group string="Licencia de conducir">
+                        <group name="active_driver" string="Activación">
+                            <field name="driver"/>
+                            <!--<field name="partner_id" options="{'no_create_edit': True}" attrs="{'invisible':[('driver','=',False)]}"/>-->
+                        </group>
+                        <group name="data_driver_license" string="Licencia de conducir">
                             <field name="driver_license" attrs="{'invisible':[('driver','=',False)]}"/>
-                        	<field name="license_type" attrs="{'invisible': [('driver','=',False)]}"/>
-                        	<field name="license_expiration" attrs="{'invisible': [('driver','=',False)]}"/>
-                        	<field name="days_to_expire" attrs="{'invisible': [('driver','=',False)]}"/>
-                    	</group>
-                	</group>
+                            <field name="license_type_id" options="{'no_create_edit': True}" attrs="{'invisible': [('driver','=',False)]}"/>
+                            <field name="license_expiration" attrs="{'invisible': [('driver','=',False)]}"/>
+                            <field name="days_to_expire" attrs="{'invisible': [('driver','=',False)]}"/>
+                        </group>
+                        <group></group>
+                        <group name="data_soat" string="Datos SOAT">
+                            <field name="soat_nbr" attrs="{'invisible':[('driver','=',False)]}"/>
+                            <field name="soat_start_date" attrs="{'invisible': [('driver','=',False)]}"/>
+                            <field name="soat_finish_date" attrs="{'invisible': [('driver','=',False)]}"/>
+                            <field name="soat_days_to_expire" attrs="{'invisible': [('driver','=',False)]}"/>
+                        </group>
+                    </group>
                 </page>
             </notebook>
-            <!-- <xpath expr="//field[@name='work_location']" position="after">
-                <field name="type_employee"/>
-            </xpath> -->
         </field> 
     </record>
     <record id="view_employee_tree_driver" model="ir.ui.view">
@@ -32,11 +37,13 @@
         <field name="arch" type="xml">
             <field name="parent_id" position="after">
                 <field name="driver"/>
-                <field name="partner_id"/>
-                <field name="license_type"/>
+                <!--<field name="partner_id"/>-->
+                <field name="license_type_id"/>
                 <field name="driver_license"/>
-                <field name="create_uid"/>
-                <field name="create_date"/>
+                <field name="license_expiration"/>
+                <field name="soat_nbr"/>
+                <field name="soat_start_date"/>
+                <field name="soat_finish_date"/>
             </field>
         </field>
     </record>
@@ -46,15 +53,21 @@
         <field name="inherit_id" ref="hr.view_employee_filter"/>
         <field name="arch" type="xml">
             <field name="job_id" position="after">
-                <field name="partner_id"/>
-                <field name="license_type"/>
+                <!--<field name="partner_id"/>-->
+                <field name="license_type_id"/>
                 <field name="driver_license"/>
+                <field name="soat_nbr"/>
             </field>
             <filter name="inactive" position="after">
                 <separator/>
                 <filter string="Es conductor" name="driver" domain="[('driver','=',True)]"/>
                 <filter string="No es conductor" name="driver" domain="[('driver','!=',True)]"/>
                 <separator/>
+            </filter>
+            <filter name='group_job' position="after">
+                <filter name='group_license_type' string="Tipo de Brevete"  context="{'group_by': 'license_type_id'}"/>
+                <filter name='group_license_expiration' string="Caducidad de Brevete" context="{'group_by': 'license_expiration'}"/>
+                <filter name='group_soat_finish_date' string="Caducidad de SOAT" context="{'group_by': 'soat_finish_date'}"/>
             </filter>
         </field>
     </record>
@@ -71,7 +84,7 @@
             <p class="o_view_nocontent_smiling_face">
                 Clic para agregar Nuevo Conductor.
             </p><p>
-                Con solo un vistazo rápido a la pantalla de Empleados en Odoo,
+                Con solo un vistazo rápido a la pantalla de Empleados,
                 puede encontrar fácilmente toda la información que necesita para cada persona;
                 datos de contacto, puesto de trabajo, disponibilidad, etc.
             </p>

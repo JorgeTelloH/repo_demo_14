@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="type_driver_license_01" model="hr.type.driver.license">
+            <field name="name">A-I</field>
+        </record>
+        <record id="type_driver_license_02" model="hr.type.driver.license">
+            <field name="name">A-IIa</field>
+        </record>
+        <record id="type_driver_license_03" model="hr.type.driver.license">
+            <field name="name">A-IIb</field>
+        </record>
+        <record id="type_driver_license_04" model="hr.type.driver.license">
+            <field name="name">A-IIIa</field>
+        </record>
+        <record id="type_driver_license_05" model="hr.type.driver.license">
+            <field name="name">A-IIIb</field>
+        </record>
+        <record id="type_driver_license_06" model="hr.type.driver.license">
+            <field name="name">A-IIIc</field>
+        </record>
+        <record id="type_driver_license_07" model="hr.type.driver.license">
+            <field name="name">B-I</field>
+        </record>
+        <record id="type_driver_license_08" model="hr.type.driver.license">
+            <field name="name">B-IIa</field>
+        </record>
+        <record id="type_driver_license_09" model="hr.type.driver.license">
+            <field name="name">B-IIb</field>
+        </record>
+        <record id="type_driver_license_10" model="hr.type.driver.license">
+            <field name="name">B-IIc</field>
+        </record>
+    </data>
+</odoo>
