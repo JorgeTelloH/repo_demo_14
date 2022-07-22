@@ -50,6 +50,9 @@ class HrEmployee(models.Model):
             soat_date_expire = rec.soat_finish_date or fields.Date().today()
             delta = soat_date_expire - now
             if delta.days >= -1:
-                rec.soat_days_to_expire = delta.days + 1
+                if rec.soat_finish_date:
+                    rec.soat_days_to_expire = delta.days + 1
+                else:
+                    rec.soat_days_to_expire = 0
             else:
                 rec.soat_days_to_expire = 0
