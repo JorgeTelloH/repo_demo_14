@@ -111,7 +111,7 @@ class HrEmployee(models.Model):
 
     #============= INI CONSULTAR DNI =============
     def valida_dni(self):
-    if self.identification_id and self.document_type.code ='01':
+    if self.identification_id and self.document_type.code == '01':
         self._update_dni()
 
     def _update_dni(self):
