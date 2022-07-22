@@ -114,12 +114,15 @@ class HrEmployee(models.Model):
     def action_get_dni(self):
         self.ensure_one()
         if self.identification_id and self.document_type.code == '01':
-            #raise Warning('Configure _update_dni')
-            self._update_dni()
+            if len(self.identification_id) == 8 and int(self.identification_id):
+                self._update_dni()
+            else:
+                raise Warning('Documento de Identidad incorrecto!')
 
     def _update_dni(self):
-        if not self.identification_id:
-            return False
+        company_id = self.company_id or self.env['res.company'].browse(self.env.company.id) 
+        if not company_id.search_api_peru:
+            raise Warning('Configure el token en la compañia')
         else:
             raise Warning('Configure _update_dni')
         return True
