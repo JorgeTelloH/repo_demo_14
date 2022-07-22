@@ -9,6 +9,19 @@
                 <group string="Notificaciones">
                     <field name="alert_contract"/>
                     <field name="notification_contract_expiration_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    <field name="notification_vac_expiration_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <group string="Asignación Familiar">
+                    <field name="is_af"/>
+                    <field name="percent_af" attrs="{'invisible': [('is_af', '=', False)]}"/>
+                </group>
+                <group string="Ausencias">
+                    <field name="number_absences"/>
+                    <field name="vacation_days_allowed"/>
+                    <field name="days_medical_certificate"/>
+                </group>
+                <group string="Beneficios sociales">
+                    <field name="porcet_gratification"/>
                 </group>
             </group>
         </field>

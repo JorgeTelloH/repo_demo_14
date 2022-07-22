@@ -9,7 +9,7 @@ class HrWorkCertificatesWizard(models.TransientModel):
     employee_id = fields.Many2one('hr.employee', string='Employee', required=True,
                                   default=lambda self: self.env.context.get('active_id', None),
                                   )
-    opinion = fields.Text(string="Opinión", required=True, help="Opinión que se plasmara en el Certificado de trabajo",
+    opinion = fields.Text(string="Opinión", help="Opinión que se plasmara en el Certificado de trabajo",
                           default=lambda self: self.env.context.get('opinion', None))
 
     def action_register(self):

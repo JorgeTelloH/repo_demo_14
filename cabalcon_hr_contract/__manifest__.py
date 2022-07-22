@@ -20,6 +20,8 @@
         'views/health_entity_views.xml',
         'views/hr_employee_departure_reason_views.xml',
         'views/res_company_view.xml',
+        'views/res_config_settings_views.xml',
+        'views/resource_views.xml',
         'report/report_withdrawal_letter_cts.xml',
         'report/report_work_certificates.xml',
         'data/hr_contract_cron_data.xml',

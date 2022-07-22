@@ -23,7 +23,7 @@
                                     <br/>
                                     <br/>
                                     <p>Señores:</p>
-                                    <p>BANCO DE CREDITO DEL PERU</p>
+                                    <p style="text-transform: uppercase;"><span t-field="doc.bank_id.name"/></p>
                                     <p>Presente.</p>
 	                                <p>Nosotros <t t-esc="doc.company_id.name"/> identificada con RUC <t t-esc="doc.company_id.company_registry"/>
                                        nos dirigirnos a Uds. a fin de comunicarles que el Sr(a). <t t-esc="doc.name"/>,
