@@ -2,7 +2,8 @@
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError, Warning
-
+import requests
+import json
 URL_RENIEC = 'https://dniruc.apisperu.com/api/v1/dni'
 
 
@@ -112,7 +113,8 @@ class HrEmployee(models.Model):
     #============= INI CONSULTAR DNI =============
     def valida_dni(self):
     if self.identification_id and self.document_type.code == '01':
-        self._update_dni()
+        Warning('Configure el token en la compañia')
+        #self._update_dni()
 
     def _update_dni(self):
         if not self.identification_id:
