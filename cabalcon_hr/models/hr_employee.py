@@ -111,10 +111,11 @@ class HrEmployee(models.Model):
                     raise ValidationError('El documento de identificación especificado ya existe para {}'.format(text))
 
     #============= INI CONSULTAR DNI =============
-    #def valida_dni(self):
-    #if self.identification_id and self.document_type.code == '01':
-    #    Warning('Configure el token en la compañia')
-        #self._update_dni()
+    def action_get_dni(self):
+        self.ensure_one()
+        if self.identification_id and self.document_type.code == '01':
+            Warning('Configure _update_dni')
+            #self._update_dni()
 
     #def _update_dni(self):
     #    if not self.identification_id:

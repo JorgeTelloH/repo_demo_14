@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button name="valida_dni" string="Consultar DNI" type="object"/>
+                    <button name="action_get_dni" string="Consultar DNI" class="btn btn-secondary" type="object"/>
                 </xpath>
                 <!--Quitamos datos -->
                 <xpath expr="//field[@name='company_id']" position="replace"/>
