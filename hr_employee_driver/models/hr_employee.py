@@ -32,27 +32,21 @@ class HrEmployee(models.Model):
     @api.depends('license_expiration')
     def _compute_days_to_expire(self):
         for rec in self:
-            if rec.license_expiration:
-                now = fields.Date().today()
-                date_expire = rec.license_expiration or fields.Date().today()
-                delta = date_expire - now
-                if delta.days >= -1:
-                    rec.days_to_expire = delta.days + 1
-                else:
-                    rec.days_to_expire = 0
+            now = fields.Date().today()
+            date_expire = rec.license_expiration or fields.Date().today()
+            delta = date_expire - now
+            if delta.days >= -1:
+                rec.days_to_expire = delta.days + 1
             else:
                 rec.days_to_expire = 0
 
     @api.depends('soat_finish_date')
     def _compute_soat_days_to_expire(self):
         for rec in self:
-            if rec.soat_finish_date:
-                now = fields.Date().today()
-                soat_date_expire = rec.soat_finish_date or fields.Date().today()
-                delta = soat_date_expire - now
-                if delta.days >= -1:
-                    rec.soat_days_to_expire = delta.days + 1
-                else:
-                    rec.soat_days_to_expire = 0
+            now = fields.Date().today()
+            soat_date_expire = rec.soat_finish_date or fields.Date().today()
+            delta = soat_date_expire - now
+            if delta.days >= -1:
+                rec.soat_days_to_expire = delta.days + 1
             else:
                 rec.soat_days_to_expire = 0

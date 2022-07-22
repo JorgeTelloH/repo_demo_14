@@ -20,7 +20,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/hr_employee_view.xml',
         'views/hr_type_driver_license_view.xml',
         'data/data_type_driver_license.xml',
