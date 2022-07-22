@@ -3,7 +3,7 @@
     'name': 'Empleados para Perú',
     'summary': 'Personalización de Empleados',
     'description': """
-    Personalización del módulo de Recursos Humanos
+    Personalización del módulo de Empleados para Perú
 	""",
     'version': '1.0',
     'category': 'Human Resources/Employees',
