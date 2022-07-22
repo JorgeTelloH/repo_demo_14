@@ -2,12 +2,11 @@
 from odoo import fields, models, api
 
 
-class Afp(models.Model):
+class ResAfp(models.Model):
     _name = 'res.afp'
     _description = 'Administradoras de Fondos de Pensiones'
-    _sql_constraints = [
-        ('code', 'unique (code)', 'El código de la AFP debe ser único!')
-    ]
+
+    _sql_constraints = [ ('code', 'unique (code)', 'El código de la AFP debe ser único!') ]
 
     code = fields.Char(string='Código', required=True)
     name = fields.Char(string='Nombre', required=True)
@@ -17,4 +16,3 @@ class Afp(models.Model):
     commission_mixed_year = fields.Float(string='Comisión Mixta Anual')
     insurance = fields.Float(string='Seguro')
     rma = fields.Float(string='Remuneración maxima asegurable')
-

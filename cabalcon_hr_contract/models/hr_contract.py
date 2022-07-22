@@ -12,25 +12,18 @@ class Contract(models.Model):
     structure_type_id = fields.Many2one(tracking=True)
     resource_calendar_id = fields.Many2one(tracking=True)
     reason = fields.Text(string="Razón", help='Especifique la razón de la cancelación')
-    contract_type_id = fields.Many2one('hr.contract.type', 'Contract Type', required=True, tracking=True)
-    state = fields.Selection([
-        ('draft', 'New'),
-        ('open', 'Running'),
-        ('near_expire', 'Próximo a expirar'),
-        ('close', 'Expired'),
-        ('cancel', 'Cancelled')
-    ], string='Status', group_expand='_expand_states', copy=False,
-        tracking=True, help='Status of the contract', default='draft')
+    contract_type_id = fields.Many2one('hr.contract.type', string='Tipo de Contrato', required=True, tracking=True)
+    state = fields.Selection(selection_add=[('near_expire', 'Próximo a expirar')] )
     # Informacion de la afp del empleado
-    regimen_pensions = fields.Char(string='AFP', compute="_compute_afp_info")
+    regimen_pensions = fields.Char(string='Pensión AFP', compute="_compute_afp_info")
     afp_id = fields.Many2one('res.afp', string='AFP', compute="_compute_afp_info")
-    afp_seat = fields.Float(string='Fondo', compute="_compute_afp_info")
+    afp_seat = fields.Float(string='Fondo AFP', compute="_compute_afp_info")
     afp_commission_flow = fields.Float(string='Comisión flujo', compute="_compute_afp_info")
     afp_commission_mixed = fields.Float(string='Comisión mixta', compute="_compute_afp_info")
     afp_insurance = fields.Float(string='Seguro', compute="_compute_afp_info")
     # campo para marcar si tiene impuesto a la renta de quinta categoría
-    has_rent_5ta = fields.Boolean(string='Ret. Renta 5ta', default=False,
-                                  help='Marque esta casilla se el empleado se acoge al impuesto a la renta de quinta categoría')
+    has_rent_5ta = fields.Boolean(string='Tiene Renta 5ta Categoría?', default=False,
+                                  help='Marque esta casilla se el empleado se tiene impuesto a la renta de quinta categoría')
 
     def name_get(self):
         res = []
@@ -55,7 +48,6 @@ class Contract(models.Model):
 
     def _compute_afp_info(self):
         for contract in self:
-
             if contract.employee_id.regimen_pensions == 'afp':
                 contract.regimen_pensions = contract.employee_id.regimen_pensions
                 contract.afp_id = contract.employee_id.afp_id
@@ -85,8 +77,7 @@ class Contract(models.Model):
             outdated_days = fields.Date.to_string(date_today + relativedelta(days=company.alert_contract))
             nearly_expired_contracts = self.search([('state', '=', 'open'), ('date_end', '<', outdated_days)])
             if not company.notification_contract_expiration_ids:
-                raise ValidationError(
-                    "No se ha configurado el/los empleado al que se le notificara los contratos próximos a expirar")
+                raise ValidationError("No se ha configurado el/los empleado(s) al que se le notificará los contratos próximos a expirar")
 
             template = self.env.ref('cabalcon_hr_contract.email_template_notification_contract')
             users = company.notification_contract_expiration_ids

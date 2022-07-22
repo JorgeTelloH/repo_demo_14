@@ -12,6 +12,6 @@ class OccupationalCategory(models.Model):
     name = fields.Char(string='Nombre', required=True)
     code = fields.Char(string='Código', required=True)
     private_sector = fields.Boolean(string='Sector Privado',required=True)
-    public_sector = fields.Boolean(string='Sector Publico',required=True)
+    public_sector = fields.Boolean(string='Sector Público',required=True)
     other_entities = fields.Boolean(string='Otras Entidades',required=True)
     active = fields.Boolean(string='Activo',  default=True)

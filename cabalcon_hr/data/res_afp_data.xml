@@ -33,14 +33,5 @@
             <field name="commission_mixed">0.38</field>
             <field name="insurance">1.36</field>
         </record>
-<!--        <record id="afp_ONP" model="res.afp">-->
-<!--            <field name="code">ONP</field>-->
-<!--            <field name="name">Oficina de normalización previsional</field>-->
-<!--            <field name="seat">9</field>-->
-<!--            <field name="commission_flow">0</field>-->
-<!--            <field name="commission_mixed">0</field>-->
-<!--            <field name="insurance">0</field>-->
-<!--        </record>-->
-
     </data>
 </odoo>

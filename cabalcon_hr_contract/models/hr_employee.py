@@ -9,16 +9,13 @@ from odoo.osv import expression
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    time_work = fields.Char('Tiempo de Servicio', compute="_compute_time_work")
-    departure_reason = fields.Many2one('hr.employee.departure.reason', 'Departure reason')
-
+    time_work = fields.Char(string='Tiempo de Servicio', compute="_compute_time_work")
+    departure_reason = fields.Many2one('hr.employee.departure.reason', string='Motivo de Salida')
     # campos para la seguridad social
-    has_social_security = fields.Selection([('Y', 'Si'), ('N', 'No')], string='Seguro Social')
-
-
+    has_social_security = fields.Selection([('Y', 'Si'), ('N', 'No')], string='Tiene Seguro Social?')
     # campos para la EPS
-    eps = fields.Boolean(string='Tiene EPS', default=False)
-    social_security_id = fields.Many2one('hr.employee.health.entity', string='Aseguradora de salud')
+    eps = fields.Boolean(string='Tiene EPS?', default=False)
+    social_security_id = fields.Many2one('hr.employee.health.entity', string='Aseguradora de Salud')
     eps_amount_plan = fields.Float(string='Plan EPS')
     eps_amount = fields.Float(string='Importe EPS')
     eps_credit = fields.Integer(string='Cantidad de credito EPS')
@@ -39,7 +36,7 @@ class HrEmployee(models.Model):
                 record.time_work = ""
 
     def get_date_to_report(self, date):
-        months = ("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
+        months = ("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre",
                   "Noviembre", "Diciembre")
         _date = ''
         if date:
@@ -94,22 +91,22 @@ class HrEmployee(models.Model):
 
 class DepartureReason(models.Model):
     _name = "hr.employee.departure.reason"
-    _description = 'Motivos de salida de la entidad'
+    _description = 'Motivos de salida de la Compañia'
 
-    code = fields.Char(string='Código', required="True")
+    code = fields.Char(string='Código', required=True)
     name = fields.Char(string='Nombre corto', required=True)
-    desc = fields.Char(string='Descripción', required="True")
-    active = fields.Boolean(string='Active',  default=True)
+    desc = fields.Char(string='Descripción', required=True)
+    active = fields.Boolean(string='Activo',  default=True)
 
     def unlink(self):
         for reason in self:
             contracts = self.env['hr.employee'].search([('departure_reason', '=', reason.id)])
             if len(contracts) > 0:
-                raise ValidationError('No puedes eliminar este motivo de salidad porque está siendo usado')
+                raise ValidationError('No puedes eliminar este Motivo de Salida porque está siendo usado')
         return super(DepartureReason, self).unlink()
 
 
 class HrDepartureWizard(models.TransientModel):
     _inherit = 'hr.departure.wizard'
 
-    departure_reason = fields.Many2one('hr.employee.departure.reason', 'Departure reason', required=True)
+    departure_reason = fields.Many2one('hr.employee.departure.reason', 'Motivo de Salida', required=True)

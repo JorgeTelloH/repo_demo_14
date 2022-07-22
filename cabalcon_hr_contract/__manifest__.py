@@ -1,17 +1,21 @@
-# -*- encoding: utf-8 -*-
-
+# -*- coding: utf-8 -*-
 {
-    'name': 'Employee Contracts - Cabalcon',
+    'name': 'Contratos de Empleados',
+    'summary': '',
+    'description': """
+Personalización del módulo de Contratos de empleado:
+    - EPS
+    - Motivos de Salida de la Compañia
+    - Alerta de Vencimiento de Contratos
+    - Autogenerar Codigo de Empleado
+
+    """,
     'version': '1.0',
-    'category': 'Human Resources/Employee Contracts',
+    'category': 'Human Resources/Contracts',
     'author': "Cabalcon",
     'website': "www.cabalcon.com",
     'sequence': 180,
-    'summary': '',
-    'depends': ['hr_contract', 'cabalcon_hr', 'base_automation'],
-    'description': """
-    Personalización del módulo de Contratos de empleado  
-""",
+    'depends': ['base_automation', 'hr_contract', 'cabalcon_hr'],
     "data": [
         'security/ir.model.access.csv',
         'views/hr_employee_views.xml',
@@ -29,11 +33,7 @@
         'data/hr_employee_departure_reason.xml',
         'data/email_template.xml',
         'wizard/work_certificates_wizard_views.xml',
-        
-    ],
-    "demo": [
     ],
     'installable': True,
     'application': False,
-    
 }

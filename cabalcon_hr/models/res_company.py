@@ -16,7 +16,6 @@ class ResCompany(models.Model):
 
     rubro = fields.Char(string='Rubro')
     # campo necesario para el modelo de liquidacion CTS
-    # general_manager = fields.Char(string='Gerente General')
     general_manager_id = fields.Many2one('res.partner', string='Gerente General', help="Gerente General de la Compañia")
     product_id = fields.Many2one('product.product', string='Producto Recibo por Honorarios',
                                  domain="[('type', '=', 'service'), '|', ('company_id', '=', False), ('company_id', '=', id)]")
@@ -27,17 +26,15 @@ class ResCompany(models.Model):
     sector = fields.Selection(string='Sector',
                               selection=[('PRIVS', 'Sector Privado'),
                                          ('PUBS', 'Sector Publico'),
-                                         ('OE', 'Otras Entidades')],
-                              help="Sector")
+                                         ('OE', 'Otras Entidades')])
 
     company_type = fields.Selection(string='Tipo de compañia',
                                     selection=[('01', 'Empresa'),
                                                ('02', 'MIPYMES')],
-                                    help="Tipo de Compañia",
                                     default='01')
     sigla = fields.Char(string='Sigla')
-    account_type = fields.Selection(string='Tipo de cuenta de cargo',
+    account_type = fields.Selection(string='Tipo de Cuenta Cargo',
                                     selection=[('C', 'Corriente'),
                                                ('M', 'Maestra')],
                                     default='C')
-    account = fields.Char(string='Cuenta de cargo')
+    account = fields.Char(string='Cuenta Cargo')

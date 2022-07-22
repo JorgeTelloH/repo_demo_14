@@ -16,16 +16,12 @@ class HrEmployee(models.Model):
     code = fields.Char('Código de Empleado', copy=False)
     occupational_category_id = fields.Many2one(related='job_id.occupational_category_id', string='Categoría Ocupacional')
     contract_type_id = fields.Many2one('hr.contract.type', string='Tipo de contratación')
-    #type_employee = fields.Selection(selection=[("planilla", "Planilla"), ("tercero", "Tercero")], string='Tipo de empleado', default='planilla')
     is_not_dependent = fields.Boolean(string='No es Independiente', compute='_compute_is_not_dependent')
-    minor_children = fields.Integer(string='Hijo(s) menor(es) de edad', copy=False)
-    is_university = fields.Boolean(string='Cursando Estudios Superiores', copy=False)  # hijos cursando estudios universitarios
     # Campos que se utilizan para la plantilla AFP Net
     regimen_pensions = fields.Selection(string='Régimen pensionario',
                                         selection=[('afp', 'AFP'),
                                                    ('onp', 'ONP'),
-                                                   ('srp', 'Sin Regimen Pensionario')],
-                                        default='afp')
+                                                   ('srp', 'Sin Regimen Pensionario')], default='afp')
     afp_id = fields.Many2one('res.afp', string='AFP')
     afp_code = fields.Char(related='afp_id.code', string='Código AFP')
     commission_type = fields.Selection(string='Tipo de comisión',
@@ -41,7 +37,7 @@ class HrEmployee(models.Model):
     # fin afp
     # Este campo se usa en el reporte Certificado de trabajo
     opinion = fields.Text(string="Opinión", groups="hr.group_hr_user", copy=False, tracking=True,
-        help="Opinión que se plasmara en el Certificado de trabajo")
+        help="Opinión que se colocará en el Certificado de trabajo")
     age = fields.Integer(compute="_compute_age")
     cts_account = fields.Many2one('res.partner.bank', string='Cuenta CTS', copy=False,
         domain="[('partner_id', '=', address_home_id), ('type', '=', '1'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
@@ -141,10 +137,3 @@ class HrEmployee(models.Model):
 
         return True
     #============= FIN CONSULTAR DNI =============
-
-
-class HrContractType(models.Model):
-    _name = 'hr.contract.type'
-    _description = 'Contract Type'
-
-    name = fields.Char(string="Tipo de Contrato", translate=True, required=True)
