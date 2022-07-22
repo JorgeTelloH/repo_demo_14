@@ -2,9 +2,9 @@
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError, Warning
-#import requests
-#import json
-#URL_RENIEC = 'https://dniruc.apisperu.com/api/v1/dni'
+import requests
+import json
+URL_RENIEC = 'https://dniruc.apisperu.com/api/v1/dni'
 
 
 class HrEmployee(models.Model):
