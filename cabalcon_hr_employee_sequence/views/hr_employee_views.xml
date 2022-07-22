@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record model="ir.ui.view" id="hr_employee_inherit_code_form_view">
         <field name="name">hr.employee.form.view.inheri.code</field>
         <field name="model">hr.employee</field>
@@ -17,26 +16,24 @@
         <field name="model_id" ref="hr.model_hr_employee"/>
         <field name="state">code</field>
         <field name="code">
-record = env['ir.sequence'].search([('code', '=', 'hr.employee.code')])
-action = {
-    'name': 'Código del empleado',
-    'type': 'ir.actions.act_window',
-    'res_id': record.id,
-    'res_model': 'ir.sequence',
-    'target': 'current',
-    'views': [(False, "form")],
-    'view_mode': 'form',
-    'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
-}
+            record = env['ir.sequence'].search([('code', '=', 'hr.employee.code')])
+            action = {
+                'name': 'Código del empleado',
+                'type': 'ir.actions.act_window',
+                'res_id': record.id,
+                'res_model': 'ir.sequence',
+                'target': 'current',
+                'views': [(False, "form")],
+                'view_mode': 'form',
+                'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+            }
         </field>
     </record>
 
-    <menuitem
-                id="menu_employee_code_config"
-                action="action_employee_code_config"
-                parent="hr.menu_human_resources_configuration"
-                sequence="20"
-                groups="hr.group_hr_user"/>
-
+    <menuitem id="menu_employee_code_config"
+        action="action_employee_code_config"
+        parent="hr.menu_human_resources_configuration"
+        sequence="20"
+        groups="hr.group_hr_user"/>
 
 </odoo>

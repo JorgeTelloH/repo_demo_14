@@ -1,7 +1,5 @@
-# -*- coding:utf-8 -*-
-
+# -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 
 
 class Employee(models.Model):
@@ -13,5 +11,3 @@ class Employee(models.Model):
         res = super(Employee, self).create(vals)
         return res
 
-
-   
