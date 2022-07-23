@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Conductores en Empleados",
-
     'summary': """
         Agrega Datos de Conductor en Empleados""",
 
