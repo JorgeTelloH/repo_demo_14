@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record id="hr_employee_family_form_view" model="ir.ui.view">
             <field name="name">hr.employee.family.form</field>
             <field name="model">hr.employee.family</field>
@@ -34,7 +35,7 @@
                                 <field name="marital"/>
                                 <field name="document_family_type_id" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="doc_attachment_id" widget="many2many_binary" class="oe_inline"/>
-                                <field name="country_id" attrs="{'invisible': [('is_passport', '=', False)]}"/>
+                                <field name="country_id" attrs="{'invisible': [('is_passport', '=', False)]}" help="Este campo se capta solo en caso de ser extranjero"/>
                                 <field name="age" invisible="1"/>
                                 <field name="is_university" attrs="{'invisible': ['|', ('is_child', '=', False),('age','&lt;',18)]}"/>
                                 <field name="is_passport" invisible="1"/>
@@ -68,7 +69,8 @@
 <!--            <field name="arch" type="xml">-->
 <!--                <search string="Familiar">-->
 <!--                    <group expand="1" string="Group By">-->
-<!--                        <filter string="Example Field" name="example_field" domain="[]" context="{'group_by':'example_field'}"/>-->
+<!--                        <filter string="Example Field" name="example_field" domain="[]"-->
+<!--                                context="{'group_by':'example_field'}"/>-->
 <!--                    </group>-->
 <!--                </search>-->
 <!--            </field>-->
@@ -80,5 +82,8 @@
             <field name="res_model">hr.employee.family</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+
+
     </data>
 </odoo>

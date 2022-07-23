@@ -14,7 +14,7 @@
                     <div class="o_setting_right_pane">
                         <label for="module_cabalcon_hr_employee_sequence"/>
                         <div class="text-muted">
-                            Generar automáticamente un código único para el Empleado
+                            Generar automáticamente un código único para el empleado
                         </div>
                     </div>
                 </div>

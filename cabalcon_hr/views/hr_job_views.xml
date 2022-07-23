@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record id="view_hr_job_form_cabalcon" model="ir.ui.view">
             <field name="name">hr.job.form.cabalcon</field>
             <field name="model">hr.job</field>

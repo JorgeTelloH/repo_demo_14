@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record id="hr_employee_health_entity_form_view" model="ir.ui.view">
             <field name="name">hr.employee.health.entity.form</field>
             <field name="model">hr.employee.health.entity</field>
             <field name="arch" type="xml">
-                <form string="Empresas Aseguradoras de Salud">
+                <form string="ModelTitle">
                     <sheet>
                         <div class="oe_title">
                             <label for="name"/>
@@ -18,7 +19,6 @@
                                 <field name="code"/>
                             </group>
                             <group>
-                                <field name="active"/>
                             </group>
                         </group>
                     </sheet>
@@ -30,7 +30,7 @@
             <field name="name">hr.employee.health.entity.tree</field>
             <field name="model">hr.employee.health.entity</field>
             <field name="arch" type="xml">
-                <tree string="Empresas Aseguradoras de Salud">
+                <tree string="ModelTitle">
                     <field name="code"/>
                     <field name="name"/>
                 </tree>
@@ -41,7 +41,7 @@
             <field name="name">hr.employee.health.entity.search</field>
             <field name="model">hr.employee.health.entity</field>
             <field name="arch" type="xml">
-                <search string="Empresas Aseguradoras de Salud">
+                <search string="ModelTitle">
                     <field name="name"/>
                     <field name="code"/>
                 </search>
@@ -49,7 +49,7 @@
         </record>
 
         <record id="hr_employee_health_entity_act_window" model="ir.actions.act_window">
-            <field name="name">Empresas Aseguradoras de Salud</field>
+            <field name="name">Aseguradoras de salud</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.employee.health.entity</field>
             <field name="view_mode">tree,form</field>
@@ -61,5 +61,7 @@
                 parent="hr.menu_human_resources_configuration"
                 sequence="30"
                 groups="hr.group_hr_user"/>
+
+
     </data>
 </odoo>

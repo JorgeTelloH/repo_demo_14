@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
@@ -6,9 +7,9 @@ from odoo.exceptions import ValidationError
 class Job(models.Model):
     _inherit = "hr.job"
 
-    occupational_category_id = fields.Many2one('hr.occupational.category', string='Categoría Ocupacional')
-    min_wage = fields.Float(string='Salario mínimo')
-    max_wage = fields.Float(string='Salario máximo')
+    occupational_category_id = fields.Many2one('hr.occupational.category', string='Categoría ocupacional')
+    min_wage = fields.Float('Salario mínimo')
+    max_wage = fields.Float('Salario máximo')
 
     @api.constrains('min_wage', 'max_wage')
     def check_wage(self):

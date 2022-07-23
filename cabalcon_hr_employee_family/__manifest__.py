@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Familia del Empleado',
-    'summary': 'Información de la familia del Empleado',
-    'description': """
-    Agrega información sobre la familia del Empleado
-    """,
-    'version': '1.0',
-    'category': 'Human Resources/Employees',
+    'name': 'Employee Family Info',
+    'version': '14.0.1.0.0',
+    'summary': """información sobre la familia del empleado""",
+    'description': 'Este módulo lo ayuda a agregar información sobre la familia del empleado.',
+    'category': 'Generic Modules/Human Resources',
     'author': 'Cabalcon',
     'website': "www.cabalcon.com",
     'depends': ['base', 'cabalcon_hr'],
@@ -15,8 +13,10 @@
         'data/data.xml',
         'views/hr_employee_view.xml',
         'views/employee_family.xml',
-        'views/hr_employee_relation_view.xml',
+
     ],
+    'images': ['static/description/banner.png'],
+    'license': 'AGPL-3',
     'installable': True,
     'auto_install': False,
     'application': False,

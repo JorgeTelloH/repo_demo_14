@@ -5,10 +5,10 @@
             <field name="name">Dependiente</field>
         </record>
         <record model="hr.contract.type" id="hr_contract_type_formal_independent">
-            <field name="name">Formal Independiente</field>
+            <field name="name">Formal Independente</field>
         </record>
         <record model="hr.contract.type" id="hr_contract_type_informal_independent">
-            <field name="name">Informal Independiente</field>
+            <field name="name">Informal Independente</field>
         </record>
     </data>
 </odoo>

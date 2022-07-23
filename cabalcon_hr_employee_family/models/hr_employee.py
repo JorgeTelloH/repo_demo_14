@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
+
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, _, api
 
 
 class DocumentTypeFamily(models.Model):
     _name = 'hr.employee.document.family.type'
-    _description = 'Tipos de Documentos que sustentan el vinculo familiar'
+    _description = 'Tipos de documentos que sustentan el vínculo familiar'
 
     code = fields.Char(string='Código', required=True)
     name = fields.Char(string='Nombre', required=True)
     description = fields.Char(string='Descripción', required=False)
-    active = fields.Boolean(string='Activo', default=True)
 
 
 class HrEmployeeFamilyInfo(models.Model):
@@ -19,35 +19,35 @@ class HrEmployeeFamilyInfo(models.Model):
 
     employee_id = fields.Many2one('hr.employee', string="Employee", help='Select corresponding Employee',
                                   invisible=1)
-    relation_id = fields.Many2one('hr.employee.relation', string="Parentesco", required=True, help="Relación con el Empleado")
+    relation_id = fields.Many2one('hr.employee.relation', string="Parentesco", required=True, help="Relationship with the employee")
     name = fields.Char(string='Nombre')
     member_name = fields.Char(string='Nombres', required=True)
-    first_name = fields.Char(string='Apellido paterno', required=True)
-    last_name = fields.Char(string='Apellido materno')
-    document_type = fields.Many2one('hr.employee.document.type', string='Tipo de Documento', help="Tipo de Documento de Identidad",
+    first_name = fields.Char(string='Primer Apellido', required=True,)
+    last_name = fields.Char(string='Segundo Apellido')
+    document_type = fields.Many2one('hr.employee.document.type', string='Tipo de documento', help="Tipo de documento",
                                      domain=[('identity', '=', 'True')])
-    member_id = fields.Char(string='Nro Documento', help="Nro Documento de Identidad")
+    member_id = fields.Char(string='N° del documento de identidad')
     gender = fields.Selection([
         ('male', 'Masculino'),
         ('female', 'Femenino'),
         ('other', 'Otro')
-        ], string='Género')
+    ], string='Sexo')
     marital = fields.Selection([
         ('single', 'Soltero(a)'),
         ('married', 'Casado(a)'),
         ('cohabitant', 'Cohabitante legal'),
         ('widower', 'Viudo(a)'),
         ('divorced', 'Divorciado(a)')
-        ], string='Estado civil', default='single')
+    ], string='Estado civil', default='single')
     birth_date = fields.Date(string="Fecha de nacimiento", tracking=True)
-    age = fields.Integer(string="Edad", compute="_compute_age")
-    document_family_type_id = fields.Many2one('hr.employee.document.family.type', string='Documento que sustenta el vínculo', help="Tipo de documento que sustenta el vínculo familiar")
+    age = fields.Integer(compute="_compute_age")
+    document_family_type_id = fields.Many2one('hr.employee.document.family.type', string='Documento que sustenta el vínculo ', help="Tipo de documento que sustenta el vínculo familiar")
     doc_attachment_id = fields.Many2many('ir.attachment', 'family_doc_attach_rel', 'famili_id', 'attach_id', string="Adjunto",
                                          help='You can attach the copy of your document', copy=False)
-    is_child = fields.Boolean(string='Es hijo?', compute="_compute_is_child")
+    is_child = fields.Boolean(string='Es un hijo', compute="_compute_is_child")
     is_university = fields.Boolean(string='Cursando estudios superiores')
-    country_id = fields.Many2one('res.country', string='País emisor del Documento', help="Indicar el Pais en caso de ser extranjero")
-    is_passport = fields.Boolean(string='Tiene pasaporte?', compute="_compute_is_passport")
+    country_id = fields.Many2one('res.country', string='País emisor del documento')
+    is_passport = fields.Boolean(string='Is passport', compute="_compute_is_passport")
 
     @api.depends("birth_date")
     def _compute_age(self):
@@ -69,7 +69,7 @@ class HrEmployeeFamilyInfo(models.Model):
     def _compute_is_passport(self):
         for record in self:
             if record.document_type:
-                record.is_passport = (record.document_type == self.env.ref('cabalcon_hr.document_type_PASSPORT'))
+                record.is_passport = (record.document_type == self.env.ref('cabalcon_hr_documents.document_type_PASSPORT'))
             else:
                 record.is_passport = False
 
@@ -103,8 +103,8 @@ class HrEmployeeFamilyInfo(models.Model):
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    family_ids = fields.One2many('hr.employee.family', 'employee_id', string='Familia', help='Información Familiar del Empleado')
-    children = fields.Integer(compute='_compute_children', string='Hijo(s)')
+    family_ids = fields.One2many('hr.employee.family', 'employee_id', string='Family', help='Imformacizón d la familia')
+    children = fields.Integer(compute='_compute_children')
     minor_children = fields.Integer(compute='_compute_children', string='Menores de edad')
     is_university = fields.Boolean(compute='_compute_children', string='Cursando estudios superiores')
     #Datos de Contactos Emergencia 01 y 02
@@ -144,7 +144,6 @@ class HrEmployee(models.Model):
 
 class EmployeeRelation(models.Model):
     _name = 'hr.employee.relation'
-    _description = 'Parentesco con el Empleado'
+    _description = 'Parentesco con el empleado'
 
     name = fields.Char(string="Parentesco")
-    active = fields.Boolean(string='Activo', default=True)
