@@ -9,7 +9,7 @@
             <field name="condition_select">python</field>
             <field name="condition_python">result =  inputs.SAR</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = inputs.SAR.amount</field>
+            <field name="amount_python_compute">result = -inputs.SAR.amount</field>
             <field name="appears_on_payslip" eval="True"/>
             <field name="sequence" eval="190"/>
             <field name="struct_id" ref="cabalcon_hr_loan.structure_loan"/>

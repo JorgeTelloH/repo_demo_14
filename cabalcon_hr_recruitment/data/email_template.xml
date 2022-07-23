@@ -5,7 +5,7 @@
             <field name="name">Notificación de solicitud de nuevo puesto de trabajo</field>
             <field name="subject">Notificación de solicitud de nuevo puesto de trabajo - ${object.job_id.name}</field>
             <field name="email_from">
-                <![CDATA["${object.company_id.name|safe}" <${(object.company_id.email or '')|safe}>]]></field>
+                <![CDATA[${object.company_id.name|safe} ${(object.company_id.email or '')|safe}]]></field>
             <field name="model_id" ref="hr_contract.model_hr_contract"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html"><![CDATA[

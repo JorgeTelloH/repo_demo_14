@@ -12,13 +12,14 @@
     'author': "Cabalcon",
     'website': "www.cabalcon.com",
     'depends': [
-        'hr_payroll', 'hr', 'account', 'hr_contract', 'cabalcon_hr_loan',
+        'hr_payroll', 'hr', 'account', 'hr_contract', 'cabalcon_hr_loan', 'hr_payroll_account',
     ],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
         'data/salary_structure.xml',
         'views/salary_advance.xml',
+        'wizard/export_txt_wizard_views.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

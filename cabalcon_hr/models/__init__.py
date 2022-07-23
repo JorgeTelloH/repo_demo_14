@@ -8,6 +8,5 @@ from . import res_afp
 from . import res_company
 from . import hr_occupational_category
 from . import hr_educational_situation
-from . import res_config_settings
 from . import res_partner_bank
 from . import hr_employee_document_type

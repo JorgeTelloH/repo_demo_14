@@ -2,6 +2,9 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+# ------------------------------------------------------------------------------------
+# ESTO YA NO SE DEBE USAR, EL MODULO CABALCON_HR_SOCIAL_BENEFITS YA HACE ESTOS CALCULOS
+# ------------------------------------------------------------------------------------
 
 
 class HrLiquidationWizard(models.TransientModel):

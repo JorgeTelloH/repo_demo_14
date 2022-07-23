@@ -1,20 +1,61 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, models
+from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 
 
 class HrPayslipEmployees(models.TransientModel):
     _inherit = 'hr.payslip.employees'
+
+    # def get_structure_domain(self):
+    #     if self.env.context.get('active_id'):
+    #         payslip_run = self.env['hr.payslip.run'].browse(self.env.context.get('active_id'))
+    #         date_from = payslip_run.date_start
+    #         date_to = payslip_run.date_end
+    #         domain = [('date_from', '>=', str(date_from)),
+    #                   ('date_to', '<=', str(date_to)),
+    #                   ('state', '=', 'done'),
+    #                   ('refund', '=', False),
+    #                   ('credit_note', '=', False)]
+    #         payslips = self.env['hr.payslip'].search(domain)
+    #         return [('id', 'not in', payslips.mapped('struct_id').ids)]
+    #     else:
+    #         return []
+    #
+    # structure_id = fields.Many2one('hr.payroll.structure', domain=get_structure_domain)
 
     @api.onchange('structure_id')
     def _onchange_structure_id(self):
         if self.structure_id:
             self.employee_ids = [(5, 0, 0)]
             domain = self._get_available_contracts_domain()
+            if not self.env.context.get('active_id'):
+                from_date = fields.Date.to_date(self.env.context.get('default_date_start'))
+                end_date = fields.Date.to_date(self.env.context.get('default_date_end'))
+            else:
+                payslip_run = self.env['hr.payslip.run'].browse(self.env.context.get('active_id'))
+                from_date = payslip_run.date_start
+                end_date = payslip_run.date_end
+            if end_date:
+                domain += [('contract_ids.date_start', '<', str(end_date))]
+
+            if from_date and end_date:
+                domain_slip = [('date_from', '>=', str(from_date)),
+                               ('date_to', '<=', str(end_date)),
+                               ('state', 'in', ['draft','verify', 'done']),
+                               ('refund', '=', False),
+                               ('credit_note', '=', False),
+                               ('struct_id', '=', self.structure_id.id)]
+
+                emp_in_payslips = self.env['hr.payslip'].search(domain_slip).mapped("employee_id").ids
+                if len(emp_in_payslips) > 0:
+                    domain += [('id', 'not in', emp_in_payslips)]
+
             if self.structure_id.contract_type_id:
                 domain += [('contract_ids.contract_type_id', '=', self.structure_id.contract_type_id.id)]
             self.employee_ids = self.env['hr.employee'].search(domain)
-
+        else:
+            self.employee_ids = [(5, 0, 0)]
 
     def compute_sheet(self):
         self.ensure_one()
@@ -37,7 +78,7 @@ class HrPayslipEmployees(models.TransientModel):
         Payslip = self.env['hr.payslip']
 
         contracts = employees._get_contracts(
-            payslip_run.date_start, payslip_run.date_end, states=['open', 'close']
+            payslip_run.date_start, payslip_run.date_end, states=['open', 'near_expire', 'close']
         ).filtered(lambda c: c.active)
         contracts._generate_work_entries(payslip_run.date_start, payslip_run.date_end)
         work_entries = self.env['hr.work.entry'].search([
@@ -47,7 +88,7 @@ class HrPayslipEmployees(models.TransientModel):
         ])
         self._check_undefined_slots(work_entries, payslip_run)
 
-        if(self.structure_id.type_id.default_struct_id == self.structure_id):
+        if (self.structure_id.type_id.default_struct_id == self.structure_id):
             work_entries = work_entries.filtered(lambda work_entry: work_entry.state != 'validated')
             if work_entries._check_if_error():
                 return {
@@ -85,5 +126,3 @@ class HrPayslipEmployees(models.TransientModel):
             'views': [[False, 'form']],
             'res_id': payslip_run.id,
         }
-
-

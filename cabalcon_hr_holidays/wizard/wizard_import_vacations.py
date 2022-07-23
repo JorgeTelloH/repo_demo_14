@@ -5,6 +5,8 @@ from odoo import models, fields, api
 from odoo.tools.translate import _
 from odoo.exceptions import UserError
 from odoo.tools import pycompat
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+import datetime
 
 try:
     import xlrd
@@ -36,17 +38,17 @@ class WizardImportAssignmentsVacations(models.TransientModel):
         sheet = book.sheet_by_index(0)
 
         employee = self.env['hr.employee']
-        leaves = self.env['hr.leave.allocation']
+        allocation = self.env['hr.leave.allocation']
         objerror = self.env['hr_import_vacations.error']
 
         objerror.search([]).unlink()
 
-        # def to_date(cell):
-        #     if cell.ctype is xlrd.XL_CELL_DATE:
-        #         dt = datetime.datetime(*xlrd.xldate.xldate_as_tuple(cell.value, book.datemode))
-        #         return dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
-        #     else:
-        #         raise UserError(_("Error in the date format, the cell must be formatted m/d/yyyy"))
+        def to_date(cell):
+            if cell.ctype is xlrd.XL_CELL_DATE:
+                dt = datetime.datetime(*xlrd.xldate.xldate_as_tuple(cell.value, book.datemode))
+                return dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
+            else:
+                raise UserError(_("Error in the date format, the cell must be formatted %s" % DEFAULT_SERVER_DATE_FORMAT))
 
         def to_float(cell):
             if cell.ctype is xlrd.XL_CELL_NUMBER:
@@ -85,6 +87,8 @@ class WizardImportAssignmentsVacations(models.TransientModel):
                 if emp:
                     employee_id = emp.id
                     tiempo = to_float(row[1])
+                    validity_start = to_date(row[2])
+                    validity_stop = to_date(row[3])
 
                     # holiday_status_id buscar el id
                     holiday_status_id = self.env.ref('cabalcon_hr_holidays.holiday_status_vac')
@@ -94,16 +98,19 @@ class WizardImportAssignmentsVacations(models.TransientModel):
                              'holiday_status_id': holiday_status_id.id,
                              'holiday_type': 'employee',
                              'allocation_type': 'regular',
-                             'number_of_days_display': tiempo,
+                             'number_of_days': tiempo,
+                             'date_from': validity_start,
+                             'valid_period_from': validity_start,
+                             'valid_period_to': validity_stop,
                              'state': 'confirm',
                              }
 
-                    leaveresult = leaves.search([('employee_id', '=', employee_id),
+                    leaveresult = allocation.sudo().search([('employee_id', '=', employee_id),
                                                  ('holiday_status_id', '=', holiday_status_id.id), ])
                     if leaveresult:
-                        leaves.write(leave)
+                        allocation.sudo().write(leave)
                     else:
-                        leaves.create(leave)
+                        allocation.sudo().create(leave)
 
                 else:
                     objerror.create({'ci': ci, 'error': _("No encontro al empleado %s - %s" % (to_str(row[2]), to_str(row[3]) ))})

@@ -3,6 +3,12 @@
 from odoo import api, fields, models, _
 
 
+class HrPayrollStructure(models.Model):
+    _inherit = 'hr.payroll.structure'
+
+    has_eps = fields.Boolean(string='Incluye cálculo de EPS', default=False)
+
+
 class HrSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
 

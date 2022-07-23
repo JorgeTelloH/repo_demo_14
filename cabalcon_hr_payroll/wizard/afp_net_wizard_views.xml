@@ -9,11 +9,15 @@
                 <form>
                     <group>
                         <group>
-                            <field name="date_from"/>
-                            <field name="show_header"/>
+                            <field name="option" widget="radio" options="{'horizontal': true}"/>
+                            <field name="confirm"/>
+                            <field name="date_from" attrs="{'readonly':[('option','=', 'week')]}" force_save="1"/>
+
                         </group>
                         <group>
-                            <field name="date_to"/>
+                            <field name="week_id" attrs="{'invisible':[('option','=', 'month')], 'required': [('option', '=', 'week')]}" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="show_header"/>
+                            <field name="date_to" attrs="{'readonly':[('option','=', 'week')]}" force_save="1"/>
                         </group>
                     </group>
                     <footer>

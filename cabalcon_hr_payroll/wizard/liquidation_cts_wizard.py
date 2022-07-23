@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
+# ------------------------------------------------------------------------------------
+# ESTO YA NO SE DEBE USAR, EL MODULO CABALCON_HR_SOCIAL_BENEFITS YA HACE ESTOS CALCULOS
+# ------------------------------------------------------------------------------------
 
 
 class HrLiquidationCTSWizard(models.TransientModel):

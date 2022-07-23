@@ -10,7 +10,7 @@
     'description': "",
     'website': '',
     'depends': [
-        'hr_recruitment', 'cabalcon_hr_contract'
+        'hr_recruitment', 'cabalcon_hr_contract', 'cabalcon_hr_employee_medical_information', 'cabalcon_hr_employee_family'
     ],
     'data': [
         'security/hr_recruitment_security.xml',
@@ -18,6 +18,7 @@
         'data/email_template.xml',
         'views/res_company_view.xml',
         'views/hr_request_job.xml',
+        'views/hr_recruitment_views.xml',
         
     ],
     'demo': [

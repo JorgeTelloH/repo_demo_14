@@ -11,6 +11,10 @@ class HrEmployee(models.Model):
 
     alert_vaccination = fields.Boolean(string='Alerta', compute="_compute_alert_vaccination")
 
+    blood_name = fields.Selection([("A", "A"), ("B", "B"), ("O", "O"), ("AB", "AB")], "Tipo de sangre")
+
+    blood_type = fields.Selection([("+", "+"), ("-", "-")], "Factor")
+
     @api.depends("vaccination_ids")
     def _compute_vaccination_count(self):
         for record in self:

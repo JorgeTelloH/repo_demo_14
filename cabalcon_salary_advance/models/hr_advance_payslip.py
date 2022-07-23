@@ -13,11 +13,12 @@ class SalaryRuleInput(models.Model):
         # res = self.input_line_ids
         contract_obj = self.env['hr.contract']
         emp_id = contract_obj.browse(contract_ids[0].id).employee_id
-        adv_salary = self.env['salary.advance'].search([('employee_id', '=', emp_id.id)])
+        adv_salary = self.env['salary.advance'].search([('employee_id', '=', emp_id.id),
+                                                        ('state', '=', 'approve'),
+                                                        ('date', '>=', date_from),
+                                                        ('date', '<=', date_to)])
         for adv_obj in adv_salary:
-            current_date = date_from.month
             date = adv_obj.date
-            existing_date = date.month
             result = res.filtered(lambda a: a.code == 'SAR')
             if result:
                 result['amount'] = adv_obj.advance
@@ -25,10 +26,4 @@ class SalaryRuleInput(models.Model):
                 input_type = self.env['hr.payslip.input.type'].search([('code', '=', 'SAR')], limit=1)
                 values = {'input_type_id': input_type.id, 'amount': adv_obj.advance}
                 res += result.new(values)
-            # if current_date == existing_date:
-            #     state = adv_obj.state
-            #     amount = adv_obj.advance
-            #     for result in res:
-            #         if state == 'approve' and amount != 0 and result.get('code') == 'SAR':
-            #             result['amount'] = amount
         return res

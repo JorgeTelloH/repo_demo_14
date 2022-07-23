@@ -5,7 +5,7 @@ from odoo.exceptions import UserError
 
 
 class PayrollVoucherReport(models.AbstractModel):
-    _name = 'report.cabalcon_hr_payroll.report_payroll_voucher'
+    _name = 'report.hr_payroll.report_payslip_lang'
     _description = 'Boleta de pago'
 
     def get_basic(self, payslip_id):
