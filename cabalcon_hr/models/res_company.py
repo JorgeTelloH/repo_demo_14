@@ -21,7 +21,7 @@ class ResCompany(models.Model):
                                  domain="[('type', '=', 'service'), '|', ('company_id', '=', False), ('company_id', '=', id)]")
     insurance_premium_cap = fields.Float(string='Tope de prima de Seguros')
     eps_credit_amount = fields.Monetary(string='Importe crédito EPS')
-    ofic_norm_prev = fields.Float(string='ONP')
+    ofic_norm_prev = fields.Float(string='Oficina de normalización previsional')
 
     sigla = fields.Char(string='Sigla')
     #Adelantos

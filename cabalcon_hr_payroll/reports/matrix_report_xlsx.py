@@ -270,27 +270,20 @@ class MatrixReportXlsx(models.AbstractModel):
             sheet.write(row, 4, cont.date_start, fdate)
             sheet.write(row, 5, cont.employee_id.identification_id or '')
             sheet.write(row, 6, cont.employee_id.birthday or '', fdate)
-            if cont.employee_id.regimen_pensions == 'onp' or cont.employee_id.regimen_pensions == 'srp':
-                if cont.employee_id.regimen_pensions == 'onp':
-                    sheet.write(row, 7, cont.employee_id.regimen_pensions.upper())
-                else:
-                    sheet.write(row, 7, 'SIN REGIMEN')
-            else:
-                sheet.write(row, 7, cont.employee_id.afp_id.name.upper() if cont.employee_id.afp_id else '')
-                sheet.write(row, 8, cont.employee_id.commission_type if cont.employee_id.commission_type else '')
-                sheet.write(row, 9, cont.employee_id.CUSPP)
+            sheet.write(row, 7, cont.employee_id.afp_id.name.upper() if cont.employee_id.afp_id else '')
+            sheet.write(row, 8, cont.employee_id.commission_type if cont.employee_id.commission_type else '')
+            sheet.write(row, 9, cont.employee_id.CUSPP)
             sheet.write(row, 10, cont.department_id.name)
             domain = [('contract_id', '=', cont.id), ('date_from', '=', date_from),
-                      ('credit_note', '=', False),
-                      ('refund', '=', False)]
+                      ('struct_type_id', '=', cont.structure_type_id.id), ('credit_note', '=', False)]
             slip = payslip.search(domain)
             sheet.write(row, 11, slip.normal_wage if slip else 0.0)
             sheet.write(row, 12, slip._get_worked_days_line_number_of_days('WORK100') if slip else 0.0)  # TRABAJADO
-            sheet.write(row, 13, slip._get_salary_line_total('BASIC') if slip else 0.0)
+            sheet.write(row, 13, slip._get_salary_line_total('GROSS') if slip else 0.0)
             sheet.write(row, 14, slip._get_worked_days_line_amount('LEAVE120') if slip else 0.0)  # FERIADO
             sheet.write(row, 15, slip._get_worked_days_line_amount('VAC') if slip else 0.0)  # VACACIONES
             sheet.write(row, 16, slip._get_salary_line_total('VACTRUN') if slip else 0.0)  # VACACIONES TRUNCAS
-            sheet.write(row, 17, slip._get_salary_line_total('BS_GRATIF') if slip else 0.0)  # GRATIFICACIONE
+            sheet.write(row, 17, 0.0)  # GRATIFICACIONE
             # horas extras al 25%
             sql = """SELECT cp.employee_id, sum(cp.hours_extra_25) as hours_extra_25, sum(cp.hours_extra_35) as hours_extra_35
                      FROM calendar_operation AS cp
@@ -311,39 +304,34 @@ class MatrixReportXlsx(models.AbstractModel):
             bonus = 0
             grat = 0
             if is_close:
-                cts = slip._get_salary_line_total('BS_CTS_TRUNCA')
-                bonus = slip._get_salary_line_total('BS_GRATIF_TRUNCA')*0.09
-                grat = slip._get_salary_line_total('BS_GRATIF_TRUNCA')
+                cts = slip._get_salary_line_total('CTS')
+                bonus = slip._get_salary_line_total('BONO')
+                grat = slip._get_salary_line_total('GRATIF')
             sheet.write(row, 24, cts)  # cts
             sheet.write(row, 25, grat)  # Gratificación Proporcional
             sheet.write(row, 26, bonus)  # Bonificacción Proporcional
 
             sheet.write(row, 27, 0.0)  # MATERNIDAD
             sheet.write(row, 28, slip._get_salary_line_total('AF') if slip else 0.0)  # Asignacion familiar
-            sheet.write(row, 29, slip._get_salary_line_total('AGUINALDO') if slip else 0.0)  # AGUINALDOS
+            sheet.write(row, 29, 0.0)  # AGUINALDOS
             sheet.write(row, 30, slip._get_salary_line_total('ST') if slip else 0.0)  # MOVILIDAD
-            sheet.write(row, 31, slip._get_salary_line_total('BS_BONO') if slip else 0.0)  # BONIFICACION
-            # sheet.write(row, 32, self.get_sum_ingreso(row+1))  # TOTAL INGRESOS
-            sheet.write(row, 32, slip._get_salary_line_total('GROSS') if slip else 0.0)  # TOTAL INGRESOS
-            # sheet.write(row, 33, self.get_sum_imponible(row+1))  # TOTAL IMPONIBLE
-            sheet.write(row, 33, slip._get_salary_line_total('TOTALIMP') if slip else 0.0)  # TOTAL IMPONIBLE
+            sheet.write(row, 31, 0.0)  # BONIFICACION
+            sheet.write(row, 32, self.get_sum_ingreso(row+1))  # TOTAL INGRESOS
+            sheet.write(row, 33, self.get_sum_imponible(row+1))  # TOTAL IMPONIBLE
             # S.N.P. cuando es OPN
             onp = False
-            if cont.employee_id.regimen_pensions == 'onp':
-                onp = company.ofic_norm_prev
-            # if self.env.ref('cabalcon_hr.afp_ONP').id == cont.employee_id.afp_id.id:
-            #     onp = self.env['res.afp'].browse(cont.employee_id.afp_id.id)
+            if self.env.ref('cabalcon_hr.afp_ONP').id == cont.employee_id.afp_id.id:
+                onp = self.env['res.afp'].browse(cont.employee_id.afp_id.id)
 
-            sheet.write(row, 34, onp if onp else 0)  # %
-            sheet.write(row, 35, abs(slip._get_salary_line_total('ONPF')) if slip else 0.0)  # IMPORTE
+            sheet.write(row, 34, onp.seat if onp else 0)  # %
+            sheet.write(row, 35, slip._get_salary_line_total('ONPF') if slip else 0.0)  # IMPORTE
 
-            sheet.write(row, 36, abs(slip._get_salary_line_total('REN5TA') if slip else 0.0))  # 5TA CATEG
-            sheet.write(row, 37, abs(slip._get_salary_line_total('RENJUD') if slip else 0.0))  # RETENCION  JUDICIAL
-            sheet.write(row, 38, abs(slip._get_salary_line_total('OTROSEG') if slip else 0.0))  # OTROS SEGUROS
-            # sheet.write(row, 39, abs(slip._get_salary_line_total('SAR') if slip else 0.0))  # ADELANTOS
-            sheet.write(row, 40, abs(slip._get_salary_line_total('LO') if slip else 0.0))  # OTROS DESCUENTOS
-            # sheet.write(row, 41, slip._get_salary_line_total('GROSS') * 0.4 if slip else 0.0)  # PRIMERA QUINCENA
-            sheet.write(row, 41, abs(slip._get_salary_line_total('SAR') if slip else 0.0))  # PRIMERA QUINCENA
+            sheet.write(row, 36, slip._get_salary_line_total('REN5TA') if slip else 0.0)  # 5TA CATEG
+            sheet.write(row, 37, slip._get_salary_line_total('RENJUD') if slip else 0.0)  # RETENCION  JUDICIAL
+            sheet.write(row, 38, slip._get_salary_line_total('OTROSEG') if slip else 0.0)  # OTROS SEGUROS
+            sheet.write(row, 39, slip._get_salary_line_total('SAR') if slip else 0.0)  # ADELANTOS
+            sheet.write(row, 40, slip._get_salary_line_total('LO') if slip else 0.0)  # OTROS DESCUENTOS
+            sheet.write(row, 41, slip._get_salary_line_total('GROSS') * 0.4 if slip else 0.0)  # PRIMERA QUINCENA
             #  A. F. P.
             sheet.write(row, 42, cont.employee_id.afp_id.seat if cont.employee_id.afp_id else 0.0)  # % - APORTE OBLIGAT
             sheet.write(row, 43, abs(slip._get_salary_line_total('AFPF')) if slip else 0.0)  # IMPORTE - APORTE OBLIGAT
@@ -351,38 +339,21 @@ class MatrixReportXlsx(models.AbstractModel):
             if cont.employee_id.afp_id and cont.employee_id.commission_type == 'FLUJO':
                 commission = cont.employee_id.afp_id.commission_flow
                 commission_imp = abs(slip._get_salary_line_total('AFPCF'))
-                sheet.write(row, 44, commission)  # % - COMISION
-                sheet.write(row, 45, commission_imp)  # IMPORTE - COMISION
             elif cont.employee_id.afp_id and cont.employee_id.commission_type == 'MIXTA':
                 commission = cont.employee_id.afp_id.commission_mixed
                 commission_imp = abs(slip._get_salary_line_total('AFPCM'))
-                sheet.write(row, 44, commission)  # % - COMISION
-                sheet.write(row, 45, commission_imp)  # IMPORTE - COMISION
 
-
+            sheet.write(row, 44, commission)  # % - COMISION
+            sheet.write(row, 45, commission_imp)  # IMPORTE - COMISION
             sheet.write(row, 46, cont.employee_id.afp_id.insurance if cont.employee_id.afp_id else 0.0)  # % - SEGURO
             sheet.write(row, 47, abs(slip._get_salary_line_total('AFPS')) if slip else 0.0)  # IMPORTE - SEGURO
             # AR8 + AT8 + AV8
-            # sheet.write(row, 48, self.get_sum_aporte(row + 1))  # TOTAL APORTE
-            if cont.employee_id.regimen_pensions == 'afp'  and cont.employee_id.afp_code ==  'IN':
-                sheet.write(row, 48, abs(slip._get_salary_line_total('TOTALAFPIN')) if slip else 0.0)
-            if cont.employee_id.regimen_pensions == 'afp'  and cont.employee_id.afp_code ==  'PR':
-                sheet.write(row, 48, abs(slip._get_salary_line_total('TOTALAFPPR')) if slip else 0.0)
-            if cont.employee_id.regimen_pensions == 'afp'  and cont.employee_id.afp_code ==  'RI':
-                sheet.write(row, 48, abs(slip._get_salary_line_total('TOTALAFPRI')) if slip else 0.0)
-            if cont.employee_id.regimen_pensions == 'afp'  and cont.employee_id.afp_code ==  'HA':
-                sheet.write(row, 48, abs(slip._get_salary_line_total('TOTALAFPHA')) if slip else 0.0)
-
+            sheet.write(row, 48, self.get_sum_aporte(row+1))  # TOTAL APORTE
             sheet.write(row, 49, self.get_sum_descuento(row+1))  # TOTAL DESCUENTOS
-            # sheet.write(row, 50, self.get_sum_neto_a_pagar(row+1))  # NETO A PAGAR 	NET
-            sheet.write(row, 50, abs(slip._get_salary_line_total('NET')) if slip else 0.0)  # NETO A PAGAR 	NET
+            sheet.write(row, 50, self.get_sum_neto_a_pagar(row+1))  # NETO A PAGAR
             #  APORTACIONES
-            if cont.employee_id.eps:
-                essalud_tax = payslip.company_id.eps_tax
-            else:
-                essalud_tax = payslip.company_id.essalud_tax
-
-            sheet.write(row, 51, essalud_tax)  # % - ESSALUD
+            essalud = company.essalud_tax
+            sheet.write(row, 51, essalud)  # % - ESSALUD
             sheet.write(row, 52, slip._get_salary_line_total('ESSALUD') if slip else 0.0)  # IMPORTE - ESSALUD
             # Estas no se usan ya pero se dejaran para mantener las formulas
             sheet.write(row, 53, 0.0)  # % - I.E.S.
@@ -390,7 +361,7 @@ class MatrixReportXlsx(models.AbstractModel):
             sheet.write(row, 55, self.get_total_aportaciones(row+1))  # TOTAL A APORTAC
             # EPS
             sheet.write(row, 56, slip._get_salary_line_total('EPS') if slip else 0.0)  # EPS
-            sheet.write(row, 57, cont.employee_id.eps_credit)  # CREDITO EPS
+            sheet.write(row, 57, cont.eps_credit)  # CREDITO EPS
             sheet.write(row, 58, slip._get_salary_line_total('IMPCRED') if slip else 0.0)  # IMPORTE CREDITO
             # VACACIONES
             vac = self.get_vacations(cont.employee_id.id, date_from, date_to)
@@ -421,11 +392,11 @@ class MatrixReportXlsx(models.AbstractModel):
         sheet.write(row, 16, self.get_sum('Q', init_row, row), ft)  # VACACIONES TRUNCAS
         sheet.write(row, 17, self.get_sum('R', init_row, row), ft)  # GRATIFICACIONE
         # horas extras al 25%
-        # sheet.write(row, 18, self.get_sum('S', init_row, row), ft)  # %
+        sheet.write(row, 18, self.get_sum('S', init_row, row), ft)  # %
         sheet.write(row, 19, self.get_sum('T', init_row, row), ft)  # cantidad
         sheet.write(row, 20, self.get_sum('U', init_row, row), ft)  # importe
         # horas extras al 35%
-        # sheet.write(row, 21, self.get_sum('V', init_row, row), ft)  # %
+        sheet.write(row, 21, self.get_sum('V', init_row, row), ft)  # %
         sheet.write(row, 22, self.get_sum('W', init_row, row), ft)  # cantidad
         sheet.write(row, 23, self.get_sum('X', init_row, row), ft)  # importe
         # CTS
@@ -441,7 +412,7 @@ class MatrixReportXlsx(models.AbstractModel):
         sheet.write(row, 32, self.get_sum('AG', init_row, row), ft)  # TOTAL INGRESOS
         sheet.write(row, 33, self.get_sum('AH', init_row, row), ft)  # TOTAL IMPONIBLE
         # S.N.P.
-        # sheet.write(row, 34, self.get_sum('AI', init_row, row), ft)  # %
+        sheet.write(row, 34, self.get_sum('AI', init_row, row), ft)  # %
         sheet.write(row, 35, self.get_sum('AJ', init_row, row), ft)  # IMPORTE
 
         sheet.write(row, 36, self.get_sum('AK', init_row, row), ft)  # 5TA CATEG
@@ -451,19 +422,19 @@ class MatrixReportXlsx(models.AbstractModel):
         sheet.write(row, 40, self.get_sum('AO', init_row, row), ft)  # OTROS DESCUENTOS
         sheet.write(row, 41, self.get_sum('AP', init_row, row), ft)  # PRIMERA QUINCENA
         #  A. F. P.
-        # sheet.write(row, 42, self.get_sum('AQ', init_row, row), ft)  # % - APORTE OBLIGAT
+        sheet.write(row, 42, self.get_sum('AQ', init_row, row), ft)  # % - APORTE OBLIGAT
         sheet.write(row, 43, self.get_sum('AR', init_row, row), ft)  # IMPORTE - APORTE OBLIGAT
-        # sheet.write(row, 44, self.get_sum('AS', init_row, row), ft)  # % - COMISION
+        sheet.write(row, 44, self.get_sum('AS', init_row, row), ft)  # % - COMISION
         sheet.write(row, 45, self.get_sum('AT', init_row, row), ft)  # IMPORTE - COMISION
-        # sheet.write(row, 46, self.get_sum('AU', init_row, row), ft)  # % - SEGURO
+        sheet.write(row, 46, self.get_sum('AU', init_row, row), ft)  # % - SEGURO
         sheet.write(row, 47, self.get_sum('AV', init_row, row), ft)  # IMPORTE - SEGURO
         sheet.write(row, 48, self.get_sum('AW', init_row, row), ft)  # TOTAL APORTE
         sheet.write(row, 49, self.get_sum('AX', init_row, row), ft)  # TOTAL DESCUENTOS
         sheet.write(row, 50, self.get_sum('AY', init_row, row), ft)  # NETO A PAGAR
         #  APORTACIONES
-        # sheet.write(row, 51, self.get_sum('AZ', init_row, row), ft)  # % - ESSALUD
+        sheet.write(row, 51, self.get_sum('AZ', init_row, row), ft)  # % - ESSALUD
         sheet.write(row, 52, self.get_sum('BA', init_row, row), ft)  # IMPORTE - ESSALUD
-        # sheet.write(row, 53, self.get_sum('BB', init_row, row), ft)  # % - I.E.S.
+        sheet.write(row, 53, self.get_sum('BB', init_row, row), ft)  # % - I.E.S.
         sheet.write(row, 54, self.get_sum('BC', init_row, row), ft)  # IMPORTE - I.E.S.
         sheet.write(row, 55, self.get_sum('BD', init_row, row), ft)  # TOTAL A PAGAR
         # EPS

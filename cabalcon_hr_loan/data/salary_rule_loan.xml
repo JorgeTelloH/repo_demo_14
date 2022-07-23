@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<!--Adding a salary rule for loan-->
-	<data noupdate="1">
+	<data noupdate="0">
           <!-- Salary Structure -->
         <record id="structure_loan" model="hr.payroll.structure">
             <field name="name">Préstamos y Anticipos</field>

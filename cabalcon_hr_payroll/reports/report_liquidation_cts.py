@@ -3,7 +3,7 @@
 from odoo import api, models, _
 from odoo.exceptions import UserError
 
-# TODO: ESTE REPORTE SE DEBE PASAR AL MODULO DE BENEFICIOS SOCIALES
+
 class LiquidationCTSReport(models.AbstractModel):
     _name = 'report.cabalcon_hr_payroll.report_liquidation_cts'
     _description = 'Modelo de liquidación de depósitos semestrales de CTS'

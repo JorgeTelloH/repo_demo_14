@@ -15,4 +15,4 @@ class ResAfp(models.Model):
     commission_mixed = fields.Float(string='Comisión Mixta')
     commission_mixed_year = fields.Float(string='Comisión Mixta Anual')
     insurance = fields.Float(string='Seguro')
-    rma = fields.Float(string='Remuneración Máx. Asegurable', help='Remuneración Máxima Asegurable')
+    rma = fields.Float(string='Remuneración maxima asegurable')

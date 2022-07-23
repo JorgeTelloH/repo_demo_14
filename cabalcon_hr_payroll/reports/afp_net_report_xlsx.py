@@ -21,63 +21,20 @@ class ReconciliationReportXlsx(models.AbstractModel):
         else:
             return 'N'
 
-    def remuneracin_asegurable(self, contract_id, date_from, date_to, confirm):
-        # aqui deberia buscar todo lo que alla devengado
-        domain = [
-            ('contract_id', '=', contract_id.id),
-            ('credit_note', '=', False),
-            ('refund', '=', False),
-            ('date_from', '>=', date_from),
-            ('date_to', '<=', date_to),
-        ]
-        if confirm:
-            domain += [('state', '=', 'done')]
-        else:
-            domain += [('state', '!=', 'cancel')]
-        payslip = self.env['hr.payslip'].search(domain, limit=1)._get_salary_line_total('TOTALIMP')
-        return payslip
-
-    def exception_make_contribution(self, employee_id, date_from, date_to, confirm):
-        holiday_status_ids = self.env['hr.leave.type'].search([('code_afpnet', 'in', ['L', 'U', 'I', 'J'])]).ids
-
-        leaves = self.env['hr.leave'].search([
-            ('employee_id', '=', employee_id.id),
-            ('state', '=', 'validate'),
-            ('holiday_type', '=', 'employee'),
-            ('holiday_status_id', 'in', holiday_status_ids),
-            ('date_from', '>=', date_from),
-            ('date_to', '<=', date_to),
-        ])
-        result = ''
-        if not leaves:
-            domain = [
-                ('contract_id', '=',employee_id.contract_id.id),
-                ('credit_note', '=', False),
-                ('refund', '=', False),
-                ('date_from', '>=', date_from),
-                ('date_to', '<=', date_to),
-            ]
-            if confirm:
-                domain += [('state', '=', 'done')]
-            else:
-                domain += [('state', '!=', 'cancel')]
-            payslip = self.env['hr.payslip'].search(domain, limit=1)
-            if not payslip:
-                if employee_id.contract_id.date_start > date_from:
-                    result = 'P'
-                else:
-                    result = 'O'
-        else:
-            result = leaves.holiday_status_id.code_afpnet
-
-        return result
+    # def get_salary(self, contract_id, date_from, date_to):
+    #     payslip = self.env['hr.payslip'].search([
+    #         ('contract_id', '=', contract_id),
+    #         ('state', '=', 'done'),
+    #         ('date_from', '>=', date_from),
+    #         ('date_to', '<=', date_to),
+    #     ], limit=1).net_wage
+    #     return payslip
 
     def generate_xlsx_report(self, workbook, data, employees):
 
         employees = self.env['hr.employee'].browse(data['data_report'])
         date_from = data['date_from']
         date_to = data['date_to']
-        confirm = data['confirm']
         _date = fields.Date.to_date(date_from)
 
         bold = workbook.add_format({"bold": True, 'valign': 'vcenter', 'text_wrap': True, "align": "center"})
@@ -120,7 +77,7 @@ class ReconciliationReportXlsx(models.AbstractModel):
             if emp.contract_id:
                 sheet.write(row, 0, item)
                 sheet.write(row, 1, emp.CUSPP or '')
-                sheet.write(row, 2, int(emp.document_type.cod_afp_net) or 0)
+                sheet.write(row, 2, int(emp.type_document) or 0)
                 sheet.write(row, 3, emp.identification_id or '')
                 sheet.write(row, 4, emp.lastname)
                 sheet.write(row, 5, emp.lastname2 or '')
@@ -128,13 +85,13 @@ class ReconciliationReportXlsx(models.AbstractModel):
                 sheet.write(row, 7, 'S' if emp.contract_id.state == 'open' else 'N')
                 sheet.write(row, 8, self.labor_relation_started(emp.contract_id.date_start, _date))
                 sheet.write(row, 9, self.labor_relation_finished(emp.contract_id.date_end, _date))
-                sheet.write(row, 10, self.exception_make_contribution(emp, _date, date_to, confirm))
-                sheet.write(row, 11, self.remuneracin_asegurable(emp.contract_id, _date, date_to, confirm) or '')
-                sheet.write(row, 12, emp.contract_id.voluntary_contribution if emp.contract_id.is_voluntary_contribution else 0)
-                sheet.write(row, 13, emp.contract_id.voluntary_endless_contribution if emp.contract_id.is_voluntary_endless_contribution else 0)
+                sheet.write(row, 10, '')
+                sheet.write(row, 11, '')
+                sheet.write(row, 12, '')
+                sheet.write(row, 13, '')
                 sheet.write(row, 14, '')
-                sheet.write(row, 15, emp.type_work or '')
-                sheet.write(row, 16, emp.afp_id.code or '')
+                sheet.write(row, 15, '')
+                sheet.write(row, 16, '')
                 item += 1
                 row += 1
 

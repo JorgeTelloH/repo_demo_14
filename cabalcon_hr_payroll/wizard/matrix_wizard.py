@@ -35,7 +35,7 @@ class MatrixWizard(models.TransientModel):
     year = fields.Selection(string='Año', selection=_get_years, required=True, default=str(datetime.now().year))
     df = fields.Integer(string='Días Feriado')
     dd = fields.Integer(string='Días de Descanso')
-    struct_id = fields.Many2one('hr.payroll.structure', string='Structure', required=True)
+
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id)
 
     def action_print(self):
@@ -43,16 +43,14 @@ class MatrixWizard(models.TransientModel):
         date_from = fields.Date.today().replace(day=1, month=int(self.month), year=int(self.year))
         date_to = date_from + relativedelta(months=+1, day=1, days=-1)
 
-        contract_ids = self.env['hr.payslip'].search([('struct_id', '=', self.struct_id.id),
-                                                      ('date_from', '>=', date_from),
-                                                      ('date_to', '<=', date_to),
-                                                      ('state', '!=', 'cancel'),
-                                                      ('refund', '=', False),
-                                                      ('credit_note', '=', False)]).mapped('contract_id').ids
-
-        contracts = self.env['hr.contract'].browse(contract_ids)
+        contract_type = self.env.ref('cabalcon_hr.hr_contract_type_dependent').id
+        contracts = self.env['hr.contract'].search([('contract_type_id', '=', contract_type),
+                                                    ('state', 'in', ('open', 'close')),
+                                                    ('company_id', '=', self.company_id.id), '|',
+                                                    ('date_end', '=', False), '&',
+                                                    ('date_end', '>', date_from), ('date_end', '<', date_to)])
         if not contracts:
-            raise ValidationError('No se encontraron datos para este reporte')
+            raise ValidationError('No se encontraron empleados para este reporte')
 
         data = {'data_report': contracts.ids, 'date_from': date_from, 'date_to': date_to,
                 'company_id': self.company_id.id, 'year': self.year, 'month': self.month,

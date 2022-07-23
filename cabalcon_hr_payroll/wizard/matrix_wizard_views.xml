@@ -8,9 +8,6 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name="struct_id" options="{'no_create': True, 'no_edit': True}"/>
-                    </group>
-                    <group>
                         <group>
                             <field name="month"/>
                             <field name="year"/>
@@ -21,7 +18,7 @@
                         </group>
                     </group>
                     <group>
-                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True, 'no_edit': True}"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                     <footer>
                         <button name="action_print" string="Imprimir" type="object" class="oe_highlight"/>

@@ -36,7 +36,7 @@ class HrLoan(models.Model):
             loan.total_paid_amount = total_paid
 
     name = fields.Char(string="Loan Name", default="/", readonly=True, help="Name of the loan")
-    date = fields.Date(string="Date", default=fields.Date.today(), help="Date")
+    date = fields.Date(string="Date", default=fields.Date.today(), readonly=True, help="Date")
     employee_id = fields.Many2one('hr.employee', string="Employee", domain=[('contract_id', '!=', False)], required=True, help="Employee")
     department_id = fields.Many2one('hr.department', related="employee_id.department_id", readonly=True,
                                     string="Department", help="Employee")
@@ -71,18 +71,6 @@ class HrLoan(models.Model):
     motive_loan = fields.Char(string='Motivo')
     load_attachment_id = fields.Many2many('ir.attachment', 'load_doc_attach_rel', 'load_id', 'attach_id3', string="Adjuntos",
                                          help='Usted puede adjuntar la copia de sus documentos', copy=False)
-
-    @api.onchange('date')
-    def onchange_date(self):
-        if self.date:
-            domain = [('contract_ids.state', 'in', ['open', 'near_expire']),
-                      ('contract_ids.date_start', '<=', str(self.date))]
-            result = {
-                'domain': {
-                    'employee_id': domain,
-                },
-            }
-            return result
 
     @api.model
     def create(self, values):
@@ -179,17 +167,3 @@ class HrEmployee(models.Model):
         self.loan_count = self.env['hr.loan'].search_count([('employee_id', '=', self.id)])
 
     loan_count = fields.Integer(string="Loan Count", compute='_compute_employee_loans')
-
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        context = self._context or {}
-        if context.get('from_advance'):
-            condition1 = ['contract_ids.state', 'in', ['open', 'near_expire']]
-            if condition1 not in args:
-                args.append(condition1)
-            date = context.get('date')
-            condition2 = ['contract_ids.date_start', '<=', date]
-            if condition2 not in args:
-                args.append(condition2)
-
-        return super(HrEmployee, self).search(args, offset, limit, order, count=count)

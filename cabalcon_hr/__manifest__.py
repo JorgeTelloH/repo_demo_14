@@ -3,14 +3,20 @@
     'name': 'Empleados para Perú',
     'summary': 'Personalización de Empleados',
     'description': """
-    Personalización del módulo de Empleados para Perú, en la cual se agrega:
+    Personalización del módulo de Empleados para Perú:
+    
     """,
     'version': '1.0',
     'category': 'Human Resources/Employees',
     'author': "Cabalcon",
     'website': "www.cabalcon.com",
     'sequence': 180,
-    'depends': ['hr', 'hr_employee_lastnames', 'product', 'l10n_pe', 'hr_employee_driver'],
+    'depends': ['hr', 
+        'hr_employee_lastnames',
+        'report_xlsx', 
+        'product', 
+        'l10n_pe', 
+        'hr_employee_driver'],
     "data": [
         'security/ir.model.access.csv',
         'data/res_afp_data.xml',
@@ -26,6 +32,7 @@
         'views/hr_occupational_category_views.xml',
         'views/hr_educational_situation_views.xml',
         'views/hr_contract_type_views.xml',
+        'views/res_config_settings_views.xml',
         'views/res_partner.xml',
         'wizard/hr_departure_wizard_views.xml',
     ],

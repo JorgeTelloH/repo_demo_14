@@ -23,7 +23,7 @@ class RequestJob(models.Model):
     state = fields.Selection(string='Estado',
                              selection=[('draft', 'Borrador'),
                                         ('open', 'Solicitado'),
-                                        ('done', 'Ejecutado')],
+                                        ('done', 'Ejecudado')],
                              default='draft')
     company_id = fields.Many2one('res.company', "Company", compute='_compute_department_and_company', store=True,
                                  readonly=False)
