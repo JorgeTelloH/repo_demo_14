@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <data>
                 <xpath expr="//field[@name='lastname']" position="after">
-                    <field name="lastname2" />
+                    <field name="lastname2"/>
                 </xpath>
             </data>
         </field>
