@@ -1,12 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="ir.ui.view" id="hr_employee_inherit_code_form_view">
-        <field name="name">hr.employee.form.view.inheri.code</field>
+    <record id="hr_employee_code_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.code.form.view</field>
         <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="cabalcon_hr.hr_employee_inherit_form_view"/>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <field name="code" position="attributes">
-                <attribute name="readonly">1</attribute>
+            <xpath expr="//h1//field[@name='name']/.." position="after">
+                <group>
+                    <field name="code" readonly="1" force_save="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_kanban_view_employees" model="ir.ui.view">
+        <field name="name">hr.employee.kanban</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+            <div class="o_kanban_record_top" position="inside">
+                <div class="o_kanban_primary_right">
+                    <field name="code"/>
+                </div>
+            </div>
+        </field>
+    </record>
+
+    <record id="view_employee_filter" model="ir.ui.view">
+        <field name="name">hr.employee.search</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="code"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_employee_tree" model="ir.ui.view">
+        <field name="name">hr.employee.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+             <field name="name" position="before">
+                <field name="code"/>
             </field>
         </field>
     </record>

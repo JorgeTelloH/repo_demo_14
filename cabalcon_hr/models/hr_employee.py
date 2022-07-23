@@ -9,11 +9,7 @@ URL_RENIEC = 'https://dniruc.apisperu.com/api/v1/dni'
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
-    _sql_constraints = [
-        ('employee_code_unique', 'unique(company_id, code)', 'El código del empleado debe ser único')
-    ]
-
-    code = fields.Char('Código de Empleado', copy=False)
+    
     occupational_category_id = fields.Many2one(related='job_id.occupational_category_id', string='Categoría Ocupacional')
     contract_type_id = fields.Many2one('hr.contract.type', string='Tipo de contratación')
     is_not_dependent = fields.Boolean(string='No es Independiente', compute='_compute_is_not_dependent')
