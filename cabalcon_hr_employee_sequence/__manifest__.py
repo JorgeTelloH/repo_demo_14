@@ -5,7 +5,7 @@
     'description': """
     Autogenera el Código del Empleado con Prefijo y Secuencial.\n
     Configuración:\n
-    - Ir al Módulo de Empleados / Configuracion: Código del Empleado
+    - Ir al Módulo de Empleados / Configuracion: Código del Empleado.
     """,
     'version': '1.1',
     'category': 'Human Resources/Employees',
