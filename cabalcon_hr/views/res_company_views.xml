@@ -6,16 +6,15 @@
         <field name="model">res.company</field>
         <field name="arch" type="xml">
             <field name="company_registry" position="after">
-                <field name="sector"/>
                 <field name="company_type"/>
                 <field name="rubro"/>
                 <field name="general_manager_id"/>
                 <field name="sigla"/>
             </field>
             <notebook position="inside">
-                <page string="Configuraciones">
+                <page string="Configuración">
                     <group name="configuration">
-                        <group string="Tasas de aporte empleador">
+                        <group string="Tasas de Aporte del Empleador">
                             <table class="table table-sm table-bordered" style="width: 90%">
                                 <thead class="thead-light">
                                     <tr>
